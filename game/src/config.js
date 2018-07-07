@@ -1,4 +1,4 @@
-var phaser;
+var app;
 
 // game configuration object
 var gameConfig = {
@@ -18,7 +18,7 @@ var gameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-        gravity: { y: 0 },
+        gravity: { y: 1 },
         debug: true
     }
   },
@@ -31,7 +31,7 @@ var gameConfig = {
 window.onload = function() {
 
     // game constructor
-    phaser = new Phaser.Game(gameConfig);
+    app = new Phaser.Game(gameConfig);
 
     // pure javascript to give focus to the page/frame and scale the game
     window.focus()
@@ -44,7 +44,7 @@ function resize() {
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
     var windowRatio = windowWidth / windowHeight;
-    var gameRatio = phaser.config.width / phaser.config.height;
+    var gameRatio = app.config.width / app.config.height;
     if(windowRatio < gameRatio){
         canvas.style.width = windowWidth + "px";
         canvas.style.height = (windowWidth / gameRatio) + "px";
