@@ -22,7 +22,7 @@ class Hero extends BaseObject {
   }
 
   prepareObjects() {
-    this.heroObj = this.scene.physics.add.sprite(150, 0 , 'hero');
+    this.heroObj = this.scene.physics.add.sprite(150, 0 , 'hero').setScale(0.9);
     this.heroObj.setVelocity(0, 200);
     this.heroObj.setBounce(0, 0);
     this.heroObj.setCollideWorldBounds(true);
@@ -44,11 +44,19 @@ class Hero extends BaseObject {
 
   postCreation() {
     this.scene.scenario.define_collisions(this.heroObj);
+    var $this = this;
+    setTimeout(function(){
+      $this.heroObj.body.width = 50;
+    })
   }
 
 
   update() {
     this.heroObj.setVelocityX(0);
+    if (this.cursors.up.isDown && this.heroObj.body.velocity.y == 0)
+    {
+        this.heroObj.setVelocityY(-500);
+    }
     if (this.cursors.left.isDown)
     {
         this.heroObj.setVelocityX(-300);
@@ -59,6 +67,14 @@ class Hero extends BaseObject {
         this.heroObj.setVelocityX(300);
         this.heroObj.flipX = false;
     }
+    if (this.heroObj.flipX) {
+      this.heroObj.body.x = this.heroObj.x + this.heroObj.width*0.5 - 90;
+    }
+    else {
+      this.heroObj.body.x = this.heroObj.x - this.heroObj.width*0.5+35;
+    }
   }
+
+
 
 }
