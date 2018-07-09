@@ -23,27 +23,27 @@
     },
     {
       "position":[57, 365],
-      "length":300
+      "length":274
     },
     {
-      "position":[432,365],
-      "length":99
+      "position":[426,365],
+      "length":87
     },
     {
-      "position":[590,365],
-      "length":150
+      "position":[597,365],
+      "length":143
     },
     {
       "position":[57,245],
-      "length":148
+      "length":144
     },
     {
-      "position":[262,245],
-      "length":248
+      "position":[296,245],
+      "length":181
     },
     {
-      "position":[590,245],
-      "length":150
+      "position":[593,245],
+      "length":146
     }
   ]
 }
