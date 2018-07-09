@@ -3,7 +3,6 @@ class Scenario extends BaseObject{
     super(scene, "scenario");
 
     this.name = name;
-    this.scene = scene;
     this.image_url = image_url;
     this.outer_url = outer_url;
     this.data_url = data_url;

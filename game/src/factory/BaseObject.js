@@ -1,6 +1,7 @@
 class BaseObject{
   constructor(scene, id){
     this.scene = scene;
+    
     if (id == undefined)
       this.id = Math.random();
     else
