@@ -22,7 +22,7 @@ class Hero extends BaseObject {
   }
 
   prepareObjects() {
-    this.heroObj = this.scene.physics.add.sprite(150, app.config.height - 50, 'hero');
+    this.heroObj = this.scene.physics.add.sprite(150, app.config.height - 50, 'hero').setScale(0.9);
     this.heroObj.setVelocity(0, 200);
     this.heroObj.setBounce(0, 0);
     this.heroObj.setCollideWorldBounds(true);
@@ -42,7 +42,7 @@ class Hero extends BaseObject {
   }
 
   postCreation() {
-    this.scene.scenario.define_collisions(this);
+    this.scene.scenario.define_collisions(this.heroObj);
   }
 
 
