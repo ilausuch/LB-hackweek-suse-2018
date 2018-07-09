@@ -5,6 +5,8 @@ class game extends Phaser.Scene {
 
     window.scene = this;
 
+    this.objects = {};
+
     this.$o = {};
     this.$sounds = {};
     this.$groups = {};
@@ -21,20 +23,34 @@ class game extends Phaser.Scene {
                                  "assets/img/scenarios/scenario_1.png",
                                  "assets/img/scenarios/scenario_1_outer_layer.png",
                                  "assets/img/scenarios/scenario_1.json");
+
+    this.enemy = new Enemy(this);
+  }
+
+  registry_object(object){
+    this.objects[object.id] = object;
   }
 
   preload() {
-    this.scenario.preload();
+    for (var i in this.objects) {
+      this.objects[i].preload();
+    }
   }
 
   create() {
-    this.scenario.create();
+    for (var i in this.objects) {
+      this.objects[i].create();
+    }
 
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();
     this.prepareControls();
     this.preparePhysics();
+
+    for (var i in this.objects) {
+      this.objects[i].postCreation();
+    }
 
     scene.cameras.cameras[0].fadeIn(500);
   };
@@ -60,7 +76,9 @@ class game extends Phaser.Scene {
   }
 
   update() {
-
+    for (var i in this.objects) {
+      this.objects[i].update();
+    }
   }
 
   start_game(){
