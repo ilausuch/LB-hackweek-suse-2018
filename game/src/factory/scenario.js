@@ -1,7 +1,7 @@
 class Scenario extends BaseObject{
   constructor(scene, name, image_url, outer_url, data_url){
-    super(scene, name);
-    
+    super(scene, "scenario");
+
     this.name = name;
     this.scene = scene;
     this.image_url = image_url;
@@ -19,7 +19,6 @@ class Scenario extends BaseObject{
     this.data = this.scene.cache.json.get(this.name+'_data');
 
     this.img = this.scene.add.sprite(800/2, 600/2, this.name).setScale(1);
-    this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
 
     var $this = this;
 
@@ -30,6 +29,10 @@ class Scenario extends BaseObject{
     this.data.floors.forEach(function(floor){
       $this.create_floor(floor);
     });
+  }
+
+  postCreation(){
+    this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
   }
 
   create_wall(wall){
@@ -62,8 +65,9 @@ class Scenario extends BaseObject{
 
   define_collisions(other_object){
     var $this = this;
+
     this.data.floors.forEach(function(floor){
-      $this.scene.physics.add.collider(other_object, floor.object);
+      $this.scene.physics.add.collider(floor.object, other_object);
     });
 
     this.data.walls.forEach(function(wall){
