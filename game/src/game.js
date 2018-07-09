@@ -23,8 +23,8 @@ class game extends Phaser.Scene {
                                  "assets/img/scenarios/scenario_1.png",
                                  "assets/img/scenarios/scenario_1_outer_layer.png",
                                  "assets/img/scenarios/scenario_1.json");
+    this.hero = new Hero(this);
 
-    this.enemy = new Enemy(this);
   }
 
   registry_object(object){
@@ -60,7 +60,6 @@ class game extends Phaser.Scene {
   }
 
   prepareObjects() {
-
   }
 
   prepareSounds(){
@@ -68,11 +67,10 @@ class game extends Phaser.Scene {
   }
 
   prepareControls(){
-
   }
 
   preparePhysics(){
-
+    this.hero.postCreation();
   }
 
   update() {
