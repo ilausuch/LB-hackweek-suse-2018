@@ -1,5 +1,7 @@
-class Scenario{
+class Scenario extends BaseObject{
   constructor(scene, name, image_url, outer_url, data_url){
+    super(scene, name);
+    
     this.name = name;
     this.scene = scene;
     this.image_url = image_url;
@@ -63,7 +65,7 @@ class Scenario{
     this.data.floors.forEach(function(floor){
       $this.scene.physics.add.collider(other_object, floor.object);
     });
-    
+
     this.data.walls.forEach(function(wall){
       $this.scene.physics.add.collider(other_object, wall.object);
     });
