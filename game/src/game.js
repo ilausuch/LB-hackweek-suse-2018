@@ -15,6 +15,8 @@ class game extends Phaser.Scene {
       health: 0,
       state: 0,
     };
+
+    this.scenario = new Scenario("assets/img/scenarios/scenario_1.png", "assets/img/scenarios/scenario_1.json")
   }
 
   preload() {

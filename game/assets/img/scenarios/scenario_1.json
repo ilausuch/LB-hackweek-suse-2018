@@ -1,0 +1,52 @@
+{
+  "id":"1",
+  "walls":[
+    {
+      "position":[0,0],
+      "weight":60,
+      "height":560
+    },
+    {
+      "position":[740,0],
+      "weight":60,
+      "height":560
+    }
+
+  ],
+  "floors":[
+    {
+      "position":[0,560],
+      "length":800
+    },
+    {
+      "position":[192,465],
+      "length":451
+    },
+    {
+      "position":[60, 365],
+      "length":297
+    },
+    {
+      "position":[432,365],
+      "length":99
+    },
+    {
+      "position":[590,365],
+      "length":150
+    },
+    {
+      "position":[60,245],
+      "length":145
+    },
+    {
+      "position":[262,245],
+      "length":248
+    },
+    {
+      "position":[590,245],
+      "length":150
+    },
+    
+  ]
+
+}
