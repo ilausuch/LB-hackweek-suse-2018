@@ -18,18 +18,35 @@ class Scenario{
 
 
     var $this = this;
+
+    this.data.walls.forEach(function(wall){
+      $this.create_wall(wall);
+    });
+
     this.data.floors.forEach(function(floor){
-      $this.create_wall(floor);
+      $this.create_floor(floor);
     });
 
   }
 
-  create_wall(floor){
+  create_wall(wall){
+    var rect = new Phaser.Geom.Rectangle(0, 0, wall.weight, wall.height);
+    var o = this.scene.add.graphics({ fillStyle: { color: 0x00ff00, alpha:0 } });
+    o.fillRectShape(rect);
+    this.scene.physics.add.existing(o);;
+    o.x=wall.position[0];
+    o.y=wall.position[1];
+    o.body.width=wall.weight;
+    o.body.height=wall.height;
+    o.body.setImmovable();
+    wall.object = o;
+  }
+
+  create_floor(floor){
     var rect = new Phaser.Geom.Rectangle(0, 0, floor.length, 2);
     var o = this.scene.add.graphics({ fillStyle: { color: 0x0000ff, alpha:0 } });
     o.fillRectShape(rect);
     this.scene.physics.add.existing(o);
-    o.body.setGravityY(0);
     o.x=floor.position[0];
     o.y=floor.position[1];
     o.body.width=floor.length;
