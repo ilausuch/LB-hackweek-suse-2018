@@ -36,7 +36,6 @@ class Hero extends BaseObject {
   prepareControls(){
     this.cursors = this.scene.input.keyboard.createCursorKeys();
     this.scene.input.keyboard.on('keydown_SPACE', function(event) {
-        console.log("JUMP!");
         this.heroObj.setVelocity(0,-500);
       }, this);
   }
