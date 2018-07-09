@@ -3,13 +3,13 @@
   "walls":[
     {
       "position":[0,0],
-      "weight":60,
-      "height":560
+      "weight":57,
+      "height":400
     },
     {
       "position":[740,0],
       "weight":60,
-      "height":560
+      "height":400
     }
   ],
   "floors":[
@@ -18,12 +18,12 @@
       "length":800
     },
     {
-      "position":[192,465],
+      "position":[192,475],
       "length":451
     },
     {
-      "position":[60, 365],
-      "length":297
+      "position":[57, 365],
+      "length":300
     },
     {
       "position":[432,365],
@@ -34,8 +34,8 @@
       "length":150
     },
     {
-      "position":[60,245],
-      "length":145
+      "position":[57,245],
+      "length":148
     },
     {
       "position":[262,245],
