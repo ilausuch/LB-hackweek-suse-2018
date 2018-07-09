@@ -1,13 +1,15 @@
 class Scenario{
-  constructor(scene, name, image_url, data_url){
+  constructor(scene, name, image_url, outer_url, data_url){
     this.name = name;
     this.scene = scene;
     this.image_url = image_url;
+    this.outer_url = outer_url;
     this.data_url = data_url;
   }
 
   preload(){
     this.scene.load.image(this.name, this.image_url);
+    this.scene.load.image(this.name+"_outer", this.outer_url);
     this.scene.load.json(this.name+'_data', this.data_url);
   }
 
@@ -15,7 +17,7 @@ class Scenario{
     this.data = this.scene.cache.json.get(this.name+'_data');
 
     this.img = this.scene.add.sprite(800/2, 600/2, this.name).setScale(1);
-
+    this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
 
     var $this = this;
 
@@ -26,7 +28,6 @@ class Scenario{
     this.data.floors.forEach(function(floor){
       $this.create_floor(floor);
     });
-
   }
 
   create_wall(wall){
@@ -61,6 +62,10 @@ class Scenario{
     var $this = this;
     this.data.floors.forEach(function(floor){
       $this.scene.physics.add.collider(other_object, floor.object);
+    });
+    
+    this.data.walls.forEach(function(wall){
+      $this.scene.physics.add.collider(other_object, wall.object);
     });
   }
 

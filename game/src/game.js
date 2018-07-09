@@ -19,6 +19,7 @@ class game extends Phaser.Scene {
     this.scenario = new Scenario(this,
                                  "scenario_1",
                                  "assets/img/scenarios/scenario_1.png",
+                                 "assets/img/scenarios/scenario_1_outer_layer.png",
                                  "assets/img/scenarios/scenario_1.json");
   }
 
@@ -28,7 +29,7 @@ class game extends Phaser.Scene {
 
   create() {
     this.scenario.create();
-    
+
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();

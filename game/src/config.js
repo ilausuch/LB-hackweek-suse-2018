@@ -40,7 +40,6 @@ window.onload = function() {
 }
 
 function resize() {
-  /*
     var canvas = document.querySelector("canvas");
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
@@ -53,6 +52,5 @@ function resize() {
     else{
         canvas.style.width = (windowHeight * gameRatio) + "px";
         canvas.style.height = windowHeight + "px";
-    }
-    */  
+    } 
 }
