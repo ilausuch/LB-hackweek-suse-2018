@@ -18,7 +18,7 @@ var gameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-        gravity: { y: 1 },
+        gravity: { y: 0 },
         debug: true
     }
   },
@@ -52,5 +52,5 @@ function resize() {
     else{
         canvas.style.width = (windowHeight * gameRatio) + "px";
         canvas.style.height = windowHeight + "px";
-    }
+    } 
 }
