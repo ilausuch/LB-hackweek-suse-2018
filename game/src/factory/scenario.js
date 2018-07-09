@@ -1,6 +1,6 @@
 class Scenario extends BaseObject{
   constructor(scene, name, image_url, outer_url, data_url){
-    super(scene, name);
+    super(scene, "scenario");
 
     this.name = name;
     this.scene = scene;

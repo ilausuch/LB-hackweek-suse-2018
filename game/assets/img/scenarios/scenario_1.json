@@ -1,5 +1,6 @@
 {
   "id":"1",
+  "floor":560,
   "walls":[
     {
       "position":[0,0],
