@@ -27,12 +27,8 @@ class Bee extends BaseObject{
     var center_hero = this.scene.objects.hero.position(true);
     var center = this.position(true);
 
-
-    console.log(center_hero.y - center.y);
-
     var direction_x = center.x > center_hero.x ? -1 : 1;
     var direction_y = center.y > center_hero.y ? -1 : 1;
-
 
     var next_x = this.object.x + direction_x*this.chase_speed + (Math.random() - 0.5) * this.speed;
     var next_y = this.object.y + direction_y*this.chase_speed + (Math.random() - 0.5) * this.speed;
@@ -51,8 +47,10 @@ class Bee extends BaseObject{
     if (distance_to_hero < 20000){
       this.object.setTint(0xFFA000);
       this.chase_movement();
-      if (distance_to_hero < 100)
+      if (distance_to_hero < 100){
         this.object.setTint(0xFF0000);
+        gameStatus.decreaseEnergy(0.001);
+      }
     }else {
       this.object.setTint(undefined);
       this.stay_movement();
