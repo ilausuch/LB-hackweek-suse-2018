@@ -1,6 +1,7 @@
 class BaseObject{
   constructor(scene, id, multiple){
     this.scene = scene;
+
     if (multiple)
       this.id = id + "_" + Math.ceil(10000 * Math.random());
     else
@@ -18,6 +19,10 @@ class BaseObject{
   }
 
   postCreation(){
+
+  }
+
+  delayedCreation(){
 
   }
 

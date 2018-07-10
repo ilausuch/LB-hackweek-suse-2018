@@ -25,6 +25,8 @@ class game extends Phaser.Scene {
                                  "assets/img/scenarios/scenario_1.json");
     this.hero = new Hero(this);
 
+    this.beeHive = new BeeHive(this);
+
   }
 
   registry_object(object){
@@ -42,6 +44,11 @@ class game extends Phaser.Scene {
       this.objects[i].create();
     }
 
+    for (var i=0; i<5; i++)
+      this.beeHive.create_one_areas();
+    //this.bee.create_one(200,100);
+    //this.bee.create_one(300,200);
+
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();
@@ -51,6 +58,14 @@ class game extends Phaser.Scene {
     for (var i in this.objects) {
       this.objects[i].postCreation();
     }
+
+    var $this = this;
+
+    setTimeout(function(){
+      for (var i in $this.objects) {
+        $this.objects[i].delayedCreation();
+      }
+    })
 
     scene.cameras.cameras[0].fadeIn(500);
   };
