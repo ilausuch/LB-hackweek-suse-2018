@@ -39,13 +39,14 @@ class BaseObject{
     return this.object;
   }
 
-  position(center){
-    var object = this.get_screen_object();
-
-    if (center === true)
-      return {x:object.x + object.width/2, y:object.y + object.height/2};
-    else
-      return {x:object.x, y:object.y};
+  position(){
+    var object = this.get_screen_object().body;
+    return {x:object.x,
+            y:object.y,
+            cx:object.x+object.width/2,
+            cy:object.y+object.height/2,
+            x2:object.x+object.width,
+            y2:object.y+object.height};
   }
 
   distance_to_object(object){

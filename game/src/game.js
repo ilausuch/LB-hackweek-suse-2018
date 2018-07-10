@@ -48,6 +48,10 @@ class game extends Phaser.Scene {
 
     for (var i=0; i<5; i++)
       this.beeHive.create_one_areas();
+
+    //this.physics.add.collider(this., this.beeHive.bees, this.colision_girl_enemy, null, this);
+    //this.physics.add.overlap(this.$o.girl, this.$groups.coins, this.colision_girl_coin, null, this);
+
     //this.bee.create_one(200,100);
     //this.bee.create_one(300,200);
 
