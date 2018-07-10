@@ -2,72 +2,84 @@ class Bee extends BaseObject{
   constructor(scene, hive, initial_position) {
     super(scene, "bee", true);
     this.hive = hive;
-    this.object = this.scene.physics.add.sprite(initial_position[0], initial_position[1], 'bee')
-                  .setScale(0.3).play("fly")
+    this.status = "alive";
 
-    this.speed = 2;
+    this.max_speed=30;
+    this.chaise_speed=80;
+
+    this.object = this.scene.physics.add.sprite(initial_position[0], initial_position[1], 'bee')
+                  .setScale(0.5).play("fly")
+    this.object.setCollideWorldBounds(true);
+    this.object.setMaxVelocity(this.max_speed, this.max_speed);
+    this.object.setBounce(1, 1);
+
+    this.acceleration =10;
     this.chase_speed=1.4;
+
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.bite, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.attack_sprites, this.tongue, null, this);
+  }
+
+  bite(a,b){
+    gameStatus.decreaseEnergy(0.001);
+  }
+
+  tongue(a,b){
+    if (b.visible){
+      console.log("tongue!");
+      this.status = "death";
+    }
   }
 
   stay_movement(){
-    var next_x, next_y;
-    var movement = Math.random()*10-10;
+    this.object.setMaxVelocity(this.max_speed, this.max_speed);
 
-    do {
-      next_x = this.object.x + (Math.random() - 0.5) * this.speed;
-      next_y = this.object.y + (Math.random() - 0.5) * this.speed;
-    } while (!this.scene.scenario.check_object_inside_area(this, next_x, next_y));
-
-    this.object.x= next_x;
-    this.object.y= next_y;
+    this.object.setVelocityX((Math.random() - 0.5) * this.acceleration + this.object.body.velocity.x);
+    this.object.setVelocityY((Math.random() - 0.5) * this.acceleration + this.object.body.velocity.y);
   }
 
   chase_movement(){
     var position_hero = this.scene.objects.hero.position();
-    var center_hero = this.scene.objects.hero.position(true);
-    var center = this.position(true);
+    var bee_position = this.position();
 
-    var direction_x = center.x > center_hero.x ? -1 : 1;
-    var direction_y = center.y > center_hero.y ? -1 : 1;
+    var direction_x = bee_position.cx > position_hero.cx  ? -1 : 1;
+    var direction_y = bee_position.cy > position_hero.cy ? -1 : 1;
 
-    var next_x = this.object.x + direction_x*this.chase_speed + (Math.random() - 0.5) * this.speed;
-    var next_y = this.object.y + direction_y*this.chase_speed + (Math.random() - 0.5) * this.speed;
+    this.object.setMaxVelocity(this.chaise_speed, this.chaise_speed);
 
-    if (!this.scene.scenario.check_object_inside_area(this, next_x, next_y))
-      this.stay_movement();
-    else{
-      this.object.x= next_x;
-      this.object.y= next_y;
-    }
+    this.object.setVelocityX(direction_x * this.chaise_speed);
+    this.object.setVelocityY(direction_y * this.chaise_speed);
   }
 
   update(){
-    var distance_to_hero = this.scene.objects.hero.distance_to_object(this);
+    if (this.status == "alive"){
+      var distance_to_hero = this.scene.objects.hero.distance_to_object(this);
 
-    if (distance_to_hero < 20000){
-      this.object.setTint(0xFFA000);
-      this.chase_movement();
-      if (distance_to_hero < 100){
-        this.object.setTint(0xFF0000);
-        gameStatus.decreaseEnergy(0.001);
+      if (distance_to_hero < 20000){
+        this.object.setTint(0xFFA000);
+        this.chase_movement();
+      }else {
+        this.object.setTint(undefined);
+        this.stay_movement();
       }
-    }else {
-      this.object.setTint(undefined);
-      this.stay_movement();
+
+      if (this.object.body.velocity.x < 0)
+        this.object.flipX = true;
+      else
+        this.object.flipX = false;
     }
-
-
-  }
-
-  get_screen_object(){
-    return this.object;
+    if (this.status == "death"){
+      this.object.x = 0;
+      this.object.y = 0;
+      this.object.setVisible(false);
+    }
   }
 }
 
 class BeeHive extends BaseObject {
 
   constructor(scene) {
-    super(scene, "bee");
+    super(scene, "beeHive");
 
     this.bees = [];
   }
@@ -89,7 +101,7 @@ class BeeHive extends BaseObject {
         end: 10
       }),
       scale: 1,
-      frameRate: 6,
+      frameRate: 10,
       repeat: -1
     });
   }
