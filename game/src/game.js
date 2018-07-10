@@ -44,7 +44,7 @@ class game extends Phaser.Scene {
       this.objects[i].create();
     }
 
-    for (var i=0; i<20; i++)
+    for (var i=0; i<5; i++)
       this.beeHive.create_one_areas();
     //this.bee.create_one(200,100);
     //this.bee.create_one(300,200);

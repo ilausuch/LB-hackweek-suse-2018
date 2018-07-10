@@ -17,6 +17,11 @@ class Scenario extends BaseObject{
   create(){
     this.data = this.scene.cache.json.get(this.name+'_data');
 
+    this.data.areas.forEach(function(area){
+      area.w = area.x2 - area.x;
+      area.h = area.y2 - area.y;
+    })
+
     this.img = this.scene.add.sprite(800/2, 600/2, this.name).setScale(1);
 
     var $this = this;
@@ -72,6 +77,27 @@ class Scenario extends BaseObject{
     this.data.walls.forEach(function(wall){
       $this.scene.physics.add.collider(other_object, wall.object);
     });
+  }
+
+  check_object_inside_area(object, x, y){
+    return true; //TODO this is not working, check it again
+
+    object = object.get_screen_object();
+
+    if (x==undefined)
+      x = object.x;
+
+    if (y == undefined)
+      y = object.y;
+
+    for (var i in this.data.areas) {
+      var area = this.data.areas[i];
+
+      if (x >= area.x && x + object.width <= area.x2 && y >= area.y && y + object.height <= area.y2)
+        return true;
+    }
+
+    return true;
   }
 
 }
