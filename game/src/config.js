@@ -52,5 +52,5 @@ function resize() {
     else{
         canvas.style.width = (windowHeight * gameRatio) + "px";
         canvas.style.height = windowHeight + "px";
-    } 
+    }
 }

@@ -25,6 +25,10 @@ class BaseObject{
 
   }
 
+  delayedCreation(){
+    
+  }
+
   update(){
 
   }
