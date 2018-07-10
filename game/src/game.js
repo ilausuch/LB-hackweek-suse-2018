@@ -27,6 +27,8 @@ class game extends Phaser.Scene {
 
     this.beeHive = new BeeHive(this);
 
+    this.lifeBar = new LifeBar(this);
+
   }
 
   registry_object(object){

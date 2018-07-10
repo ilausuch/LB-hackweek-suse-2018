@@ -19,13 +19,15 @@ var gameConfig = {
     default: 'arcade',
     arcade: {
         gravity: { y: 0 },
-        debug: true
+        debug: false
     }
   },
 
    // scenes used by the game
    scene: [game]
 };
+
+var gameStatus = new GameStatus();
 
 // once the window loads...
 window.onload = function() {
