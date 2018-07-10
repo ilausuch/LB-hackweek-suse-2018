@@ -13,6 +13,7 @@ class Hero extends BaseObject {
       margin: 0,
       spacing: 0
     });
+    //sprites attack: 94x35
   }
 
   create() {
