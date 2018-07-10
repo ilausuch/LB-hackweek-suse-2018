@@ -34,8 +34,7 @@ class Hero extends BaseObject {
       repeat: 0
     });
     this.scene.anims.get("hero_attack").hideOnComplete = true;
-    //this.attack_sprites = this.scene.physics.add.sprite(this.getHeadPosition()[0], this.getHeadPosition()[1], 'hero_attack');
-    this.attack_sprites = this.scene.physics.add.sprite(0, 0, 'hero_attack');
+    this.attack_sprites = this.scene.physics.add.sprite(0, 0, 'hero_attack').setScale(0.9);
     this.attack_sprites.play("hero_attack");
   };
 
@@ -58,15 +57,11 @@ class Hero extends BaseObject {
   prepareControls(){
     this.cursors = this.scene.input.keyboard.createCursorKeys();
     this.scene.input.keyboard.on('keydown_SPACE', function(event) {
-        if (this.heroObj.body.velocity.y == 0)
-          console.log("ATTACK!");
-          var pos = this.getHeadPosition();
-          if (! this.attack_sprites.anims.isPlaying) {
-            //this.attack_sprites = this.scene.physics.add.sprite(pos[0], pos[1], 'hero_attack');
-            this.attack_sprites.setVisible(true);
-            this.attack_sprites.play("hero_attack");
-          }
-      }, this);
+        if (! this.attack_sprites.anims.isPlaying) {
+          this.attack_sprites.setVisible(true);
+          this.attack_sprites.play("hero_attack");
+        }
+    }, this);
   }
 
   postCreation() {
@@ -94,26 +89,20 @@ class Hero extends BaseObject {
         this.object.setVelocityX(300);
         this.object.flipX = false;
     }
-    if (this.object.flipX) {
-      //this.object.body.x = this.object.x + this.object.width*0.5 - 90;
-    }
-    else {
-      //this.object.body.x = this.object.x - this.object.width*0.5+35;
-    }
     var pos = this.getHeadPosition();
     this.attack_sprites.x = pos[0];
     this.attack_sprites.y = pos[1];
-    if (this.heroObj.flipX) this.attack_sprites.flipX = true;
+    if (this.object.flipX) this.attack_sprites.flipX = true;
     else this.attack_sprites.flipX = false;
   }
 
   getHeadPosition() {
-    var pos = [this.heroObj.x, this.heroObj.y];
-    if (this.heroObj.flipX) {
-        pos[0] -= 57;
+    var pos = [this.object.x, this.object.y];
+    if (this.object.flipX) {
+        pos[0] -= 51.5;
     }
     else {
-        pos[0] += 56;
+        pos[0] += 50.5;
     }
     return pos;
   }
