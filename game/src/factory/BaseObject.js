@@ -1,15 +1,8 @@
 class BaseObject{
   constructor(scene, id, multiple){
     this.scene = scene;
-<<<<<<< Updated upstream
-    
-    if (id == undefined)
-      this.id = Math.random();
-=======
-
     if (multiple)
       this.id = id + "_" + Math.ceil(10000 * Math.random());
->>>>>>> Stashed changes
     else
       this.id = id;
 
@@ -28,13 +21,10 @@ class BaseObject{
 
   }
 
-<<<<<<< Updated upstream
-=======
   delayedCreation(){
 
   }
 
->>>>>>> Stashed changes
   update(){
 
   }
