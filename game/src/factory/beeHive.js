@@ -49,8 +49,10 @@ class Bee extends BaseObject{
     var distance_to_hero = this.scene.objects.hero.distance_to_object(this);
 
     if (distance_to_hero < 20000){
-      this.object.setTint(0xFF0000);
+      this.object.setTint(0xFFA000);
       this.chase_movement();
+      if (distance_to_hero < 100)
+        this.object.setTint(0xFF0000);
     }else {
       this.object.setTint(undefined);
       this.stay_movement();
