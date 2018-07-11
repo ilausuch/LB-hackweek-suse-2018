@@ -23,7 +23,7 @@ class BugBase extends BaseObject{
     this.decrease_energy_on_bite = 0.001
 
     this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.bite, null, this);
-    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.attack_sprites, this.tongue, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.tongue_attack, this.tongue, null, this);
   }
 
   bite(a,b){
@@ -33,7 +33,7 @@ class BugBase extends BaseObject{
   }
 
   tongue(a,b){
-    if (b.visible){
+    if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
     }
   }
