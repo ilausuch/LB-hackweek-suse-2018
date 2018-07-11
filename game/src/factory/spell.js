@@ -55,6 +55,13 @@ class Spell extends BaseObject {
     this.object.x = this.posX;
     this.object.y = this.posY;
     this.object.play(this.type);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.onSpellTaken, null, this);
+  }
+
+  onSpellTaken(a,b){
+    gameStatus.spellProvider(this.type);
+    this.object.destroy();
+
   }
 
   prepareSounds(){
