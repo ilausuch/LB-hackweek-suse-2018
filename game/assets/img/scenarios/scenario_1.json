@@ -4,6 +4,16 @@
   "walls":[
     {
       "position":[0,0],
+      "weight":2,
+      "height":600
+    },
+    {
+      "position":[792,0],
+      "weight":2,
+      "height":600
+    },
+    {
+      "position":[0,0],
       "weight":57,
       "height":400
     },
