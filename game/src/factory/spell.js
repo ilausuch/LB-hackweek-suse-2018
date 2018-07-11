@@ -6,6 +6,7 @@ class Spell extends BaseObject {
     this.type = type; // type = 'cloud' | 'sles' | 'storage' | 'manager'
     this.posX = posX;
     this.posY = posY;
+    this.post_anim_name = 'post' + this.type;
   }
 
   preload() {
@@ -23,6 +24,12 @@ class Spell extends BaseObject {
     this.scene.load.spritesheet(this.type, path, {
       frameWidth: 100,
       frameHeight: 100,
+      margin: 0,
+      spacing: 0
+    });
+    this.scene.load.spritesheet(this.post_anim_name, 'assets/img/objects/spell_taken.png', {
+      frameWidth: 50,
+      frameHeight: 50,
       margin: 0,
       spacing: 0
     });
@@ -48,6 +55,17 @@ class Spell extends BaseObject {
       frameRate: 20,
       repeat: -1
     });
+    this.scene.anims.create({
+      key: this.post_anim_name,
+      frames: this.scene.anims.generateFrameNumbers(this.post_anim_name, {
+        start: 0,
+        end: 7
+      }),
+      scale: 1,
+      frameRate: 15,
+      repeat: 0
+    });
+    this.scene.anims.get(this.post_anim_name).hideOnComplete = true;
   }
 
   prepareObjects() {
@@ -56,11 +74,20 @@ class Spell extends BaseObject {
     this.object.y = this.posY;
     this.object.play(this.type);
     this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.onSpellTaken, null, this);
+
+
+    this.post_sprites = this.scene.physics.add.sprite(0, 0, this.post_anim_name);
+    //this.this.post_anim_name_sprites.play("this.post_anim_name");
+    //this.this.post_anim_name_sprites.anims.stop(0, false);
   }
 
   onSpellTaken(a,b){
     gameStatus.spellProvider(this.type);
     this.object.destroy();
+    this.post_sprites.x = this.posX;
+    this.post_sprites.y = this.posY-20;
+    this.post_sprites.setVisible(true);
+    this.post_sprites.play(this.post_anim_name);
 
   }
 
