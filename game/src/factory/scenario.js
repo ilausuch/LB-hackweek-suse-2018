@@ -67,15 +67,15 @@ class Scenario extends BaseObject{
     floor.object = o;
   }
 
-  define_collisions(other_object){
+  define_collisions(other_object, handler){
     var $this = this;
 
     this.data.floors.forEach(function(floor){
-      $this.scene.physics.add.collider(floor.object, other_object);
+      $this.scene.physics.add.collider(other_object, floor.object, handler);
     });
 
     this.data.walls.forEach(function(wall){
-      $this.scene.physics.add.collider(other_object, wall.object);
+      $this.scene.physics.add.collider(other_object, wall.object, handler);
     });
   }
 
