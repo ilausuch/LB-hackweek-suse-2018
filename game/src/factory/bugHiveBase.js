@@ -5,7 +5,7 @@ class BugBase extends BaseObject{
     this.status = "alive";
 
     this.can_attack=true;
-
+    this.puntuation = 1;
     this.max_speed=30;
     this.chaise_speed=80;
     this.attack_distance = 60000;
@@ -35,6 +35,7 @@ class BugBase extends BaseObject{
   tongue(a,b){
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
+      gameStatus.increasePuntuation(this.puntuation);
     }
   }
 

@@ -5,6 +5,7 @@ class Bug1 extends BugBase{
     this.chaise_speed=120;
     this.attack_distance = 40000;
     this.acceleration =20;
+    this.puntuation = 10;
     this.decrease_energy_on_bite = 0.01;
   }
 }
