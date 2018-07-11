@@ -29,6 +29,7 @@ class game extends Phaser.Scene {
     this.beeHive = new BeeHive(this);
     this.bug1Hive = new Bug1Hive(this);
     this.bug2Hive = new Bug2Hive(this);
+    this.mario = new Mario(this, 400, 200, -200);
 
     this.font = new Font(this);
     this.puntuation = new Puntuation(this, this.font);
