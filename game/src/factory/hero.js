@@ -36,10 +36,7 @@ class Hero extends BaseObject {
   createAnimations() {
     this.scene.anims.create({
       key: 'hero_attack',
-      frames: this.scene.anims.generateFrameNumbers('hero_attack', {
-        start: 0,
-        end: 9
-      }),
+      frames: this.scene.anims.generateFrameNumbers('hero_attack', { frames:[0, 1, 2, 3, 3, 4, 4, 5, 6, 7, 8, 9]}),
       scale: 1,
       frameRate: 15,
       repeat: 0
@@ -64,11 +61,12 @@ class Hero extends BaseObject {
     this.object.setCollideWorldBounds(true);
     this.object.setGravityY(1000);
     this.object.y = this.scene.objects.scenario.data.floor - this.object.height;
-
-    this.attack_sprites = this.scene.physics.add.sprite(0, 0, 'hero_attack').setScale(0.9);
-    this.attack_sprites.play("hero_attack");
     this.object.play("hero");
     this.object.anims.stop(0, false);
+
+    this.tongue_attack = this.scene.physics.add.sprite(0, 0, 'hero_attack').setScale(0.9);
+    this.tongue_attack.play("hero_attack");
+
   }
 
   prepareSounds(){
@@ -79,9 +77,9 @@ class Hero extends BaseObject {
     this.cursors = this.scene.input.keyboard.createCursorKeys();
     this.scene.input.keyboard.on('keydown_SPACE', function(event) {
           var pos = this.getHeadPosition();
-          if (! this.attack_sprites.anims.isPlaying) {
-            this.attack_sprites.setVisible(true);
-            this.attack_sprites.play("hero_attack");
+          if (! this.tongue_attack.anims.isPlaying) {
+            this.tongue_attack.setVisible(true);
+            this.tongue_attack.play("hero_attack");
           }
       }, this);
   }
@@ -117,10 +115,10 @@ class Hero extends BaseObject {
     if (this.object.body.velocity.x == 0) this.object.anims.stop();
 
     var pos = this.getHeadPosition();
-    this.attack_sprites.x = pos[0];
-    this.attack_sprites.y = pos[1];
-    if (this.object.flipX) this.attack_sprites.flipX = true;
-    else this.attack_sprites.flipX = false;
+    this.tongue_attack.x = pos[0];
+    this.tongue_attack.y = pos[1];
+    if (this.object.flipX) this.tongue_attack.flipX = true;
+    else this.tongue_attack.flipX = false;
   }
 
   getHeadPosition() {
@@ -132,6 +130,31 @@ class Hero extends BaseObject {
         pos[0] += 50.5;
     }
     return pos;
+  }
+
+  check_tongue_touch(object){
+    var distance_x = 0;
+
+    if (!this.tongue_attack.flipX)
+      distance_x = Math.abs(this.tongue_attack.body.x - object.body.x);
+    else
+      distance_x = Math.abs((this.tongue_attack.body.x + this.tongue_attack.body.width)
+                            - (object.body.x + object.body.width));
+
+    var distance_y = Math.abs(object.body.y + object.body.height - this.tongue_attack.body.y + 20);
+    var min_distance_x = 38;
+
+    switch (this.tongue_attack.frame.name){
+      case 2: min_distance_x = 43; break;
+      case 3: min_distance_x = 94; break;
+      case 4: min_distance_x = 94; break;
+      case 5: min_distance_x = 80; break;
+    }
+
+    //console.log("*",distance_y, this.tongue_attack.body.y, object.body.y);
+    console.log("*",this.tongue_attack.frame.name, distance_x, min_distance_x);
+
+    return (distance_x < min_distance_x) && (distance_y > 30);
   }
 
 }
