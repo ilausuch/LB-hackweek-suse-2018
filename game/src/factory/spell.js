@@ -85,11 +85,17 @@ class Spell extends BaseObject {
     gameStatus.spellProvider(this.type);
     this.object.destroy();
     this.post_sprites.x = this.posX;
-    this.post_sprites.y = this.posY-20;
+    this.post_sprites.y = this.posY-40;
     this.post_sprites.setVisible(true);
     this.post_sprites.play(this.post_anim_name);
     if (this.type == "sles") this.scene.sound.play('spell_sles');
     else this.scene.sound.play('spell_default');
+    var scale_original = this.scene.objects['hero'].object.scaleX;
+    setTimeout(function(){ this.scene.objects['hero'].object.setScale(1.2); }, 0);
+    setTimeout(function(){ this.scene.objects['hero'].object.setScale(0.9); }, 100);
+    setTimeout(function(){ this.scene.objects['hero'].object.setScale(1.1); }, 200);
+    setTimeout(function(){ this.scene.objects['hero'].object.setScale(0.9); }, 300);
+
 
   }
 
