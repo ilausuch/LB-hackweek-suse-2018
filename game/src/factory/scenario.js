@@ -12,6 +12,8 @@ class Scenario extends BaseObject{
     this.scene.load.image(this.name, this.image_url);
     this.scene.load.image(this.name+"_outer", this.outer_url);
     this.scene.load.json(this.name+'_data', this.data_url);
+    this.scene.load.audio('spell_default', 'assets/audio/fx/spell_default.mp3');
+    this.scene.load.audio('spell_sles', 'assets/audio/fx/spell_sles.mp3');
   }
 
   create(){
@@ -37,6 +39,8 @@ class Scenario extends BaseObject{
 
   postCreation(){
     this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
+    this.scene.sound.add('spell_default');
+    this.scene.sound.add('spell_sles');
   }
 
   create_wall(wall){

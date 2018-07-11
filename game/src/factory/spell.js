@@ -88,6 +88,8 @@ class Spell extends BaseObject {
     this.post_sprites.y = this.posY-20;
     this.post_sprites.setVisible(true);
     this.post_sprites.play(this.post_anim_name);
+    if (this.type == "sles") this.scene.sound.play('spell_sles');
+    else this.scene.sound.play('spell_default');
 
   }
 
