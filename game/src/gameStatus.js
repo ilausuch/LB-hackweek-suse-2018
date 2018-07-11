@@ -2,14 +2,23 @@ class GameStatus{
   constructor(){
     this.lives = 3;
     this.energy = 1;
+    this.puntuation = 0;
   }
 
-  decreaseEnergy(value){
+  registry_scene(scene){
+    this.scene = scene;
+  }
+
+  decrease_energy(value){
     this.energy = this.energy - value;
     if (this.energy <= 0){
       this.energy = 0;
       //TODO: notify death
     }
+  }
 
+  increase_puntuation(value){
+    this.puntuation = this.puntuation +1;
+    this.scene.objects.puntuation.update_puntuation();
   }
 }

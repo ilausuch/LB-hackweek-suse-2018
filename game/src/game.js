@@ -4,6 +4,7 @@ class game extends Phaser.Scene {
     super('game')
 
     window.scene = this;
+    gameStatus.registry_scene(this);
 
     this.objects = {};
 
@@ -29,6 +30,8 @@ class game extends Phaser.Scene {
     this.bug1Hive = new Bug1Hive(this);
     this.bug2Hive = new Bug2Hive(this);
 
+    this.font = new Font(this);
+    this.puntuation = new Puntuation(this, this.font);
     this.lifeBar = new LifeBar(this);
   }
 

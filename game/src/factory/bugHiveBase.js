@@ -28,14 +28,14 @@ class BugBase extends BaseObject{
 
   bite(a,b){
     if (this.can_attack){
-      gameStatus.decreaseEnergy(this.decrease_energy_on_bite);
+      gameStatus.decrease_energy(this.decrease_energy_on_bite);
     }
   }
 
   tongue(a,b){
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
-      gameStatus.increasePuntuation(this.puntuation);
+      gameStatus.increase_puntuation(this.puntuation);
     }
   }
 

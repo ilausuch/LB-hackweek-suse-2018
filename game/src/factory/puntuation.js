@@ -12,7 +12,5 @@ class Puntuation extends BaseObject{
     this.characters[0].setCharacter("" + Math.floor(gameStatus.puntuation/100));
     this.characters[1].setCharacter("" + Math.floor((gameStatus.puntuation%100)/10));
     this.characters[2].setCharacter("" + Math.floor(gameStatus.puntuation%10));
-
-
   }
 }

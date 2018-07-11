@@ -152,7 +152,7 @@ class Hero extends BaseObject {
     }
 
     //console.log("*",distance_y, this.tongue_attack.body.y, object.body.y);
-    console.log("*",this.tongue_attack.frame.name, distance_x, min_distance_x);
+    //console.log("*",this.tongue_attack.frame.name, distance_x, min_distance_x);
 
     return (distance_x < min_distance_x) && (distance_y > 30);
   }
