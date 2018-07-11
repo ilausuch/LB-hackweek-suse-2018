@@ -33,6 +33,10 @@ class Scenario extends BaseObject{
     this.data.floors.forEach(function(floor){
       $this.create_floor(floor);
     });
+
+    this.data.platforms.forEach(function(platform){
+      $this.create_platform(platform);
+    });
   }
 
   postCreation(){
@@ -67,6 +71,19 @@ class Scenario extends BaseObject{
     floor.object = o;
   }
 
+  create_platform(platform){
+    var rect = new Phaser.Geom.Rectangle(0, 0, platform.weight, platform.height);
+    var o = this.scene.add.graphics({ fillStyle: { color: 0x00ff00, alpha:0 } });
+    o.fillRectShape(rect);
+    this.scene.physics.add.existing(o);;
+    o.x=platform.position[0];
+    o.y=platform.position[1];
+    o.body.width=platform.weight;
+    o.body.height=platform.height;
+    o.body.setImmovable();
+    platform.object = o;
+  }
+
   define_collisions(other_object, handler_floor, handler_wall){
     var $this = this;
 
@@ -78,6 +95,14 @@ class Scenario extends BaseObject{
       $this.scene.physics.add.collider(other_object, wall.object, handler_wall);
     });
   }
+
+  define_collisions_platforms(other_object, handler){
+    var $this = this;
+    this.data.platforms.forEach(function(platform){
+      $this.scene.physics.add.overlap(other_object, platform.object, handler);
+    });
+  }
+
 
   check_object_inside_area(object, x, y){
     return true; //TODO this is not working, check it again

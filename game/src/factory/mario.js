@@ -6,6 +6,7 @@ class Mario extends BaseObject {
     this.posX = posX;
     this.posY = posY;
     this.speed = speed;
+    this.collide_with_walls = true;
   }
 
   preload() {
@@ -82,15 +83,32 @@ class Mario extends BaseObject {
 
   postCreation() {
     var $this = this;
-    this.scene.scenario.define_collisions(this.object, undefined, this.onCollide);
+    this.scene.scenario.define_collisions(this.object, undefined, this.onCollideWalls);
+    this.scene.scenario.define_collisions_platforms(this.object, this.onCollidePlatforms);
     setTimeout(function(){
       //$this.object.body.width = 50;
     })
   }
-  onCollide(a,b) {
+
+  onCollideWalls(a,b) {
     a.owner.speed = -1 * a.owner.speed;
     a.setVelocityX(a.owner.speed);
-
+  }
+  onCollidePlatforms(a,b) {
+    var prob = Math.floor((Math.random() * 100) + 1);
+    if (prob > 80) {
+        //a.owner.speed = -1 * a.owner.speed;
+        //a.setVelocityX(a.owner.speed);
+        console.log(prob);
+        a.owner.collide_with_walls = false;
+        setTimeout(function(){
+          a.owner.collide_with_walls = true;
+        },800)
+      }
+      if (a.owner.collide_with_walls){
+        a.owner.speed = -1 * a.owner.speed;
+        a.setVelocityX(a.owner.speed);
+      }
   }
 
 
