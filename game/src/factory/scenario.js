@@ -84,16 +84,21 @@ class Scenario extends BaseObject{
     platform.object = o;
   }
 
-  define_collisions(other_object, handler_floor, handler_wall){
+  define_collisions(other_object, handler_floor, handler_wall, type="all"){
     var $this = this;
+    if (type == "all") {
+      this.data.floors.forEach(function(floor){
+        $this.scene.physics.add.collider(other_object, floor.object, handler_floor);
+      });
 
-    this.data.floors.forEach(function(floor){
-      $this.scene.physics.add.collider(other_object, floor.object, handler_floor);
-    });
-
-    this.data.walls.forEach(function(wall){
-      $this.scene.physics.add.collider(other_object, wall.object, handler_wall);
-    });
+      this.data.walls.forEach(function(wall){
+        $this.scene.physics.add.collider(other_object, wall.object, handler_wall);
+      });
+    } else if (type == "floor") {
+      this.data.floors.forEach(function(floor){
+        $this.scene.physics.add.collider(other_object, floor.object, handler_floor);
+      });
+    }
   }
 
   define_collisions_platforms(other_object, handler){
