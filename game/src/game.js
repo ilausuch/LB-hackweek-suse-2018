@@ -30,6 +30,11 @@ class game extends Phaser.Scene {
     this.bug2Hive = new Bug2Hive(this);
 
     this.lifeBar = new LifeBar(this);
+
+    this.spell_cloud = new Spell(this, "cloud", 700, 340);
+    this.spell_manager = new Spell(this, "manager", 100, 340);
+    this.spell_storage = new Spell(this, "storage", 470, 340);
+    this.spell_sles = new Spell(this, "sles", 380, 450);
   }
 
   registry_object(object){
