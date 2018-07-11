@@ -26,9 +26,10 @@ class game extends Phaser.Scene {
     this.hero = new Hero(this);
 
     this.beeHive = new BeeHive(this);
+    this.bug1Hive = new Bug1Hive(this);
+    this.bug2Hive = new Bug2Hive(this);
 
     this.lifeBar = new LifeBar(this);
-
   }
 
   registry_object(object){
@@ -46,14 +47,14 @@ class game extends Phaser.Scene {
       this.objects[i].create();
     }
 
-    for (var i=0; i<5; i++)
+    for (var i=0; i<2; i++)
       this.beeHive.create_one_areas();
 
-    //this.physics.add.collider(this., this.beeHive.bees, this.colision_girl_enemy, null, this);
-    //this.physics.add.overlap(this.$o.girl, this.$groups.coins, this.colision_girl_coin, null, this);
+    for (var i=0; i<5; i++)
+      this.bug2Hive.create_one_areas();
 
-    //this.bee.create_one(200,100);
-    //this.bee.create_one(300,200);
+    for (var i=0; i<5; i++)
+      this.bug1Hive.create_one_areas();
 
     this.createAnimations();
     this.prepareObjects();
@@ -74,6 +75,7 @@ class game extends Phaser.Scene {
     })
 
     scene.cameras.cameras[0].fadeIn(500);
+
   };
 
   createAnimations() {
