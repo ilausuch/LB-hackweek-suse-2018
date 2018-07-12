@@ -12,6 +12,7 @@ class Scenario extends BaseObject{
     this.scene.load.image(this.name, this.image_url);
     this.scene.load.image(this.name+"_outer", this.outer_url);
     this.scene.load.json(this.name+'_data', this.data_url);
+    this.scene.load.audio('music_loop', 'assets/audio/music/loop.mp3');
   }
 
   create(){
@@ -33,10 +34,19 @@ class Scenario extends BaseObject{
     this.data.floors.forEach(function(floor){
       $this.create_floor(floor);
     });
+    this.music_loop = this.scene.sound.add('music_loop', { loop: true, volume: 0.5 });
   }
 
   postCreation(){
+    var $this = this;
     this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
+
+    this.music_loop.play();
+    this.scene.input.keyboard.on('keydown_M', function (event) {
+        console.log('volume');
+        if ($this.music_loop.isPlaying) $this.music_loop.pause();
+        else $this.music_loop.resume();
+    });
   }
 
   create_wall(wall){
