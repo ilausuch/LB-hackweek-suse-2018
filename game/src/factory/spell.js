@@ -37,7 +37,6 @@ class Spell extends BaseObject {
 
   create() {
     console.log("spell:create");
-    this.prepareSounds();
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();
@@ -88,8 +87,8 @@ class Spell extends BaseObject {
     this.post_sprites.y = this.posY-40;
     this.post_sprites.setVisible(true);
     this.post_sprites.play(this.post_anim_name);
-    if (this.type == "sles") this.scene.sound.play('spell_sles');
-    else this.scene.sound.play('spell_default');
+    if (this.type == "sles") this.scene.sound.play('fx_spell_sles');
+    else this.scene.sound.play('fx_spell_default');
     var scale_original = this.scene.objects['hero'].object.scaleX;
     /*
     setTimeout(function(){ this.scene.objects['hero'].object.setScale(1.2); }, 0);
