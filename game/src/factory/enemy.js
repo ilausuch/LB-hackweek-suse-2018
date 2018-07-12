@@ -4,6 +4,15 @@ class Enemy extends BaseObject{
     this.energy = 1;
   }
 
+  preload(){
+    this.scene.load.spritesheet("explosion", 'assets/img/addons/explosion.png', {
+      frameWidth: 192,
+      frameHeight: 192,
+      margin: 0,
+      spacing: 0
+    });
+  }
+
   create() {
     console.log(this.id + ":create");
     this.prepareSounds();
@@ -17,7 +26,16 @@ class Enemy extends BaseObject{
   }
 
   createAnimations(){
-
+    this.scene.anims.create({
+      key: 'explosion_play',
+      frames: this.scene.anims.generateFrameNumbers('explosion', {
+        begin:0,
+        end:9
+      }),
+      scale: 1,
+      frameRate: 10,
+      repeat: 0
+    });
   }
 
   prepareObjects(){
@@ -62,7 +80,11 @@ class Enemy extends BaseObject{
     console.debug("attacked!");
     this.energy = this.energy -1;
     if (this.energy <= 0){
+      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
+      this.explosion.x = this.object.body.x;
+      this.explosion.y = this.object.body.y + this.object.body.height;
       this.die();
+
     }
   }
 }
