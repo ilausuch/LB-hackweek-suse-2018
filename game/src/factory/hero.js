@@ -26,7 +26,6 @@ class Hero extends BaseObject {
 
   create() {
     console.log("hero:create");
-    this.prepareSounds();
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();
@@ -80,6 +79,7 @@ class Hero extends BaseObject {
           if (! this.tongue_attack.anims.isPlaying) {
             this.tongue_attack.setVisible(true);
             this.tongue_attack.play("hero_attack");
+            this.scene.sound.play('fx_attack');
           }
       }, this);
   }
@@ -100,6 +100,7 @@ class Hero extends BaseObject {
     if (this.cursors.up.isDown && this.object.body.velocity.y == 0)
     {
         this.object.setVelocityY(-500);
+        this.scene.sound.play('fx_jump');
     }
     if (last_velocityX == 0) this.object.anims.play();
     if (this.cursors.left.isDown)
@@ -161,8 +162,10 @@ class Hero extends BaseObject {
   setup_attack_to_enemy(enemy, handler){
     var $this = this;
     this.scene.physics.add.overlap(enemy.get_screen_object(), this.tongue_attack, function(a, b){
-      if ($this.check_tongue_touch(b))
+      if ($this.check_tongue_touch(b)) {
+        $this.scene.sound.play('fx_enemy_killed');
         handler($this);
+      }
     });
   }
 }
