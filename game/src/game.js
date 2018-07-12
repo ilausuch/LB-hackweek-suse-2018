@@ -4,7 +4,7 @@ class game extends Phaser.Scene {
     super('game')
 
     window.scene = this;
-    gameStatus.registry_scene(this);
+    gameStatus.current_scene(this);
 
     this.objects = {};
 

@@ -3,6 +3,9 @@ class Hero extends BaseObject {
   constructor(scene) {
     super(scene, 'hero');
     this.animation = undefined;
+    this.is_injured = false;
+    this.injured_tint_status = false;
+    this.dead = false;
   }
 
   preload() {
@@ -31,6 +34,27 @@ class Hero extends BaseObject {
     this.prepareObjects();
     this.prepareSounds();
     this.prepareControls();
+
+    var $this = this;
+
+    this.injured_interval = setInterval(function(){
+      if ($this.is_injured){
+        if ($this.injured_interval_counter == 0){
+          $this.set_tint(undefined);
+          $this.is_injured = false;
+          $this.injured_tint_status = false;
+        }
+        else{
+          $this.injured_tint_status = !$this.injured_tint_status;
+          if ($this.injured_tint_status)
+            $this.set_tint(0xFF0000);
+          else
+            $this.set_tint(undefined);
+
+          $this.injured_interval_counter--;
+        }
+      }
+    },100);
   };
 
   createAnimations() {
@@ -164,5 +188,45 @@ class Hero extends BaseObject {
       if ($this.check_tongue_touch(b))
         handler($this);
     });
+  }
+
+  injured(){
+    this.injured_interval_counter = 10
+    this.is_injured = true;
+  }
+
+  die(){
+    if (!this.dead){
+      var $this = this;
+      this.dead = true;
+      this.object.flipY = true;
+
+      this.scene.tweens.add({
+          targets: this.object,
+          y: 700,
+          ease: 'Back.easeIn',
+          duration: 1000,
+          onComplete: function(){
+
+          }
+      });
+
+      var x_move = this.object.body.x<400 ? 200 : -200;
+
+      this.scene.tweens.add({
+          targets: this.object,
+          x: this.object.body.x + x_move,
+          ease: 'linear',
+          duration: 1000,
+      });
+
+      scene.cameras.cameras[0].shake(400, 0.05, false);
+
+    }
+  }
+
+  set_tint(value){
+    this.object.setTint(value);
+    this.tongue_attack.setTint(value);
   }
 }
