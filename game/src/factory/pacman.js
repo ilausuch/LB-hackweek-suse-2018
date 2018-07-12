@@ -56,7 +56,15 @@ class Pacman extends Enemy {
   }
 
   attackToHero(hero){
-    gameStatus.decrease_energy(0.1);
+    gameStatus.decrease_energy(0.01);
+    var collision_loop = this.scene.objects.scenario.fx_collision_loop;
+    if (! collision_loop.isPlaying) collision_loop.resume();
+    else {
+      var $this = this;
+      setTimeout(function(){
+        collision_loop.pause()
+      },500)
+    }
     if (!this.persistent_attack)
       this.object.flipX = !this.object.flipX;
   }
