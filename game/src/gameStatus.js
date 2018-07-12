@@ -5,7 +5,7 @@ class GameStatus{
     this.puntuation = 0;
   }
 
-  registry_scene(scene){
+  current_scene(scene){
     this.scene = scene;
   }
 
@@ -13,7 +13,9 @@ class GameStatus{
     this.energy = this.energy - value;
     if (this.energy <= 0){
       this.energy = 0;
-      //TODO: notify death
+      this.scene.objects.hero.die();
+    }else{
+      this.scene.objects.hero.injured();
     }
   }
 
