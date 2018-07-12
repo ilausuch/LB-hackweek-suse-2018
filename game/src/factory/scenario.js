@@ -13,6 +13,8 @@ class Scenario extends BaseObject{
     this.scene.load.image(this.name+"_outer", this.outer_url);
     this.scene.load.json(this.name+'_data', this.data_url);
     this.scene.load.audio('music_loop', 'assets/audio/music/loop.mp3');
+    this.scene.load.audio('spell_default', 'assets/audio/fx/spell_default.mp3');
+    this.scene.load.audio('spell_sles', 'assets/audio/fx/spell_sles.mp3');
   }
 
   create(){
@@ -44,6 +46,8 @@ class Scenario extends BaseObject{
 
   configure_audio() {
     var $this = this;
+    this.scene.sound.add('spell_default');
+    this.scene.sound.add('spell_sles');
     this.music_loop.play();
     this.scene.input.keyboard.on('keydown', function (event) {
         var volume = $this.music_loop.volumeNode.gain.value;

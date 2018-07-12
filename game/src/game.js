@@ -40,6 +40,11 @@ class game extends Phaser.Scene {
     this.puntuation = new Puntuation(this, this.font);
     this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
+
+    this.spell_cloud = new Spell(this, "cloud", 700, 340);
+    this.spell_manager = new Spell(this, "sles", 100, 340);
+    this.spell_storage = new Spell(this, "storage", 470, 340);
+    this.spell_sles = new Spell(this, "manager", 380, 450);
   }
 
   registry_object(object){
