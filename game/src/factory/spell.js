@@ -91,10 +91,12 @@ class Spell extends BaseObject {
     if (this.type == "sles") this.scene.sound.play('spell_sles');
     else this.scene.sound.play('spell_default');
     var scale_original = this.scene.objects['hero'].object.scaleX;
+    /*
     setTimeout(function(){ this.scene.objects['hero'].object.setScale(1.2); }, 0);
     setTimeout(function(){ this.scene.objects['hero'].object.setScale(0.9); }, 100);
     setTimeout(function(){ this.scene.objects['hero'].object.setScale(1.1); }, 200);
     setTimeout(function(){ this.scene.objects['hero'].object.setScale(0.9); }, 300);
+    */
 
 
   }
