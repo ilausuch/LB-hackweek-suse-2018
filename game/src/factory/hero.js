@@ -224,7 +224,8 @@ class Hero extends BaseObject {
       });
 
       scene.cameras.cameras[0].shake(400, 0.05, false);
-
+      this.scene.sound.play('fx_hero_dead');
+      this.scene.objects.scenario.music_loop.stop();
     }
   }
 

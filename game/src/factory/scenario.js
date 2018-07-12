@@ -25,6 +25,7 @@ class Scenario extends BaseObject{
     this.scene.load.audio('fx_collision_loop', 'assets/audio/fx/collision_loop.wav');
     this.scene.load.audio('fx_bee_bite', 'assets/audio/fx/bee_bite.wav');
     this.scene.load.audio('fx_enemy_killed', 'assets/audio/fx/enemy_killed.wav');
+    this.scene.load.audio('fx_hero_dead', 'assets/audio/fx/hero_dead.wav');
   }
 
   create(){
@@ -65,6 +66,7 @@ class Scenario extends BaseObject{
     this.scene.sound.add('fx_jump');
     this.scene.sound.add('fx_bug_bonus');
     this.scene.sound.add('fx_enemy_killed');
+    this.scene.sound.add('fx_hero_dead');
 
     // volumes
     this.music_loop.volume = 0.5;
