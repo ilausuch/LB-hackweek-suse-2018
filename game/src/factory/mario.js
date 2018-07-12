@@ -1,4 +1,4 @@
-class Mario extends BaseObject {
+class Mario extends Enemy {
 
   constructor(scene, posX, posY, speed) {
     super(scene, 'mario');
@@ -8,7 +8,15 @@ class Mario extends BaseObject {
     this.speed = speed;
     this.collide_with_walls = true;
     this.isAttacking = false;
+
+    var $this = this;
+    this.disableAttack = true;
+    setTimeout(function(){
+      $this.disableAttack = false;
+    },2000)
+
     this.attackSpeed = 350;
+    this.waitNextJump = false;
   }
 
   preload() {
@@ -28,15 +36,6 @@ class Mario extends BaseObject {
       spacing: 0
     });
   }
-
-  create() {
-    console.log("mario:create");
-    this.prepareSounds();
-    this.createAnimations();
-    this.prepareObjects();
-    this.prepareSounds();
-    this.prepareControls();
-  };
 
   createAnimations() {
     this.scene.anims.create({
@@ -79,10 +78,11 @@ class Mario extends BaseObject {
     this.mario_attack.setCollideWorldBounds(false);
     this.mario_attack.setGravityY(1000);
     this.mario_attack.x = 0;
-    this.mario_attack.y = 0;
+    this.mario_attack.y = 1000;
     this.mario_attack.play("mario_attack");
     this.mario_attack.anims.play();
     this.mario_attack.owner = this;
+
   }
 
   prepareSounds(){
@@ -93,49 +93,60 @@ class Mario extends BaseObject {
   }
 
   postCreation() {
+    super.postCreation();
+
     var $this = this;
-    this.scene.scenario.define_collisions(this.object, undefined, this.onCollideWalls);
-    this.scene.scenario.define_collisions_platforms(this.object, this.onCollidePlatforms);
-    this.scene.scenario.define_collisions(this.mario_attack, undefined, undefined, "floor");
-    setTimeout(function(){
-      //$this.object.body.width = 50;
-    })
+
+    this.scene.scenario.define_collisions_platforms(this.object, function (a,b){
+      $this.onCollidePlatforms();
+    });
+
+    this.scene.physics.add.overlap(this.mario_attack,  this.scene.objects.hero.object, function(a, b){
+      $this.onAttackHit();
+    });
   }
 
-  onCollideWalls(a,b) {
-    a.owner.speed = -1 * a.owner.speed;
-    a.setVelocityX(a.owner.speed);
+  onCollideWalls() {
+    this.speed = -1 * this.speed;
+    this.object.setVelocityX(this.speed);
   }
 
-  onCollidePlatforms(a,b) {
+  onCollidePlatforms() {
     var prob = Math.floor((Math.random() * 100) + 1);
     if (prob > 80) {
-        a.owner.collide_with_walls = false;
+        this.collide_with_walls = false;
         setTimeout(function(){
-          a.owner.collide_with_walls = true;
+          this.collide_with_walls = true;
         },800)
       }
-      if (a.owner.collide_with_walls){
-        a.owner.speed = -1 * a.owner.speed;
-        a.setVelocityX(a.owner.speed);
+      if (this.collide_with_walls){
+        this.speed = -1 * this.speed;
+        this.object.setVelocityX(this.speed);
       }
   }
 
 
   update() {
-    var $this = this;
-    if (this.object.body.velocity.x >0) this.object.flipX = false;
-    else this.object.flipX = true;
-    if (Math.floor((Math.random() * 100) + 1) > 50) {
-      if (! this.isAttacking) {
-        console.log("MARIO ATTACK!")
+    try{
+      var $this = this;
+      if (this.object.body.velocity.x >0)
+        this.object.flipX = !this.object.flipX;
+
+      if (this.object.body.velocity.x >0) this.object.flipX = false;
+      else this.object.flipX = true;
+
+      if (this.object.body.velocity.y == 0 && Math.random() > 0.97) {
+        this.object.setVelocityY(-500);
+      }
+
+      if (!this.disableAttack && !this.isAttacking && Math.random() > 0.5) {
         this.isAttacking = true;
         this.attack();
         setTimeout(function(){
           $this.isAttacking = false;
-        },4000)
+        },2000)
       }
-    }
+    }catch(e){}
   }
 
   attack() {
@@ -145,7 +156,11 @@ class Mario extends BaseObject {
     var speed = this.attackSpeed;
     if (this.object.flipX) speed = - this.attackSpeed;
     this.mario_attack.setVelocity(speed, 0);
+  }
 
+  onAttackHit(){
+    gameStatus.decrease_energy(0.5);
+    this.isAttacking = false;
   }
 
 }
