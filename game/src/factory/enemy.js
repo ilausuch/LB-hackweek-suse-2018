@@ -2,6 +2,7 @@ class Enemy extends BaseObject{
   constructor(scene, name, multiple){
     super(scene, name, multiple);
     this.energy = 1;
+    this.puntuation = 1;
   }
 
   preload(){
@@ -83,6 +84,9 @@ class Enemy extends BaseObject{
       this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
       this.explosion.x = this.object.body.x;
       this.explosion.y = this.object.body.y + this.object.body.height;
+
+      var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
+
       this.die();
 
     }
