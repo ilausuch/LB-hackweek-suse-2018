@@ -38,16 +38,31 @@ class Scenario extends BaseObject{
   }
 
   postCreation(){
-    var $this = this;
     this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
+    this.configure_audio();
+  }
 
+  configure_audio() {
+    var $this = this;
     this.music_loop.play();
-    this.scene.input.keyboard.on('keydown_M', function (event) {
-        console.log('volume');
-        if ($this.music_loop.isPlaying) $this.music_loop.pause();
-        else $this.music_loop.resume();
+    this.scene.input.keyboard.on('keydown', function (event) {
+        var volume = $this.music_loop.volumeNode.gain.value;
+        if (event.code =="KeyM") {
+          if ($this.music_loop.isPlaying) $this.music_loop.pause();
+          else {
+            $this.music_loop.resume();
+            $this.music_loop.volumeNode.gain.value = volume;
+          }
+        }
+        if (event.code =="Comma") {
+          if (volume > 0) $this.music_loop.volumeNode.gain.value = volume - 0.1;
+        }
+        if (event.code =="Period") {
+          if (volume < 1) $this.music_loop.volumeNode.gain.value = volume + 0.1;
+        }
     });
   }
+
 
   create_wall(wall){
     var rect = new Phaser.Geom.Rectangle(0, 0, wall.weight, wall.height);
