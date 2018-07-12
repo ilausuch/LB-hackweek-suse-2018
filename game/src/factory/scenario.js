@@ -46,16 +46,31 @@ class Scenario extends BaseObject{
     this.data.floors.forEach(function(floor){
       $this.create_floor(floor);
     });
-    this.music_loop = this.scene.sound.add('music_loop', { loop: true, volume: 0.5 });
+
+    this.configure_audio();
   }
 
   postCreation(){
     this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
-    this.configure_audio();
   }
 
   configure_audio() {
     var $this = this;
+    this.music_loop = this.scene.sound.add('music_loop', { loop: true});
+    this.fx_collision_loop = this.scene.sound.add('fx_collision_loop', { loop: true});
+    this.fx_bee_bite = this.scene.sound.add('fx_bee_bite', { loop: true});
+    this.scene.sound.add('fx_spell_default');
+    this.scene.sound.add('fx_spell_sles');
+    this.scene.sound.add('fx_attack');
+    this.scene.sound.add('fx_jump');
+    this.scene.sound.add('fx_bug_bonus');
+    this.scene.sound.add('fx_enemy_killed');
+
+    // volumes
+    this.music_loop.volume = 0.5;
+    this.fx_bee_bite.volume = 2;
+
+
     this.music_loop.play();
     this.scene.input.keyboard.on('keydown', function (event) {
         var volume = $this.music_loop.volumeNode.gain.value;
@@ -73,14 +88,11 @@ class Scenario extends BaseObject{
           if (volume < 1) $this.music_loop.volumeNode.gain.value = volume + 0.1;
         }
     });
-    this.scene.sound.add('fx_spell_default', { loop: false, volume: 1 });
-    this.scene.sound.add('fx_spell_sles', { loop: false, volume: 1 });
-    this.scene.sound.add('fx_attack', { loop: false, volume: 1 });
-    this.scene.sound.add('fx_jump', { loop: false, volume: 2 });
-    this.scene.sound.add('fx_bug_bonus', { loop: false, volume: 1 });
-    this.scene.sound.add('fx_enemy_killed', { loop: false, volume: 1 });
-    this.scene.sound.add('fx_collision_loop', { loop: true, volume: 0.8 });
-    this.scene.sound.add('fx_bee_bite', { loop: true, volume: 1 });
+
+    this.fx_collision_loop.play();
+    this.fx_collision_loop.pause();
+    this.fx_bee_bite.play();
+    this.fx_bee_bite.pause();
   }
 
 

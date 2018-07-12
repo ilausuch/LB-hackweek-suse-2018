@@ -29,6 +29,14 @@ class BugBase extends BaseObject{
   bite(a,b){
     if (this.can_attack){
       gameStatus.decrease_energy(this.decrease_energy_on_bite);
+      var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
+      if (! bee_bite_loop.isPlaying) bee_bite_loop.resume();
+      else {
+        var $this = this;
+        setTimeout(function(){
+          bee_bite_loop.pause()
+        },500)
+      }
     }
   }
 
@@ -36,6 +44,7 @@ class BugBase extends BaseObject{
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
       gameStatus.increase_puntuation(this.puntuation);
+      this.scene.sound.play("fx_bug_bonus");
     }
   }
 
