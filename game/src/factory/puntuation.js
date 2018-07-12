@@ -5,7 +5,7 @@ class Puntuation extends BaseObject{
   }
 
   create(){
-    this.characters = this.font.addString("000", 350, 20, 0.5);
+    this.characters = this.font.addString("000", 660, 20, 0.5);
   }
 
   update_puntuation(){
