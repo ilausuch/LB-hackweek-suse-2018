@@ -37,10 +37,10 @@ class BaseObject{
   }
 
   die(){
-    console.log("die");
     if (this.alive){
       this.alive = false;
       this.get_screen_object().destroy();
+      this.scene.unregistry_object(this);
     }
   }
 

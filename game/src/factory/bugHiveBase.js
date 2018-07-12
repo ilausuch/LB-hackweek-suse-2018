@@ -22,20 +22,21 @@ class BugBase extends BaseObject{
 
     this.decrease_energy_on_bite = 0.001
 
-    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.bite, null, this);
-    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.tongue_attack, this.tongue, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.attackToHero, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.tongue_attack, this.attackedByHero, null, this);
   }
 
-  bite(a,b){
+  attackToHero(a,b){
     if (this.can_attack){
       gameStatus.decrease_energy(this.decrease_energy_on_bite);
     }
   }
 
-  tongue(a,b){
+  attackedByHero(a,b){
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
       gameStatus.increase_puntuation(this.puntuation);
+      new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
     }
   }
 

@@ -16,6 +16,9 @@ class Character extends BaseObject{
 
     if (this.character==':')
       return 65;
+
+    if (this.character == '+')
+      return 83;
   }
 
   postCreation(){
@@ -45,7 +48,10 @@ class Font extends BaseObject{
     });
   }
 
-  addString(str, x, y, scale){;
+  addString(str, x, y, scale, forceCreation){
+    if (forceCreation == undefined)
+      forceCreation = false;
+
     if (scale == undefined)
       scale = 1;
 
@@ -53,6 +59,11 @@ class Font extends BaseObject{
     for (var i=0; i<str.length; i++){
       list.push(new Character(this.scene, this, x+i*scale*74, y, str[i], scale));
     }
+
+    if (forceCreation)
+      list.forEach(function(character){
+        character.postCreation();
+      });
 
     return list;
   }
