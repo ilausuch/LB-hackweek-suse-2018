@@ -149,6 +149,7 @@ class Hero extends BaseObject {
       case 3: min_distance_x = 94; break;
       case 4: min_distance_x = 94; break;
       case 5: min_distance_x = 80; break;
+      default: return false;
     }
 
     //console.log("*",distance_y, this.tongue_attack.body.y, object.body.y);
@@ -157,4 +158,11 @@ class Hero extends BaseObject {
     return (distance_x < min_distance_x) && (distance_y > 30);
   }
 
+  setup_attack_to_enemy(enemy, handler){
+    var $this = this;
+    this.scene.physics.add.overlap(enemy.get_screen_object(), this.tongue_attack, function(a, b){
+      if ($this.check_tongue_touch(b))
+        handler($this);
+    });
+  }
 }

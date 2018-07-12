@@ -8,6 +8,8 @@ class BaseObject{
       this.id = id;
 
     this.scene.registry_object(this);
+
+    this.alive = true;
   }
 
   preload(){
@@ -32,6 +34,14 @@ class BaseObject{
 
   update(){
 
+  }
+
+  die(){
+    console.log("die");
+    if (this.alive){
+      this.alive = false;
+      this.get_screen_object().destroy();
+    }
   }
 
   get_screen_object(){
