@@ -51,6 +51,10 @@ class game extends Phaser.Scene {
     this.objects[object.id] = object;
   }
 
+  unregistry_object(object){
+    delete this.objects[object.id];
+  }
+
   preload() {
     for (var i in this.objects) {
       this.objects[i].preload();
