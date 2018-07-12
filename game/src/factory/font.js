@@ -9,10 +9,13 @@ class Character extends BaseObject{
   }
 
   get_image_from_character(){
-    var c = this.character.charCodeAt(0);
+    var code = this.character.charCodeAt(0);
 
-    if (c>=48 && c<=57)
-      return c - 48 + 52;
+    if (code>=48 && code<=57)
+      return code - 48 + 52;
+
+    if (this.character==':')
+      return 65;
   }
 
   postCreation(){

@@ -13,11 +13,18 @@ class game extends Phaser.Scene {
     this.$groups = {};
     this.$conf = {
     };
+
     this.$game = {
       coins: 0,
       health: 0,
       state: 0,
     };
+
+    this.level = new Level(this, {
+      totalTime : 2*60
+    })
+
+    this.font = new Font(this);
 
     this.scenario = new Scenario(this,
                                  "scenario_1",
@@ -25,14 +32,13 @@ class game extends Phaser.Scene {
                                  "assets/img/scenarios/scenario_1_outer_layer.png",
                                  "assets/img/scenarios/scenario_1.json");
     this.hero = new Hero(this);
-
     this.beeHive = new BeeHive(this);
     this.bug1Hive = new Bug1Hive(this);
     this.bug2Hive = new Bug2Hive(this);
     this.pacman = new Pacman(this, 500, 530, 200);
 
-    this.font = new Font(this);
     this.puntuation = new Puntuation(this, this.font);
+    this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
   }
 
@@ -80,6 +86,7 @@ class game extends Phaser.Scene {
 
     scene.cameras.cameras[0].fadeIn(500);
 
+    this.start_game();
   };
 
   createAnimations() {
@@ -107,6 +114,7 @@ class game extends Phaser.Scene {
   }
 
   start_game(){
+    this.level.start();
   }
 
   end_game(){
