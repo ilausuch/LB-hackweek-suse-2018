@@ -10,6 +10,8 @@ class Pacman extends Enemy {
   }
 
   preload() {
+    super.preload();
+
     this.scene.load.spritesheet("pacman", 'assets/img/characters/pacman/walk.png', {
       frameWidth: 32,
       frameHeight: 32,
@@ -19,6 +21,8 @@ class Pacman extends Enemy {
   }
 
   createAnimations() {
+    super.createAnimations();
+
     this.scene.anims.create({
       key: 'pacman',
       frames: this.scene.anims.generateFrameNumbers('pacman', {
