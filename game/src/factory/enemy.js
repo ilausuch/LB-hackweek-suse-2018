@@ -101,14 +101,17 @@ class Enemy extends BaseObject{
     if (from.tongue_attack_timestamp !== this.last_attacked_by_hero_timestamp){
       this.last_attacked_by_hero_timestamp = from.tongue_attack_timestamp;
 
-      this.energy = this.energy -1;
+    console.debug("attacked!");
+    this.energy = this.energy -1;
+    if (this.energy <= 0){
+      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
+      this.explosion.x = this.object.body.x;
+      this.explosion.y = this.object.body.y + this.object.body.height;
 
-      if (this.energy <= 0){
-        this.launch_explosion();
+      var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
 
-        var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
+      this.die();
 
-        this.die();
       }else{
         this.is_injured = true;
         this.injured_interval_counter = 5;
