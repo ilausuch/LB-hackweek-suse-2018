@@ -27,9 +27,11 @@ class LifeBar extends BaseObject{
     this.background = this.scene.add.graphics({ lineStyle:{color:0xFF0000}, fillStyle: { color: 0x0, alpha:0.4 } });
     this.background.fillRectShape(this.rect_full);
     this.background.strokeRectShape(this.rect_full);
+    this.background.setDepth(1000);
 
     this.object = this.scene.add.graphics({ lineStyle:{color:0xFF0000}, fillStyle: { color: 0xFF0000, alpha:1 } });
     this.object.fillRectShape(this.rect_energy);
+    this.object.setDepth(1000);
   };
 
   update(){

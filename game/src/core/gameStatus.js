@@ -1,13 +1,18 @@
 class GameStatus{
   constructor(){
+    this.reset();
+    this.clean();
+  }
+
+  reset(){
+    this.level = 0;
     this.lives = 3;
     this.energy = 1;
     this.puntuation = 0;
     this.current_spell = undefined;
   }
 
-  current_scene(scene){
-    this.scene = scene;
+  clean(){
     this.attacks = {}
   }
 
@@ -21,7 +26,7 @@ class GameStatus{
     this.energy = this.energy - value;
     if (this.energy <= 0){
       this.energy = 0;
-      this.scene.objects.hero.die();
+      scene.objects.hero.die();
       this.lives --;
 
       if (this.lives == 0){
@@ -30,7 +35,7 @@ class GameStatus{
         //TODO: Wait and restore the scenario
       }
     }else{
-      this.scene.objects.hero.injured();
+      scene.objects.hero.injured();
     }
 
     return true;
@@ -39,11 +44,17 @@ class GameStatus{
 
   increase_puntuation(value){
     this.puntuation = this.puntuation +1;
-    this.scene.objects.puntuation.update_puntuation();
+    scene.objects.puntuation.update_puntuation();
   }
 
   spellProvider(value) {
     console.log("spellProvider");
     this.current_spell = value;
+  }
+
+  nextLevel(){
+    gameStatus.level++;
+    this.clean();
+    scene.prepare_level();
   }
 }

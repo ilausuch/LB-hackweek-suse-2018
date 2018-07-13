@@ -1,9 +1,12 @@
 class Enemy extends BaseObject{
   constructor(scene, name, multiple){
     super(scene, name, multiple);
+    this.is_enemy = true;
     this.energy = 1;
     this.puntuation = 1;
     this.injured_counter = 0;
+
+    this.scene.level.register_enemy(this.id);
   }
 
   configure(config_name){
@@ -12,15 +15,6 @@ class Enemy extends BaseObject{
     }
 
     this.total_energy = this.energy;
-  }
-
-  preload(){
-    this.scene.load.spritesheet("explosion", 'assets/img/addons/smoke.png', {
-      frameWidth: 128,
-      frameHeight: 128,
-      margin: 0,
-      spacing: 0
-    });
   }
 
   create() {
@@ -36,17 +30,7 @@ class Enemy extends BaseObject{
   }
 
   createAnimations(){
-    this.scene.anims.create({
-      key: 'explosion_play',
-      frames: this.scene.anims.generateFrameNumbers('explosion', {
-        begin:0,
-        end:10
-      }),
-      scale: 1,
-      frameRate: 20,
-      repeat: 0
-    });
-    this.scene.anims.get('explosion_play').hideOnComplete = true;
+
   }
 
   prepareObjects(){
@@ -67,7 +51,8 @@ class Enemy extends BaseObject{
                                             $this.onCollideWalls();
                                           });
   }
-  postCreation() {
+
+  setup() {
     var $this = this;
 
     this.setup_coillide_with_walls();
@@ -104,13 +89,14 @@ class Enemy extends BaseObject{
   }
 
   attackedByHero(from){
+
     if (from.tongue_attack_timestamp !== this.last_attacked_by_hero_timestamp){
       this.last_attacked_by_hero_timestamp = from.tongue_attack_timestamp;
 
     this.energy = this.energy -1;
 
     if (this.energy <= 0){
-      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(0.8).play("explosion_play");
+      this.explosion = this.scene.add.sprite(0, 0, 'smoke').setScale(0.8).play("smoke_play");
       this.explosion.x = this.object.body.x + this.object.body.width/2;
       this.explosion.y = this.object.body.y + this.object.body.height/2;
 
@@ -118,13 +104,13 @@ class Enemy extends BaseObject{
 
       this.die();
       this.scene.sound.play('fx_enemy_killed');
-
       }else{
         this.is_injured = true;
         this.injured_interval_counter = 5;
         this.onAttackedByHero(from);
       }
     }
+
   }
 
   launch_explosion(){
@@ -132,5 +118,10 @@ class Enemy extends BaseObject{
 
   onAttackedByHero(){
 
+  }
+
+  die(){
+    clearInterval(this.injured_interval);
+    super.die();
   }
 }

@@ -17,48 +17,10 @@ class Mario extends Enemy {
     this.waitNextJump = false;
 
     this.configure("mario");
+    this.create();
   }
 
-  preload() {
-    this.scene.load.spritesheet("mario_attack", 'assets/img/characters/mario/attack.png', {
-      frameWidth: 11,
-      frameHeight: 11,
-      margin: 0,
-      spacing: 0
-    });
-
-    this.scene.load.spritesheet("mario", 'assets/img/characters/mario/walk.png', {
-      frameWidth: 44.5,
-      frameHeight: 48,
-      margin: 0,
-      spacing: 0
-    });
-  }
-
-  createAnimations() {
-    this.scene.anims.create({
-      key: 'mario_attack',
-      frames: this.scene.anims.generateFrameNumbers('mario_attack', {
-        start: 0,
-        end: 3
-      }),
-      scale: 1,
-      frameRate: 15,
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: 'mario',
-      frames: this.scene.anims.generateFrameNumbers('mario', {
-        start: 0,
-        end: 2
-      }),
-      scale: 1,
-      frameRate: 5,
-      repeat: -1
-    });
-  }
-
-  prepareObjects() {
+  create() {
     this.object = this.scene.physics.add.sprite(0, 0, 'mario');
     this.object.setVelocity(this.speed, 0);
     this.object.setBounce(0, 0);
@@ -66,7 +28,7 @@ class Mario extends Enemy {
     this.object.setGravityY(1000);
     this.object.x = this.posX;
     this.object.y = this.posY;
-    this.object.play("mario");
+    this.object.play("mario_run");
     this.object.anims.play();
     this.object.owner = this;
 
@@ -81,6 +43,7 @@ class Mario extends Enemy {
     this.mario_attack.anims.play();
     this.mario_attack.owner = this;
 
+    this.setup();
   }
 
   prepareSounds(){
@@ -90,7 +53,7 @@ class Mario extends Enemy {
   prepareControls(){
   }
 
-  postCreation() {
+  setup() {
     var $this = this;
 
     this.setup_coillide_with_walls();
@@ -195,7 +158,7 @@ class Mario extends Enemy {
 
   attackToHero(to){
     gameStatus.decrease_energy(this.id, this.pain);
-    var collision_loop = this.scene.objects.scenario.fx_collision_loop;
+    var collision_loop = this.scene.scenario.fx_collision_loop;
     if (! collision_loop.isPlaying) collision_loop.resume();
     else {
       var $this = this;
@@ -212,7 +175,7 @@ class Mario extends Enemy {
     this.energy = this.energy -1;
 
     if (this.energy <= 0){
-      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(0.8).play("explosion_play");
+      this.explosion = this.scene.add.sprite(0, 0, 'smoke').setScale(0.8).play("smoke_play");
       this.explosion.x = this.object.body.x + this.object.body.width/2;
       this.explosion.y = this.object.body.y + this.object.body.height/2;
 
@@ -228,5 +191,53 @@ class Mario extends Enemy {
       }
     }
   }
+}
 
+class MarioFactory extends BaseObject{
+  constructor(scene){
+    super(scene, "MarioFactory");
+  }
+
+  preload() {
+    console.log("marioFactory", "preload");
+
+    this.scene.load.spritesheet("mario_attack", 'assets/img/characters/mario/attack.png', {
+      frameWidth: 11,
+      frameHeight: 11,
+      margin: 0,
+      spacing: 0
+    });
+
+    this.scene.load.spritesheet("mario", 'assets/img/characters/mario/walk.png', {
+      frameWidth: 44.5,
+      frameHeight: 48,
+      margin: 0,
+      spacing: 0
+    });
+  }
+
+  create() {
+    console.log("marioFactory", "create");
+
+    this.scene.anims.create({
+      key: 'mario_attack',
+      frames: this.scene.anims.generateFrameNumbers('mario_attack', {
+        start: 0,
+        end: 3
+      }),
+      scale: 1,
+      frameRate: 15,
+      repeat: -1
+    });
+    this.scene.anims.create({
+      key: 'mario_run',
+      frames: this.scene.anims.generateFrameNumbers('mario', {
+        start: 0,
+        end: 2
+      }),
+      scale: 1,
+      frameRate: 5,
+      repeat: -1
+    });
+  }
 }
