@@ -1,15 +1,19 @@
 class Pacman extends Enemy {
 
-  constructor(scene, posX, posY, speed) {
+  constructor(scene, posX, posY) {
     super(scene, 'pacman');
     this.posX = posX;
     this.posY = posY;
-    this.speed = speed;
     this.collide_with_walls = true;
-    this.persistent_attack = true;
+    this.persistent_attack = false;
+    this.turn_back_if_attacked = true;
+
+    this.configure("pacman")
   }
 
   preload() {
+    super.preload();
+
     this.scene.load.spritesheet("pacman", 'assets/img/characters/pacman/walk.png', {
       frameWidth: 32,
       frameHeight: 32,
@@ -19,6 +23,8 @@ class Pacman extends Enemy {
   }
 
   createAnimations() {
+    super.createAnimations();
+
     this.scene.anims.create({
       key: 'pacman',
       frames: this.scene.anims.generateFrameNumbers('pacman', {
@@ -56,7 +62,7 @@ class Pacman extends Enemy {
   }
 
   attackToHero(hero){
-    gameStatus.decrease_energy(0.01);
+    gameStatus.decrease_energy(this.pain);
     var collision_loop = this.scene.objects.scenario.fx_collision_loop;
     if (! collision_loop.isPlaying) collision_loop.resume();
     else {
@@ -74,6 +80,18 @@ class Pacman extends Enemy {
     try{
       this.object.setVelocityX(this.speed * this.direction())
     }catch(e){}
+  }
+
+  onAttackedByHero(hero){
+    if (this.turn_back_if_attacked){
+      this.object.flipX = hero.object.body.x < this.object.body.x;
+    }
+  }
+
+  launch_explosion(){
+    this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
+    this.explosion.x = this.object.body.x;
+    this.explosion.y = this.object.body.y + this.object.body.height;
   }
 
 }
