@@ -188,14 +188,13 @@ class Mario extends Enemy {
   }
 
   onAttackHit(){
-    console.log("Hit!");
-    gameStatus.decrease_energy(this.attack_pain);
+    gameStatus.decrease_energy( "mario_attack", this.attack_pain);
     this.isAttacking = false;
   }
 
 
   attackToHero(to){
-    gameStatus.decrease_energy(this.pain);
+    gameStatus.decrease_energy(this.id, this.pain);
     var collision_loop = this.scene.objects.scenario.fx_collision_loop;
     if (! collision_loop.isPlaying) collision_loop.resume();
     else {

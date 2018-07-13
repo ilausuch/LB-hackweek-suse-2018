@@ -62,7 +62,7 @@ class Pacman extends Enemy {
   }
 
   attackToHero(hero){
-    gameStatus.decrease_energy(this.pain);
+    gameStatus.decrease_energy(this.id, this.pain);
     var collision_loop = this.scene.objects.scenario.fx_collision_loop;
     if (! collision_loop.isPlaying) collision_loop.resume();
     else {

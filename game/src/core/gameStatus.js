@@ -8,9 +8,16 @@ class GameStatus{
 
   current_scene(scene){
     this.scene = scene;
+    this.attacks = {}
   }
 
-  decrease_energy(value){
+  decrease_energy(attacker_id, value){
+    var timestamp = Math.floor((new Date).getTime()/1000);
+    if (this.attacks[attacker_id] == timestamp)
+      return false;
+
+    this.attacks[attacker_id] = timestamp;
+
     this.energy = this.energy - value;
     if (this.energy <= 0){
       this.energy = 0;
@@ -18,6 +25,8 @@ class GameStatus{
     }else{
       this.scene.objects.hero.injured();
     }
+
+    return true;
   }
 
 
