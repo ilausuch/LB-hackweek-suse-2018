@@ -141,8 +141,14 @@ class game extends Phaser.Scene {
     this.levelComplete.show();
   }
 
+  next_level(){
+    this.levelComplete.hide();
+    this.prepare_level();
+    this.start_game();
+  }
+
   prepare_level(){
-    this.level_objects_die();
+    this.level_enemies_hero_die();
 
     this.level = new Level(this, levelsConfiguration[gameStatus.level]);
     this.scenario = this.scenarios[this.level.config.scenario-1];
@@ -164,9 +170,10 @@ class game extends Phaser.Scene {
 
     for (var i=0; i<this.check_enemy_amount("bug2"); i++)
       this.bug2Hive.create_one_areas();
+
   }
 
-  level_objects_die(){
+  level_enemies_hero_die(){
     if (this.hero!=undefined)
       this.hero.destroy();
 

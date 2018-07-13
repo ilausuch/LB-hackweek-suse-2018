@@ -57,6 +57,6 @@ class GameStatus{
   nextLevel(){
     gameStatus.level++;
     this.clean();
-    scene.prepare_level();
+    scene.next_level();
   }
 }
