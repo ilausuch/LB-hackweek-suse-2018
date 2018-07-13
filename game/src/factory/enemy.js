@@ -31,7 +31,7 @@ class Enemy extends BaseObject{
       key: 'explosion_play',
       frames: this.scene.anims.generateFrameNumbers('explosion', {
         begin:0,
-        end:10
+        end:9
       }),
       scale: 1,
       frameRate: 20,
