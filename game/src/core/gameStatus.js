@@ -16,31 +16,42 @@ class GameStatus{
     this.attacks = {}
   }
 
+  timestamp(){
+    return Math.floor((new Date).getTime()/1000);
+  }
+
   decrease_energy(attacker_id, value){
-    var timestamp = Math.floor((new Date).getTime()/1000);
-    if (this.attacks[attacker_id] == timestamp)
+    if (scene.objects.hero.invulnerable_timeout > this.timestamp()){
+      console.log("Invulnerable");
       return false;
-
-    this.attacks[attacker_id] = timestamp;
-
-    this.energy = this.energy - value;
-    if (this.energy <= 0){
-      this.energy = 0;
-      scene.objects.hero.die();
-      this.lives --;
-
-      if (this.lives == 0){
-        //TODO: GAME OVER
-      }else{
-        setTimeout(function(){
-          scene.hero.restore();
-        }, 2000);
-      }
-    }else{
-      scene.objects.hero.injured();
     }
+    else {
 
-    return true;
+      var timestamp = Math.floor((new Date).getTime()/1000);
+      if (this.attacks[attacker_id] == timestamp)
+        return false;
+
+      this.attacks[attacker_id] = timestamp;
+
+      this.energy = this.energy - value;
+      if (this.energy <= 0){
+        this.energy = 0;
+        scene.objects.hero.die();
+        this.lives --;
+
+        if (this.lives == 0){
+          //TODO: GAME OVER
+        }else{
+          setTimeout(function(){
+            scene.hero.restore();
+          }, 2000);
+        }
+      }else{
+        scene.objects.hero.injured();
+      }
+
+      return true;
+    }
   }
 
 
