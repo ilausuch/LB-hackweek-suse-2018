@@ -6,9 +6,9 @@ class Enemy extends BaseObject{
   }
 
   preload(){
-    this.scene.load.spritesheet("explosion", 'assets/img/addons/explosion.png', {
-      frameWidth: 192,
-      frameHeight: 192,
+    this.scene.load.spritesheet("explosion", 'assets/img/addons/smoke.png', {
+      frameWidth: 128,
+      frameHeight: 128,
       margin: 0,
       spacing: 0
     });
@@ -31,12 +31,13 @@ class Enemy extends BaseObject{
       key: 'explosion_play',
       frames: this.scene.anims.generateFrameNumbers('explosion', {
         begin:0,
-        end:9
+        end:10
       }),
       scale: 1,
-      frameRate: 10,
+      frameRate: 20,
       repeat: 0
     });
+    this.scene.anims.get('explosion_play').hideOnComplete = true;
   }
 
   prepareObjects(){
@@ -81,9 +82,9 @@ class Enemy extends BaseObject{
     console.debug("attacked!");
     this.energy = this.energy -1;
     if (this.energy <= 0){
-      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
-      this.explosion.x = this.object.body.x;
-      this.explosion.y = this.object.body.y + this.object.body.height;
+      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(0.8).play("explosion_play");
+      this.explosion.x = this.object.body.x + this.object.body.width/2;
+      this.explosion.y = this.object.body.y + this.object.body.height/2;
 
       var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
 
