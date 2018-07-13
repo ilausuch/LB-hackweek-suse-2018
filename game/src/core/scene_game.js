@@ -88,7 +88,7 @@ class game extends Phaser.Scene {
     this.input.keyboard.on('keydown_SPACE', function(event) {
       this.hero.keydown_SPACE();
     }, this);
-    
+
     this.anims.create({
       key: 'smoke_play',
       frames: this.anims.generateFrameNumbers('smoke', {
@@ -145,7 +145,7 @@ class game extends Phaser.Scene {
     this.level_objects_die();
 
     this.level = new Level(this, levelsConfiguration[gameStatus.level]);
-    this.scenario = this.scenarios[this.level.config.scenario];
+    this.scenario = this.scenarios[this.level.config.scenario-1];
     this.scenario.manual_create();
 
     this.hero = new Hero(this);

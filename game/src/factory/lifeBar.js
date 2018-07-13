@@ -20,9 +20,12 @@ class LifeBar extends BaseObject{
   }
 
   create() {;
-    this.hearts[0] = this.scene.add.sprite(this.position.x, this.position.y + 12, "heart").setScale(0.5);
-    this.hearts[1] = this.scene.add.sprite(this.position.x + 25, this.position.y + 12, "heart").setScale(0.5);
-    this.hearts[2] = this.scene.add.sprite(this.position.x + 50, this.position.y + 12, "heart").setScale(0.5);
+    this.hearts[0] = this.scene.add.sprite(this.position.x, this.position.y + 12, "heart")
+                      .setScale(0.5).setDepth(1000);
+    this.hearts[1] = this.scene.add.sprite(this.position.x + 25, this.position.y + 12, "heart")
+                      .setScale(0.5).setDepth(1000);
+    this.hearts[2] = this.scene.add.sprite(this.position.x + 50, this.position.y + 12, "heart")
+                      .setScale(0.5).setDepth(1000);
 
     this.background = this.scene.add.graphics({ lineStyle:{color:0xFF0000}, fillStyle: { color: 0x0, alpha:0.4 } });
     this.background.fillRectShape(this.rect_full);
@@ -42,10 +45,10 @@ class LifeBar extends BaseObject{
     if (gameStatus.lives == 0)
       this.hearts[0].setTint(0x0000000);
 
-    if (gameStatus.lives < 1)
+    if (gameStatus.lives <= 1)
       this.hearts[1].setTint(0x0000000);
 
-    if (gameStatus.lives < 2)
+    if (gameStatus.lives <= 2)
       this.hearts[2].setTint(0x0000000);
   }
 

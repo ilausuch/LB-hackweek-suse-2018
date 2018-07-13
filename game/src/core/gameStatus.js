@@ -32,7 +32,9 @@ class GameStatus{
       if (this.lives == 0){
         //TODO: GAME OVER
       }else{
-        //TODO: Wait and restore the scenario
+        setTimeout(function(){
+          scene.hero.restore();
+        }, 2000);
       }
     }else{
       scene.objects.hero.injured();
