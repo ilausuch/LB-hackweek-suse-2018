@@ -44,6 +44,10 @@ class GameStatus{
         }else{
           setTimeout(function(){
             scene.hero.restore();
+            if (scene.hurryup_mario){
+              scene.hurryup_mario.die();
+              scene.hurryup_mario = undefined;
+            }
           }, 2000);
         }
       }else{
@@ -52,6 +56,10 @@ class GameStatus{
 
       return true;
     }
+  }
+
+  restore_hero(){
+    this.energy = 1;
   }
 
 

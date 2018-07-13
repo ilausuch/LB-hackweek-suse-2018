@@ -19,13 +19,22 @@ class Level{
       $this.scene.objects.timer.update_time();
       if ($this.timeCounter == 0){
         window.clearInterval($this.timer);
-        $this.timeout();
+        $this.hurryUp();
       }
     },1000);
   }
 
-  timeout(){
-    //TODO
+  hurryUp(){
+    this.in_hurryup = true;
+    scene.hurry_up();
+  }
+
+  restore_hurryup(){
+    if (this.in_hurryup){
+      this.timeCounter = 60;
+      this.start();
+      this.in_hurryup = false;
+    }
   }
 
   register_enemy(enemy_id){
