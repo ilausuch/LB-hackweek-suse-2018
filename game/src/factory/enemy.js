@@ -112,6 +112,7 @@ class Enemy extends BaseObject{
       var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
 
       this.die();
+      this.scene.sound.play('fx_enemy_killed');
 
       }else{
         this.is_injured = true;
