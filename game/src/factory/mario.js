@@ -20,8 +20,6 @@ class Mario extends Enemy {
   }
 
   preload() {
-    //this.scene.load.image('hero', '/assets/img/characters/hero/base.png');
-
     this.scene.load.spritesheet("mario_attack", 'assets/img/characters/mario/attack.png', {
       frameWidth: 11,
       frameHeight: 11,

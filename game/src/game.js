@@ -42,7 +42,11 @@ class game extends Phaser.Scene {
           puntuation: 2,
           can_attack: false
         },
+        mario:{
+          enable:true,
+        },
         pacman:{
+          enable:false,
           puntuation: 50,
           speed: 100,
           pain: 0.05,
@@ -64,8 +68,11 @@ class game extends Phaser.Scene {
     this.bug1Hive = new Bug1Hive(this);
     this.bug2Hive = new Bug2Hive(this);
 
-    this.mario = new Mario(this, 350, 200, -200);
-    this.pacman = new Pacman(this, 500, 530, 200);
+    if (this.level.config.enemies.mario.enable)
+      this.mario = new Mario(this, 350, 200, -200);
+
+    if (this.level.config.enemies.pacman.enable)
+      this.pacman = new Pacman(this, 500, 530, 200);
 
     this.puntuation = new Puntuation(this, this.font);
     this.timer = new Timer(this, this.font);
