@@ -25,7 +25,16 @@ class Level{
   }
 
   hurryUp(){
+    this.in_hurryup = true;
     scene.hurry_up();
+  }
+
+  restore_hurryup(){
+    if (this.in_hurryup){
+      this.timeCounter = 60;
+      this.start();
+      this.in_hurryup = false;
+    }
   }
 
   register_enemy(enemy_id){

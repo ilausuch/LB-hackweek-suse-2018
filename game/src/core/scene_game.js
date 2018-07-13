@@ -184,14 +184,26 @@ class game extends Phaser.Scene {
   end_game(){
   }
 
+  hurry_up(){
+      this.hurryUp.show();
+      this.music_loop.stop();
+      this.hurryup_loop.play();
+
+      this.hero.set_invulnerable(1);
+      this.hurryup_mario = new Mario(this, 350, 200);
+  }
+
   level_complete(){
     this.levelComplete.show();
+    this.hide_hurryup();
+  }
+
+  hide_hurryup(){
     this.hurryUp.hide();
     if (this.hurryup_loop.isPlaying){
       this.hurryup_loop.stop();
       this.music_loop.play();
     }
-
   }
 
   next_level(){
@@ -235,9 +247,9 @@ class game extends Phaser.Scene {
     }
   }
 
-  hurry_up(){
-      this.hurryUp.show();
-      this.music_loop.stop();
-      this.hurryup_loop.play();
+  restore_hero(){
+    this.hide_hurryup();
+    this.level.restore_hurryup();
   }
+
 }

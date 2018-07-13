@@ -211,8 +211,11 @@ class Hero extends BaseObject {
     this.object.flipX  = false;
     this.object.flipY = false;
     this.dead = false;
-    this.scene.music_loop.play();
-    this.set_invulnerable(1);
+    this.is_injured = false;
+    this.injured_tint_status = false;
+    this.scene.restore_hero();
+    gameStatus.restore_hero();
+    this.set_invulnerable(2);
   }
 
   set_invulnerable(time){
