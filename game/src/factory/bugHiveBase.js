@@ -1,6 +1,7 @@
 class BugBase extends BaseObject{
   constructor(scene, hive, initial_position) {
     super(scene, hive.config.name, true);
+    this.is_enemy = true;
     this.hive = hive;
     this.status = "alive";
 
@@ -34,24 +35,27 @@ class BugBase extends BaseObject{
 
   attackToHero(a,b){
     if (this.can_attack){
-      gameStatus.decrease_energy(this.pain);
-      var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
-      if (! bee_bite_loop.isPlaying) bee_bite_loop.resume();
-      else {
-        var $this = this;
-        setTimeout(function(){
-          bee_bite_loop.pause()
-        },500)
+      if (gameStatus.decrease_energy(this.id, this.pain)){
+        var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
+
+        if (!bee_bite_loop.isPlaying){
+          bee_bite_loop.play();
+          window.clearTimeout(bee_bite_loop.timeout);
+          bee_bite_loop.timeout = setTimeout(function(){
+            bee_bite_loop.pause()
+          },1000)
+        }
+
       }
     }
   }
 
   attackedByHero(a,b){
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
-      this.status = "death";
       this.scene.sound.play("fx_bug_bonus");
       gameStatus.increase_puntuation(this.puntuation);
       new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
+      this.die();
     }
   }
 
@@ -136,7 +140,9 @@ class BugHiveBase extends BaseObject {
   }
 
   create_one(x,y, config){
-    this.elements.push(this.new_bug(x, y, config));
+    var one = this.new_bug(x, y, config);
+    this.scene.level.register_enemy(one.id);
+    this.elements.push(one);
   }
 
   create_one_area(area){

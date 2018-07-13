@@ -19,6 +19,15 @@ class Character extends BaseObject{
 
     if (this.character == '+')
       return 83;
+
+    if (code>=65 && code<=90)
+      return code - 65 + 0;
+
+    if (code>=97 && code<=122)
+      return code - 97 + 26;
+
+    if (this.character == ' ')
+      return 95;
   }
 
   postCreation(){

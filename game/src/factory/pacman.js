@@ -8,35 +8,12 @@ class Pacman extends Enemy {
     this.persistent_attack = false;
     this.turn_back_if_attacked = true;
 
-    this.configure("pacman")
+    this.configure("pacman");
+    this.create();
   }
 
-  preload() {
-    super.preload();
+  create () {
 
-    this.scene.load.spritesheet("pacman", 'assets/img/characters/pacman/walk.png', {
-      frameWidth: 32,
-      frameHeight: 32,
-      margin: 0,
-      spacing: 0
-    });
-  }
-
-  createAnimations() {
-    super.createAnimations();
-
-    this.scene.anims.create({
-      key: 'pacman',
-      frames: this.scene.anims.generateFrameNumbers('pacman', {
-        frames: [0, 1, 2, 1]
-      }),
-      scale: 1,
-      frameRate: 10,
-      repeat: -1
-    });
-  }
-
-  prepareObjects() {
     this.object = this.scene.physics.add.sprite(0, 0, 'pacman').setScale(1.2);
     this.object.setVelocity(this.speed, 0);
     this.object.setBounce(0 , 0);
@@ -44,9 +21,12 @@ class Pacman extends Enemy {
     this.object.setGravityY(1000);
     this.object.x = this.posX;
     this.object.y = this.posY;
-    this.object.play("pacman");
+
+    this.object.play("pacman_run");
     this.object.anims.play();
     this.object.owner = this;
+
+    this.setup();
   }
 
   prepareSounds(){
@@ -62,7 +42,7 @@ class Pacman extends Enemy {
   }
 
   attackToHero(hero){
-    gameStatus.decrease_energy(this.pain);
+    gameStatus.decrease_energy(this.id, this.pain);
     var collision_loop = this.scene.objects.scenario.fx_collision_loop;
     if (! collision_loop.isPlaying) collision_loop.resume();
     else {
@@ -89,9 +69,39 @@ class Pacman extends Enemy {
   }
 
   launch_explosion(){
-    this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
+    this.explosion = this.scene.add.sprite(0, 0, 'smoke').setScale(1).play("smoke_play");
     this.explosion.x = this.object.body.x;
     this.explosion.y = this.object.body.y + this.object.body.height;
   }
 
+}
+
+class PacmanFactory extends BaseObject{
+  constructor(scene){
+    super(scene, PacmanFactory)
+  }
+
+  preload() {
+    console.log("pacmanFactory", "preload");
+    this.scene.load.spritesheet("pacman", 'assets/img/characters/pacman/walk.png', {
+      frameWidth: 32,
+      frameHeight: 32,
+      margin: 0,
+      spacing: 0
+    });
+  }
+
+  create() {
+    console.log("pacmanFactory", "create");
+
+    this.scene.anims.create({
+      key: 'pacman_run',
+      frames: this.scene.anims.generateFrameNumbers('pacman', {
+        frames: [0, 1, 2, 1]
+      }),
+      scale: 1,
+      frameRate: 10,
+      repeat: -1
+    });
+  }
 }
