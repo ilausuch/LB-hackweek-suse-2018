@@ -57,7 +57,7 @@ class Enemy extends BaseObject{
 
     this.setup_coillide_with_walls();
 
-    this.scene.physics.add.collider(this.object, this.scene.objects.hero.object, function(a, b){
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, function(a, b){
       $this.attackToHero(b.owner);
     });
     this.scene.objects.hero.setup_attack_to_enemy(this, function(hero){

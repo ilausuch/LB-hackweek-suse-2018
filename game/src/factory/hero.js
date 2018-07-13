@@ -70,6 +70,11 @@ class Hero extends BaseObject {
 
   update() {
     if (!this.dead && !this.destroyed){
+      if (this.invulnerable_timeout > gameStatus.timestamp())
+        this.object.setAlpha(0.5);
+      else
+        this.object.setAlpha(1);
+
       var $this = this;
       var last_velocityX = this.object.body.velocity.x;
 
@@ -207,6 +212,11 @@ class Hero extends BaseObject {
     this.object.flipY = false;
     this.dead = false;
     this.scene.music_loop.play();
+    this.set_invulnerable(1);
+  }
+
+  set_invulnerable(time){
+    this.invulnerable_timeout = time + gameStatus.timestamp();
   }
 }
 

@@ -17,7 +17,7 @@ class Pacman extends Enemy {
     this.object = this.scene.physics.add.sprite(0, 0, 'pacman').setScale(1.2);
     this.object.setVelocity(this.speed, 0);
     this.object.setBounce(0 , 0);
-    this.object.setCollideWorldBounds(false);
+    this.object.setCollideWorldBounds(true);
     this.object.setGravityY(1000);
     this.object.x = this.posX;
     this.object.y = this.posY;
