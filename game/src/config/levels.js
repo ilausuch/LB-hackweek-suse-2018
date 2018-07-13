@@ -37,7 +37,7 @@ var levelsConfiguration=[
   },
   {
     totalTime : 2*60,
-    scenario: 0,
+    scenario: 2,
     enemies:{
       bee:{
         amount: 1 ,

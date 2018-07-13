@@ -27,6 +27,15 @@ class GameStatus{
     if (this.energy <= 0){
       this.energy = 0;
       scene.objects.hero.die();
+      this.lives --;
+
+      if (this.lives == 0){
+        //TODO: GAME OVER
+      }else{
+        setTimeout(function(){
+          scene.hero.restore();
+        }, 2000);
+      }
     }else{
       scene.objects.hero.injured();
     }

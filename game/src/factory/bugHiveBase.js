@@ -80,7 +80,7 @@ class BugBase extends BaseObject{
   }
 
   update(){
-    if (this.status == "alive"){
+    if (this.status == "alive"){  
       if (this.can_attack){
         var distance_to_hero = this.scene.objects.hero.distance_to_object(this);
 
