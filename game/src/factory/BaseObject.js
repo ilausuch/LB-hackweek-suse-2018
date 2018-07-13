@@ -41,6 +41,7 @@ class BaseObject{
       this.alive = false;
       this.get_screen_object().destroy();
       this.scene.unregistry_object(this);
+      this.scene.level.enemy_death(this.id);
     }
   }
 

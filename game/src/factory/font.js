@@ -19,11 +19,20 @@ class Character extends BaseObject{
 
     if (this.character == '+')
       return 83;
+
+    if (code>=65 && code<=90)
+      return code - 65 + 0;
+
+    if (code>=97 && code<=122)
+      return code - 97 + 26;
+
+    if (this.character == ' ')
+      return 95;
   }
 
   postCreation(){
     this.object = this.scene.add.image(this.x, this.y, 'font', this.get_image_from_character())
-                  .setScale(this.scale);
+                  .setScale(this.scale).setDepth(1000);
   }
 
   setCharacter(character){
