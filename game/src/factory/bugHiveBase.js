@@ -28,6 +28,8 @@ class BugBase extends BaseObject{
     for (var key in this.scene.level.config.enemies[config_name]){
       this[key] = this.scene.level.config.enemies[config_name][key];
     }
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.attackToHero, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.tongue_attack, this.attackedByHero, null, this);
   }
 
   attackToHero(a,b){
@@ -47,8 +49,8 @@ class BugBase extends BaseObject{
   attackedByHero(a,b){
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
-      gameStatus.increase_puntuation(this.puntuation);
       this.scene.sound.play("fx_bug_bonus");
+      gameStatus.increase_puntuation(this.puntuation);
       new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
     }
   }

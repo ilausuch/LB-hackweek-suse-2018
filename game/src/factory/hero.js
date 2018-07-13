@@ -104,7 +104,7 @@ class Hero extends BaseObject {
             this.tongue_attack.setVisible(true);
             this.tongue_attack.play("hero_attack");
             this.scene.sound.play('fx_attack');
-            this.tongue_attack_timestamp = Math.floor((new Date).getTime()/1000); 
+            this.tongue_attack_timestamp = Math.floor((new Date).getTime()/1000);
           }
       }, this);
   }
@@ -193,7 +193,6 @@ class Hero extends BaseObject {
     var $this = this;
     this.scene.physics.add.overlap(enemy.get_screen_object(), this.tongue_attack, function(a, b){
       if ($this.check_tongue_touch(b)) {
-        $this.scene.sound.play('fx_enemy_killed');
         handler($this);
       }
     });
