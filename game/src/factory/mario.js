@@ -1,11 +1,10 @@
 class Mario extends Enemy {
 
-  constructor(scene, posX, posY, speed) {
+  constructor(scene, posX, posY) {
     super(scene, 'mario');
     this.animation = undefined;
     this.posX = posX;
     this.posY = posY;
-    this.speed = speed;
     this.collide_with_walls = true;
     this.isAttacking = false;
 
@@ -15,8 +14,9 @@ class Mario extends Enemy {
       $this.disableAttack = false;
     },2000)
 
-    this.attackSpeed = 350;
     this.waitNextJump = false;
+
+    this.configure("mario");
   }
 
   preload() {
@@ -71,7 +71,7 @@ class Mario extends Enemy {
     this.object.owner = this;
 
     this.mario_attack = this.scene.physics.add.sprite(0, 0, 'mario_attack').setScale(1.5);
-    this.mario_attack.setVelocity(this.attackSpeed, 0);
+    this.mario_attack.setVelocity(this.attack_speed, 0);
     this.mario_attack.setBounce(1, 0.6);
     this.mario_attack.setCollideWorldBounds(false);
     this.mario_attack.setGravityY(1000);
@@ -91,9 +91,9 @@ class Mario extends Enemy {
   }
 
   postCreation() {
-    super.postCreation();
-
     var $this = this;
+
+    this.setup_coillide_with_walls();
 
     this.scene.scenario.define_collisions_platforms(this.object, function (a,b){
       $this.onCollidePlatforms();
@@ -102,6 +102,25 @@ class Mario extends Enemy {
     this.scene.physics.add.overlap(this.mario_attack,  this.scene.objects.hero.object, function(a, b){
       $this.onAttackHit();
     });
+
+
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, function(a, b){
+      $this.attackToHero(b.owner);
+    });
+
+    this.scene.objects.hero.setup_attack_to_enemy(this, function(hero){
+      $this.attackedByHero(hero);
+    });
+
+    this.injured_interval = setInterval(function(){
+      $this.injured_counter = ($this.injured_counter + 1) % $this.total_energy;
+
+      if ($this.injured_counter >= $this.energy)
+        $this.object.setTint(0xFF0000);
+      else
+        $this.object.setTint(undefined);
+
+    },40);
   }
 
   onCollideWalls() {
@@ -127,17 +146,27 @@ class Mario extends Enemy {
   update() {
     try{
       var $this = this;
-      if (this.object.body.velocity.x >0)
-        this.object.flipX = !this.object.flipX;
+
+
+      //if (this.object.body.velocity.x >0)
+      //  this.object.flipX = !this.object.flipX;
 
       if (this.object.body.velocity.x >0) this.object.flipX = false;
       else this.object.flipX = true;
 
-      if (this.object.body.velocity.y == 0 && Math.random() > 0.97) {
+      //Jumps
+      if (this.object.body.velocity.y == 0 && Math.random() < this.jump_frequency) {
         this.object.setVelocityY(-500);
       }
 
-      if (!this.disableAttack && !this.isAttacking && Math.random() > 0.5) {
+      // Avoid blocks
+      if (this.object.body.velocity.x == 0){
+        var rand = Math.random()-0.5;
+        var direction = rand > 0 ? 1 : -1
+        this.object.setVelocityX(direction*200);
+      }
+
+      if (!this.disableAttack && !this.isAttacking && Math.random() < this.attack_frequency) {
         this.isAttacking = true;
         this.attack();
         setTimeout(function(){
@@ -148,17 +177,57 @@ class Mario extends Enemy {
   }
 
   attack() {
-    this.mario_attack.setVelocity(0, 0);
-    this.mario_attack.x = this.object.x;
-    this.mario_attack.y = this.object.y - 25;
-    var speed = this.attackSpeed;
-    if (this.object.flipX) speed = - this.attackSpeed;
-    this.mario_attack.setVelocity(speed, 0);
+    if (this.can_attack){
+      this.mario_attack.setVelocity(0, 0);
+      this.mario_attack.x = this.object.x;
+      this.mario_attack.y = this.object.y - 25;
+      var speed = this.attack_speed;
+      if (this.object.flipX) speed = - this.attack_speed;
+      this.mario_attack.setVelocity(speed, 0);
+    }
   }
 
   onAttackHit(){
-    gameStatus.decrease_energy(0.5);
+    console.log("Hit!");
+    gameStatus.decrease_energy(this.attack_pain);
     this.isAttacking = false;
+  }
+
+
+  attackToHero(to){
+    gameStatus.decrease_energy(this.pain);
+    var collision_loop = this.scene.objects.scenario.fx_collision_loop;
+    if (! collision_loop.isPlaying) collision_loop.resume();
+    else {
+      var $this = this;
+      setTimeout(function(){
+        collision_loop.pause()
+      },500)
+    }
+  }
+
+  attackedByHero(from){
+    if (from.tongue_attack_timestamp !== this.last_attacked_by_hero_timestamp){
+      this.last_attacked_by_hero_timestamp = from.tongue_attack_timestamp;
+
+    this.energy = this.energy -1;
+
+    if (this.energy <= 0){
+      this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(0.8).play("explosion_play");
+      this.explosion.x = this.object.body.x + this.object.body.width/2;
+      this.explosion.y = this.object.body.y + this.object.body.height/2;
+
+      var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
+
+      this.die();
+      this.scene.sound.play('fx_enemy_killed');
+
+      }else{
+        this.is_injured = true;
+        this.injured_interval_counter = 5;
+        this.onAttackedByHero(from);
+      }
+    }
   }
 
 }

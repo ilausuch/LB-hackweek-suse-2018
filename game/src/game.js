@@ -29,9 +29,9 @@ class game extends Phaser.Scene {
           pain: 0.001
         },
         bug1:{
-          amount: 0,
+          amount: 1,
           puntuation: 10,
-          max_speed: 100,
+          max_speed: 120,
           chaise_speed: 120,
           attack_distance: 40000,
           acceleration: 20,
@@ -44,6 +44,15 @@ class game extends Phaser.Scene {
         },
         mario:{
           enable:true,
+          puntuation: 100,
+          pain: 0.01,
+          attack_pain: 0.1,
+          speed: 200,
+          attack_speed: 350,
+          can_attack:true,
+          energy: 10,
+          attack_frequency: 0.1,
+          jump_frequency: 0.03
         },
         pacman:{
           enable:false,
@@ -69,7 +78,7 @@ class game extends Phaser.Scene {
     this.bug2Hive = new Bug2Hive(this);
 
     if (this.level.config.enemies.mario.enable)
-      this.mario = new Mario(this, 350, 200, -200);
+      this.mario = new Mario(this, 350, 200);
 
     if (this.level.config.enemies.pacman.enable)
       this.pacman = new Pacman(this, 500, 530, 200);
