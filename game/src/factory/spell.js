@@ -37,6 +37,7 @@ class Spell extends BaseObject {
 
   create() {
     console.log("spell:create");
+    this.prepareSounds();
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();

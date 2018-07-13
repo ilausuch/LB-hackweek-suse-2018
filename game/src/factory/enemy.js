@@ -57,7 +57,7 @@ class Enemy extends BaseObject{
 
   }
 
-  postCreation() {
+  setup_coillide_with_walls(){
     var $this = this;
     this.scene.scenario.define_collisions(this.object,
                                           function(a, b){
@@ -66,6 +66,11 @@ class Enemy extends BaseObject{
                                           function(a, b){
                                             $this.onCollideWalls();
                                           });
+  }
+  postCreation() {
+    var $this = this;
+
+    this.setup_coillide_with_walls();
 
     this.scene.physics.add.collider(this.object, this.scene.objects.hero.object, function(a, b){
       $this.attackToHero(b.owner);
@@ -102,8 +107,8 @@ class Enemy extends BaseObject{
     if (from.tongue_attack_timestamp !== this.last_attacked_by_hero_timestamp){
       this.last_attacked_by_hero_timestamp = from.tongue_attack_timestamp;
 
-    console.debug("attacked!");
     this.energy = this.energy -1;
+
     if (this.energy <= 0){
       this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(0.8).play("explosion_play");
       this.explosion.x = this.object.body.x + this.object.body.width/2;

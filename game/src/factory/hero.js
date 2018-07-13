@@ -86,6 +86,7 @@ class Hero extends BaseObject {
     this.object.y = this.scene.objects.scenario.data.floor - this.object.height;
     this.object.play("hero");
     this.object.anims.stop(0, false);
+    this.object.setMass(10000);
 
     this.tongue_attack = this.scene.physics.add.sprite(0, 0, 'hero_attack').setScale(0.9);
     this.tongue_attack.play("hero_attack");
