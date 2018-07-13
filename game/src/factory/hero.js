@@ -104,6 +104,7 @@ class Hero extends BaseObject {
           if (! this.tongue_attack.anims.isPlaying) {
             this.tongue_attack.setVisible(true);
             this.tongue_attack.play("hero_attack");
+            this.tongue_attack_timestamp = Math.floor((new Date).getTime()/1000); 
           }
       }, this);
   }
@@ -120,12 +121,16 @@ class Hero extends BaseObject {
   update() {
     var $this = this;
     var last_velocityX = this.object.body.velocity.x;
+
     this.object.setVelocityX(0);
+
     if (this.cursors.up.isDown && this.object.body.velocity.y == 0)
     {
         this.object.setVelocityY(-500);
     }
+
     if (last_velocityX == 0) this.object.anims.play();
+
     if (this.cursors.left.isDown)
     {
         this.object.setVelocityX(-300);
@@ -136,6 +141,7 @@ class Hero extends BaseObject {
         this.object.setVelocityX(300);
         this.object.flipX = false;
     }
+
     if (this.object.body.velocity.x == 0) this.object.anims.stop();
 
     var pos = this.getHeadPosition();

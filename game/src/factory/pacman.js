@@ -1,12 +1,14 @@
 class Pacman extends Enemy {
 
-  constructor(scene, posX, posY, speed) {
+  constructor(scene, posX, posY) {
     super(scene, 'pacman');
     this.posX = posX;
     this.posY = posY;
-    this.speed = speed;
     this.collide_with_walls = true;
-    this.persistent_attack = true;
+    this.persistent_attack = false;
+    this.turn_back_if_attacked = true;
+
+    this.configure("pacman")
   }
 
   preload() {
@@ -60,7 +62,7 @@ class Pacman extends Enemy {
   }
 
   attackToHero(hero){
-    gameStatus.decrease_energy(0.1);
+    gameStatus.decrease_energy(this.pain);
     if (!this.persistent_attack)
       this.object.flipX = !this.object.flipX;
   }
@@ -70,6 +72,18 @@ class Pacman extends Enemy {
     try{
       this.object.setVelocityX(this.speed * this.direction())
     }catch(e){}
+  }
+
+  onAttackedByHero(hero){
+    if (this.turn_back_if_attacked){
+      this.object.flipX = hero.object.body.x < this.object.body.x; 
+    }
+  }
+
+  launch_explosion(){
+    this.explosion = this.scene.add.sprite(0, 0, 'explosion').setScale(1).play("explosion_play");
+    this.explosion.x = this.object.body.x;
+    this.explosion.y = this.object.body.y + this.object.body.height;
   }
 
 }
