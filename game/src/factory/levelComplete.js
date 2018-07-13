@@ -1,6 +1,6 @@
 class LevelComplete extends BaseObject{
   constructor(scene, font){
-    super(scene);
+    super(scene, "LevelComplete");
 
     this.font = font;
   }
@@ -46,7 +46,9 @@ class LevelComplete extends BaseObject{
                 scene.objects.timer.update_time();
 
                 if (scene.level.timeCounter <= 0){
-                  gameStatus.nextLevel();
+                  setTimeout(function(){
+                    gameStatus.nextLevel();
+                  },1000);
                 }
                 else{
                   setTimeout(discountFnc, 20);
@@ -56,7 +58,9 @@ class LevelComplete extends BaseObject{
               setTimeout(discountFnc ,20);
             }
             else {
-              gameStatus.nextLevel();
+              setTimeout(function(){
+                gameStatus.nextLevel();
+              },1000);
             }
           }
         }

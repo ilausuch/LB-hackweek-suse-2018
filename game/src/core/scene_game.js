@@ -28,6 +28,7 @@ class game extends Phaser.Scene {
     this.lifeBar = new LifeBar(this);
 
     this.levelComplete = new LevelComplete(this, this.font);
+    this.hurryUp = new HurryUp(this, this.font);
 
     /*
     this.spell_cloud = new Spell(this, "cloud", 700, 340);
@@ -66,6 +67,7 @@ class game extends Phaser.Scene {
     });
 
     this.load.audio('music_loop', 'assets/audio/music/loop.mp3');
+    this.load.audio('hurryup_loop', 'assets/audio/music/hurryup_loop.mp3');
     this.load.audio('fx_spell_default', 'assets/audio/fx/spell_default.wav');
     this.load.audio('fx_spell_sles', 'assets/audio/fx/spell_sles.wav');
     this.load.audio('fx_attack', 'assets/audio/fx/hero_attack_full.wav');
@@ -128,6 +130,7 @@ class game extends Phaser.Scene {
   configure_audio() {
     var $this = this;
     this.music_loop = this.sound.add('music_loop', { loop: true});
+    this.hurryup_loop = this.sound.add('hurryup_loop', { loop: true});
     this.fx_collision_loop = this.sound.add('fx_collision_loop', { loop: true});
     this.fx_bee_bite = this.sound.add('fx_bee_bite', { loop: true});
     this.sound.add('fx_spell_default');
@@ -140,6 +143,7 @@ class game extends Phaser.Scene {
 
     // volumes
     this.music_loop.volume = 0.5;
+    this.hurryup_loop.volume = 0.5;
     this.fx_bee_bite.volume = 2;
 
 
@@ -182,6 +186,12 @@ class game extends Phaser.Scene {
 
   level_complete(){
     this.levelComplete.show();
+    this.hurryUp.hide();
+    if (this.hurryup_loop.isPlaying){
+      this.hurryup_loop.stop();
+      this.music_loop.play();
+    }
+
   }
 
   next_level(){
@@ -213,8 +223,6 @@ class game extends Phaser.Scene {
 
     for (var i=0; i<this.check_enemy_amount("bug2"); i++)
       this.bug2Hive.create_one_areas();
-
-
   }
 
   level_enemies_hero_die(){
@@ -225,6 +233,11 @@ class game extends Phaser.Scene {
       if (this.objects[i].is_enemy)
         this.objects[i].die();
     }
+  }
 
+  hurry_up(){
+      this.hurryUp.show();
+      this.music_loop.stop();
+      this.hurryup_loop.play();
   }
 }

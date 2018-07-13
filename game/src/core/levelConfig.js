@@ -19,13 +19,13 @@ class Level{
       $this.scene.objects.timer.update_time();
       if ($this.timeCounter == 0){
         window.clearInterval($this.timer);
-        $this.timeout();
+        $this.hurryUp();
       }
     },1000);
   }
 
-  timeout(){
-    //TODO
+  hurryUp(){
+    scene.hurry_up();
   }
 
   register_enemy(enemy_id){
