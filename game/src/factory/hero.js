@@ -168,7 +168,7 @@ class Hero extends BaseObject {
           ease: 'Back.easeIn',
           duration: 1000,
           onComplete: function(){
-            $this.destroy();
+            //$this.destroy();
           }
       });
 
@@ -198,6 +198,14 @@ class Hero extends BaseObject {
     this.tongue_attack.destroy();
     this.object = undefined;
     this.tongue_attack = undefined;
+  }
+
+  restore(){
+    this.object.x = 0;
+    this.object.y = 500;
+    this.object.flipX  = false;
+    this.object.flipY = false;
+    this.dead = false;
   }
 }
 
