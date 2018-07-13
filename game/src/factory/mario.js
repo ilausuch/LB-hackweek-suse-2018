@@ -158,7 +158,7 @@ class Mario extends Enemy {
 
   attackToHero(to){
     gameStatus.decrease_energy(this.id, this.pain);
-    var collision_loop = this.scene.objects.scenario.fx_collision_loop;
+    var collision_loop = this.scene.scenario.fx_collision_loop;
     if (! collision_loop.isPlaying) collision_loop.resume();
     else {
       var $this = this;

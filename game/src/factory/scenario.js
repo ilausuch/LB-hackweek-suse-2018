@@ -1,6 +1,6 @@
 class Scenario extends BaseObject{
   constructor(scene, name, image_url, outer_url, data_url){
-    super(scene, "scenario");
+    super(scene, name);
 
     this.name = name;
     this.image_url = image_url;
@@ -9,26 +9,14 @@ class Scenario extends BaseObject{
   }
 
   preload(){
+    console.log("scenario",this.name,"preload");
     this.scene.load.image(this.name, this.image_url);
     this.scene.load.image(this.name+"_outer", this.outer_url);
     this.scene.load.json(this.name+'_data', this.data_url);
-    this.load_sounds();
   }
 
-  load_sounds() {
-    this.scene.load.audio('music_loop', 'assets/audio/music/loop.mp3');
-    this.scene.load.audio('fx_spell_default', 'assets/audio/fx/spell_default.wav');
-    this.scene.load.audio('fx_spell_sles', 'assets/audio/fx/spell_sles.wav');
-    this.scene.load.audio('fx_attack', 'assets/audio/fx/hero_attack_full.wav');
-    this.scene.load.audio('fx_jump', 'assets/audio/fx/jump2.wav');
-    this.scene.load.audio('fx_bug_bonus', 'assets/audio/fx/bug_bonus.wav');
-    this.scene.load.audio('fx_collision_loop', 'assets/audio/fx/collision_loop.wav');
-    this.scene.load.audio('fx_bee_bite', 'assets/audio/fx/bee_bite.wav');
-    this.scene.load.audio('fx_enemy_killed', 'assets/audio/fx/enemy_killed.wav');
-    this.scene.load.audio('fx_hero_dead', 'assets/audio/fx/hero_dead.wav');
-  }
-
-  create(){
+  manual_create(){
+    console.log("scenario",this.name,"manual_create");
     this.data = this.scene.cache.json.get(this.name+'_data');
 
     this.data.areas.forEach(function(area){
@@ -54,7 +42,8 @@ class Scenario extends BaseObject{
     this.configure_audio();
   }
 
-  postCreation(){
+  manual_create2(){
+    console.log("scenario",this.name,"manual_create2");
     this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
   }
 

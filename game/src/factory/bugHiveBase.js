@@ -36,7 +36,7 @@ class BugBase extends BaseObject{
   attackToHero(a,b){
     if (this.can_attack){
       if (gameStatus.decrease_energy(this.id, this.pain)){
-        var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
+        var bee_bite_loop = this.scene.scenario.fx_bee_bite;
 
         if (!bee_bite_loop.isPlaying){
           bee_bite_loop.play();

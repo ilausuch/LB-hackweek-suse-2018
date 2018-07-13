@@ -6,33 +6,14 @@ class Hero extends BaseObject {
     this.is_injured = false;
     this.injured_tint_status = false;
     this.dead = false;
-  }
-
-  preload() {
-    //this.scene.load.image('hero', '/assets/img/characters/hero/base.png');
-    this.scene.load.spritesheet("hero_attack", 'assets/img/characters/hero/attack.png', {
-      frameWidth: 94,
-      frameHeight: 35,
-      margin: 0,
-      spacing: 0
-    });
-    //sprites attack: 94x35
-
-    //sprites walk: 97x41
-    this.scene.load.spritesheet("hero", 'assets/img/characters/hero/walk.png', {
-      frameWidth: 97,
-      frameHeight: 41,
-      margin: 0,
-      spacing: 0
-    });
+    this.create();
   }
 
   create() {
-    console.log("hero:create");
-    this.createAnimations();
+    console.log("hero","create");
+
     this.prepareObjects();
-    this.prepareSounds();
-    this.prepareControls();
+    this.postCreation();
 
     var $this = this;
 
@@ -56,34 +37,13 @@ class Hero extends BaseObject {
     },100);
   };
 
-  createAnimations() {
-    this.scene.anims.create({
-      key: 'hero_attack',
-      frames: this.scene.anims.generateFrameNumbers('hero_attack', { frames:[0, 1, 2, 3, 3, 4, 4, 5, 6, 7, 8, 9]}),
-      scale: 1,
-      frameRate: 15,
-      repeat: 0
-    });
-    this.scene.anims.create({
-      key: 'hero',
-      frames: this.scene.anims.generateFrameNumbers('hero', {
-        start: 0,
-        end: 3
-      }),
-      scale: 1,
-      frameRate: 15,
-      repeat: -1
-    });
-    this.scene.anims.get("hero_attack").hideOnComplete = true;
-  }
-
   prepareObjects() {
     this.object = this.scene.physics.add.sprite(0, 0, 'hero').setScale(0.9);
     this.object.setVelocity(0, 200);
     this.object.setBounce(0, 0);
     this.object.setCollideWorldBounds(true);
     this.object.setGravityY(1000);
-    this.object.y = this.scene.objects.scenario.data.floor - this.object.height;
+    this.object.y = this.scene.scenario.data.floor - this.object.height;
     this.object.play("hero");
     this.object.anims.stop(0, false);
     this.object.setMass(10000);
@@ -93,64 +53,56 @@ class Hero extends BaseObject {
 
   }
 
-  prepareSounds(){
-
-  }
-
-  prepareControls(){
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
-    this.scene.input.keyboard.on('keydown_SPACE', function(event) {
-          var pos = this.getHeadPosition();
-          if (! this.tongue_attack.anims.isPlaying) {
-            this.tongue_attack.setVisible(true);
-            this.tongue_attack.play("hero_attack");
-            this.scene.sound.play('fx_attack');
-            this.tongue_attack_timestamp = Math.floor((new Date).getTime()/1000);
-          }
-      }, this);
+  keydown_SPACE(){
+    var pos = this.getHeadPosition();
+    if (! this.tongue_attack.anims.isPlaying) {
+      this.tongue_attack.setVisible(true);
+      this.tongue_attack.play("hero_attack");
+      this.scene.sound.play('fx_attack');
+      this.tongue_attack_timestamp = Math.floor((new Date).getTime()/1000);
+    }
   }
 
   postCreation() {
     this.scene.scenario.define_collisions(this.object);
-    var $this = this;
-    setTimeout(function(){
-      //$this.object.body.width = 50;
-    })
   }
 
 
   update() {
-    var $this = this;
-    var last_velocityX = this.object.body.velocity.x;
+    if (!this.dead && !this.destroyed){
+      var $this = this;
+      var last_velocityX = this.object.body.velocity.x;
 
-    this.object.setVelocityX(0);
+      this.object.setVelocityX(0);
 
-    if (this.cursors.up.isDown && this.object.body.velocity.y == 0)
-    {
-        this.object.setVelocityY(-500);
-        this.scene.sound.play('fx_jump');
+      if (this.scene.cursors.up.isDown && this.object.body.velocity.y == 0)
+      {
+          this.object.setVelocityY(-500);
+          this.scene.sound.play('fx_jump');
+      }
+
+      if (last_velocityX == 0) this.object.anims.play();
+
+      if (this.scene.cursors.left.isDown)
+      {
+          this.object.setVelocityX(-300);
+          this.object.flipX = true;
+      }
+      else if (this.scene.cursors.right.isDown)
+      {
+          this.object.setVelocityX(300);
+          this.object.flipX = false;
+      }
+
+      if (this.object.body.velocity.x == 0) this.object.anims.stop();
+
+      var pos = this.getHeadPosition();
+      this.tongue_attack.x = pos[0];
+      this.tongue_attack.y = pos[1];
+
+      if (this.object.flipX) this.tongue_attack.flipX = true;
+      else this.tongue_attack.flipX = false;
     }
-
-    if (last_velocityX == 0) this.object.anims.play();
-
-    if (this.cursors.left.isDown)
-    {
-        this.object.setVelocityX(-300);
-        this.object.flipX = true;
-    }
-    else if (this.cursors.right.isDown)
-    {
-        this.object.setVelocityX(300);
-        this.object.flipX = false;
-    }
-
-    if (this.object.body.velocity.x == 0) this.object.anims.stop();
-
-    var pos = this.getHeadPosition();
-    this.tongue_attack.x = pos[0];
-    this.tongue_attack.y = pos[1];
-    if (this.object.flipX) this.tongue_attack.flipX = true;
-    else this.tongue_attack.flipX = false;
   }
 
   getHeadPosition() {
@@ -216,7 +168,7 @@ class Hero extends BaseObject {
           ease: 'Back.easeIn',
           duration: 1000,
           onComplete: function(){
-
+            $this.destroy();
           }
       });
 
@@ -226,17 +178,71 @@ class Hero extends BaseObject {
           targets: this.object,
           x: this.object.body.x + x_move,
           ease: 'linear',
-          duration: 1000,
+          duration: 500,
       });
 
       scene.cameras.cameras[0].shake(400, 0.05, false);
       this.scene.sound.play('fx_hero_dead');
-      this.scene.objects.scenario.music_loop.stop();
+      this.scene.scenario.music_loop.stop();
     }
   }
 
   set_tint(value){
     this.object.setTint(value);
     this.tongue_attack.setTint(value);
+  }
+
+  destroy(){
+    this.destroyed = true;
+    this.object.destroy();
+    this.tongue_attack.destroy();
+    this.object = undefined;
+    this.tongue_attack = undefined;
+  }
+}
+
+class HeroFactory extends BaseObject {
+
+  constructor(scene) {
+    super(scene, 'heroFactory');
+  }
+
+  preload() {
+    this.scene.load.spritesheet("hero_attack", 'assets/img/characters/hero/attack.png', {
+      frameWidth: 94,
+      frameHeight: 35,
+      margin: 0,
+      spacing: 0
+    });
+    //sprites attack: 94x35
+
+    //sprites walk: 97x41
+    this.scene.load.spritesheet("hero", 'assets/img/characters/hero/walk.png', {
+      frameWidth: 97,
+      frameHeight: 41,
+      margin: 0,
+      spacing: 0
+    });
+  }
+
+  create() {
+    this.scene.anims.create({
+      key: 'hero_attack',
+      frames: this.scene.anims.generateFrameNumbers('hero_attack', { frames:[0, 1, 2, 3, 3, 4, 4, 5, 6, 7, 8, 9]}),
+      scale: 1,
+      frameRate: 15,
+      repeat: 0
+    });
+    this.scene.anims.create({
+      key: 'hero',
+      frames: this.scene.anims.generateFrameNumbers('hero', {
+        start: 0,
+        end: 3
+      }),
+      scale: 1,
+      frameRate: 15,
+      repeat: -1
+    });
+    this.scene.anims.get("hero_attack").hideOnComplete = true;
   }
 }
