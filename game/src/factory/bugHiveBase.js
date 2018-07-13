@@ -34,14 +34,17 @@ class BugBase extends BaseObject{
 
   attackToHero(a,b){
     if (this.can_attack){
-      gameStatus.decrease_energy(this.pain);
-      var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
-      if (! bee_bite_loop.isPlaying) bee_bite_loop.resume();
-      else {
-        var $this = this;
-        setTimeout(function(){
-          bee_bite_loop.pause()
-        },500)
+      if (gameStatus.decrease_energy(this.id, this.pain)){
+        var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
+
+        if (!bee_bite_loop.isPlaying){
+          bee_bite_loop.play();
+          window.clearTimeout(bee_bite_loop.timeout);
+          bee_bite_loop.timeout = setTimeout(function(){
+            bee_bite_loop.pause()
+          },1000)
+        }
+
       }
     }
   }

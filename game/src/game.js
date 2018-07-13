@@ -24,7 +24,7 @@ class game extends Phaser.Scene {
       totalTime : 2*60,
       enemies:{
         bee:{
-          amount: 0 ,
+          amount: 1 ,
           puntuation: 5,
           pain: 0.001
         },
@@ -35,7 +35,7 @@ class game extends Phaser.Scene {
           chaise_speed: 120,
           attack_distance: 40000,
           acceleration: 20,
-          pain: 0.01,
+          pain: 0.1,
         },
         bug2:{
           amount:10,
@@ -45,8 +45,8 @@ class game extends Phaser.Scene {
         mario:{
           enable:true,
           puntuation: 100,
-          pain: 0.01,
-          attack_pain: 0.1,
+          pain: 0.1,
+          attack_pain: 0.4,
           speed: 200,
           attack_speed: 350,
           can_attack:true,
@@ -58,7 +58,7 @@ class game extends Phaser.Scene {
           enable:false,
           puntuation: 50,
           speed: 100,
-          pain: 0.05,
+          pain: 0.2,
           energy: 10,
           persistent_attack: true
         }
