@@ -39,54 +39,12 @@ class Scenario extends BaseObject{
     this.data.platforms.forEach(function(platform){
       $this.create_platform(platform);
     });
-    this.configure_audio();
+    
   }
 
   manual_create2(){
     console.log("scenario",this.name,"manual_create2");
     this.outer_img = this.scene.add.sprite(800/2, 600/2, this.name+"_outer").setScale(1);
-  }
-
-  configure_audio() {
-    var $this = this;
-    this.music_loop = this.scene.sound.add('music_loop', { loop: true});
-    this.fx_collision_loop = this.scene.sound.add('fx_collision_loop', { loop: true});
-    this.fx_bee_bite = this.scene.sound.add('fx_bee_bite', { loop: true});
-    this.scene.sound.add('fx_spell_default');
-    this.scene.sound.add('fx_spell_sles');
-    this.scene.sound.add('fx_attack');
-    this.scene.sound.add('fx_jump');
-    this.scene.sound.add('fx_bug_bonus');
-    this.scene.sound.add('fx_enemy_killed');
-    this.scene.sound.add('fx_hero_dead');
-
-    // volumes
-    this.music_loop.volume = 0.5;
-    this.fx_bee_bite.volume = 2;
-
-
-    this.music_loop.play();
-    this.scene.input.keyboard.on('keydown', function (event) {
-        var volume = $this.music_loop.volumeNode.gain.value;
-        if (event.code =="KeyM") {
-          if ($this.music_loop.isPlaying) $this.music_loop.pause();
-          else {
-            $this.music_loop.resume();
-            $this.music_loop.volumeNode.gain.value = volume;
-          }
-        }
-        if (event.code =="Comma") {
-          if (volume > 0) $this.music_loop.volumeNode.gain.value = volume - 0.1;
-        }
-        if (event.code =="Period") {
-          if (volume < 1) $this.music_loop.volumeNode.gain.value = volume + 0.1;
-        }
-    });
-
-    this.fx_collision_loop.play();
-    this.fx_collision_loop.pause();
-    this.fx_bee_bite.play();
-    this.fx_bee_bite.pause();
   }
 
 

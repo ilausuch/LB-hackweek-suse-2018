@@ -183,7 +183,7 @@ class Hero extends BaseObject {
 
       scene.cameras.cameras[0].shake(400, 0.05, false);
       this.scene.sound.play('fx_hero_dead');
-      this.scene.scenario.music_loop.stop();
+      this.scene.music_loop.pause();
     }
   }
 
@@ -206,6 +206,7 @@ class Hero extends BaseObject {
     this.object.flipX  = false;
     this.object.flipY = false;
     this.dead = false;
+    this.scene.music_loop.play();
   }
 }
 

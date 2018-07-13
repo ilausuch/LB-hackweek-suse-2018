@@ -121,8 +121,51 @@ class game extends Phaser.Scene {
 
     scene.cameras.cameras[0].fadeIn(500);
 
+    this.configure_audio();
     this.start_game();
   };
+
+  configure_audio() {
+    var $this = this;
+    this.music_loop = this.sound.add('music_loop', { loop: true});
+    this.fx_collision_loop = this.sound.add('fx_collision_loop', { loop: true});
+    this.fx_bee_bite = this.sound.add('fx_bee_bite', { loop: true});
+    this.sound.add('fx_spell_default');
+    this.sound.add('fx_spell_sles');
+    this.sound.add('fx_attack');
+    this.sound.add('fx_jump');
+    this.sound.add('fx_bug_bonus');
+    this.sound.add('fx_enemy_killed');
+    this.sound.add('fx_hero_dead');
+
+    // volumes
+    this.music_loop.volume = 0.5;
+    this.fx_bee_bite.volume = 2;
+
+
+    this.music_loop.play();
+    this.input.keyboard.on('keydown', function (event) {
+        var volume = $this.music_loop.volumeNode.gain.value;
+        if (event.code =="KeyM") {
+          if ($this.music_loop.isPlaying) $this.music_loop.pause();
+          else {
+            $this.music_loop.resume();
+            $this.music_loop.volumeNode.gain.value = volume;
+          }
+        }
+        if (event.code =="Comma") {
+          if (volume > 0) $this.music_loop.volumeNode.gain.value = volume - 0.1;
+        }
+        if (event.code =="Period") {
+          if (volume < 1) $this.music_loop.volumeNode.gain.value = volume + 0.1;
+        }
+    });
+
+    this.fx_collision_loop.play();
+    this.fx_collision_loop.pause();
+    this.fx_bee_bite.play();
+    this.fx_bee_bite.pause();
+  }
 
   update() {
     for (var i in this.objects) {
@@ -141,8 +184,14 @@ class game extends Phaser.Scene {
     this.levelComplete.show();
   }
 
+  next_level(){
+    this.levelComplete.hide();
+    this.prepare_level();
+    this.start_game();
+  }
+
   prepare_level(){
-    this.level_objects_die();
+    this.level_enemies_hero_die();
 
     this.level = new Level(this, levelsConfiguration[gameStatus.level]);
     this.scenario = this.scenarios[this.level.config.scenario-1];
@@ -164,9 +213,11 @@ class game extends Phaser.Scene {
 
     for (var i=0; i<this.check_enemy_amount("bug2"); i++)
       this.bug2Hive.create_one_areas();
+
+
   }
 
-  level_objects_die(){
+  level_enemies_hero_die(){
     if (this.hero!=undefined)
       this.hero.destroy();
 
