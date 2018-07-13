@@ -1,20 +1,20 @@
 var levelsConfiguration=[
   {
     totalTime : 60,
-    scenario: 0,
+    scenario: 1,
     enemies:{
       bee:{
-        amount: 1 ,
+        amount: 0,
         puntuation: 5,
         pain: 0.001
       },
       bug2:{
-        amount:1,
+        amount:0,
         puntuation: 1,
         can_attack: false
       },
       mario:{
-        enable:true,
+        enable:false,
         puntuation: 100,
         pain: 0.1,
         attack_pain: 0.4,

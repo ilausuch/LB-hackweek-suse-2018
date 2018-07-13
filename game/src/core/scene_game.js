@@ -10,13 +10,13 @@ class game extends Phaser.Scene {
 
     this.font = new Font(this);
 
-    for (var i=0; i<2; i++)
+    for (var i=1; i<=2; i++)
       this.scenarios.push(new Scenario(this, "scenario_"+i,
                                              "assets/img/scenarios/scenario_"+i+".png",
                                              "assets/img/scenarios/scenario_"+i+"_outer_layer.png",
                                              "assets/img/scenarios/scenario_"+i+".json"));
 
-    this.hero = new Hero(this);
+    this.heroFactory = new HeroFactory(this);
     this.beeHive = new BeeHive(this);
     this.bug1Hive = new Bug1Hive(this);
     this.bug2Hive = new Bug2Hive(this);
@@ -29,10 +29,12 @@ class game extends Phaser.Scene {
 
     this.levelComplete = new LevelComplete(this, this.font);
 
+    /*
     this.spell_cloud = new Spell(this, "cloud", 700, 340);
     this.spell_manager = new Spell(this, "sles", 100, 340);
     this.spell_storage = new Spell(this, "storage", 470, 340);
     this.spell_sles = new Spell(this, "manager", 380, 450);
+    */
   }
 
   check_enemy_enabled(enemy){
@@ -63,12 +65,30 @@ class game extends Phaser.Scene {
       spacing: 0
     });
 
-    for (var i in this.objects) {
+    this.load.audio('music_loop', 'assets/audio/music/loop.mp3');
+    this.load.audio('fx_spell_default', 'assets/audio/fx/spell_default.wav');
+    this.load.audio('fx_spell_sles', 'assets/audio/fx/spell_sles.wav');
+    this.load.audio('fx_attack', 'assets/audio/fx/hero_attack_full.wav');
+    this.load.audio('fx_jump', 'assets/audio/fx/jump2.wav');
+    this.load.audio('fx_bug_bonus', 'assets/audio/fx/bug_bonus.wav');
+    this.load.audio('fx_collision_loop', 'assets/audio/fx/collision_loop.wav');
+    this.load.audio('fx_bee_bite', 'assets/audio/fx/bee_bite.wav');
+    this.load.audio('fx_enemy_killed', 'assets/audio/fx/enemy_killed.wav');
+    this.load.audio('fx_hero_dead', 'assets/audio/fx/hero_dead.wav');
+
+    for (var i in this.objects)
       this.objects[i].preload();
-    }
+
+    for (var i in this.scenarios)
+      this.scenarios[i].preload();
   }
 
   create() {
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.input.keyboard.on('keydown_SPACE', function(event) {
+      this.hero.keydown_SPACE();
+    }, this);
+    
     this.anims.create({
       key: 'smoke_play',
       frames: this.anims.generateFrameNumbers('smoke', {
@@ -122,12 +142,18 @@ class game extends Phaser.Scene {
   }
 
   prepare_level(){
-    this.level = new Level(this, levelsConfiguration[gameStatus.level]);
+    this.level_objects_die();
 
-    //if (this.check_enemy_enabled("mario"))
+    this.level = new Level(this, levelsConfiguration[gameStatus.level]);
+    this.scenario = this.scenarios[this.level.config.scenario];
+    this.scenario.manual_create();
+
+    this.hero = new Hero(this);
+
+    if (this.check_enemy_enabled("mario"))
       this.mario = new Mario(this, 350, 200);
 
-    //if (this.check_enemy_enabled("pacman"))
+    if (this.check_enemy_enabled("pacman"))
       this.pacman = new Pacman(this, 500, 530, 200);
 
     for (var i=0; i<this.check_enemy_amount("bee"); i++)
@@ -140,10 +166,14 @@ class game extends Phaser.Scene {
       this.bug2Hive.create_one_areas();
   }
 
-  enemies_die(){
+  level_objects_die(){
+    if (this.hero!=undefined)
+      this.hero.destroy();
+
     for (var i in this.objects){
       if (this.objects[i].is_enemy)
         this.objects[i].die();
     }
+
   }
 }
