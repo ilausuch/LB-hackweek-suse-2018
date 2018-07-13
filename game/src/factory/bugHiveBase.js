@@ -33,7 +33,6 @@ class BugBase extends BaseObject{
   attackToHero(a,b){
     if (this.can_attack){
       gameStatus.decrease_energy(this.pain);
-<<<<<<< HEAD
       var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
       if (! bee_bite_loop.isPlaying) bee_bite_loop.resume();
       else {
@@ -42,8 +41,6 @@ class BugBase extends BaseObject{
           bee_bite_loop.pause()
         },500)
       }
-=======
->>>>>>> d09b001d0e2455aab0fce4507ddab4f20f097716
     }
   }
 
@@ -51,10 +48,7 @@ class BugBase extends BaseObject{
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
       gameStatus.increase_puntuation(this.puntuation);
-<<<<<<< HEAD
       this.scene.sound.play("fx_bug_bonus");
-=======
->>>>>>> d09b001d0e2455aab0fce4507ddab4f20f097716
       new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
     }
   }
