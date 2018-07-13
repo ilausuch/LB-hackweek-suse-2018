@@ -1,7 +1,7 @@
 class Bug2 extends BugBase{
   constructor(scene, hive, initial_position) {
     super(scene, hive, initial_position);
-    this.can_attack = false;
+    this.configure("bug2");
   }
 }
 

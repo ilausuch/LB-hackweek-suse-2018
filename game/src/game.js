@@ -4,7 +4,7 @@ class game extends Phaser.Scene {
     super('game')
 
     window.scene = this;
-    gameStatus.registry_scene(this);
+    gameStatus.current_scene(this);
 
     this.objects = {};
 
@@ -13,11 +13,46 @@ class game extends Phaser.Scene {
     this.$groups = {};
     this.$conf = {
     };
+
     this.$game = {
       coins: 0,
       health: 0,
       state: 0,
     };
+
+    this.level = new Level(this, {
+      totalTime : 2*60,
+      enemies:{
+        bee:{
+          amount: 0 ,
+          puntuation: 5,
+          pain: 0.001
+        },
+        bug1:{
+          amount: 0,
+          puntuation: 10,
+          max_speed: 100,
+          chaise_speed: 120,
+          attack_distance: 40000,
+          acceleration: 20,
+          pain: 0.01,
+        },
+        bug2:{
+          amount:10,
+          puntuation: 2,
+          can_attack: false
+        },
+        pacman:{
+          puntuation: 50,
+          speed: 100,
+          pain: 0.05,
+          energy: 10,
+          persistent_attack: true
+        }
+      }
+    })
+
+    this.font = new Font(this);
 
     this.scenario = new Scenario(this,
                                  "scenario_1",
@@ -25,7 +60,6 @@ class game extends Phaser.Scene {
                                  "assets/img/scenarios/scenario_1_outer_layer.png",
                                  "assets/img/scenarios/scenario_1.json");
     this.hero = new Hero(this);
-
     this.beeHive = new BeeHive(this);
     this.bug1Hive = new Bug1Hive(this);
     this.bug2Hive = new Bug2Hive(this);
@@ -33,13 +67,22 @@ class game extends Phaser.Scene {
     this.mario = new Mario(this, 350, 200, -200);
     this.pacman = new Pacman(this, 500, 530, 200);
 
-    this.font = new Font(this);
     this.puntuation = new Puntuation(this, this.font);
+    this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
+
+    this.spell_cloud = new Spell(this, "cloud", 700, 340);
+    this.spell_manager = new Spell(this, "sles", 100, 340);
+    this.spell_storage = new Spell(this, "storage", 470, 340);
+    this.spell_sles = new Spell(this, "manager", 380, 450);
   }
 
   registry_object(object){
     this.objects[object.id] = object;
+  }
+
+  unregistry_object(object){
+    delete this.objects[object.id];
   }
 
   preload() {
@@ -53,14 +96,15 @@ class game extends Phaser.Scene {
       this.objects[i].create();
     }
 
-    for (var i=0; i<2; i++)
+    for (var i=0; i<this.level.config.enemies.bee.amount; i++)
       this.beeHive.create_one_areas();
 
-    for (var i=0; i<5; i++)
+    for (var i=0; i<this.level.config.enemies.bug1.amount; i++)
+        this.bug1Hive.create_one_areas();
+
+    for (var i=0; i<this.level.config.enemies.bug2.amount; i++)
       this.bug2Hive.create_one_areas();
 
-    for (var i=0; i<5; i++)
-      this.bug1Hive.create_one_areas();
 
     this.createAnimations();
     this.prepareObjects();
@@ -82,6 +126,7 @@ class game extends Phaser.Scene {
 
     scene.cameras.cameras[0].fadeIn(500);
 
+    this.start_game();
   };
 
   createAnimations() {
@@ -109,6 +154,7 @@ class game extends Phaser.Scene {
   }
 
   start_game(){
+    this.level.start();
   }
 
   end_game(){

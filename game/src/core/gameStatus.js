@@ -3,9 +3,10 @@ class GameStatus{
     this.lives = 3;
     this.energy = 1;
     this.puntuation = 0;
+    this.current_spell = undefined;
   }
 
-  registry_scene(scene){
+  current_scene(scene){
     this.scene = scene;
   }
 
@@ -13,12 +14,20 @@ class GameStatus{
     this.energy = this.energy - value;
     if (this.energy <= 0){
       this.energy = 0;
-      //TODO: notify death
+      this.scene.objects.hero.die();
+    }else{
+      this.scene.objects.hero.injured();
     }
   }
+
 
   increase_puntuation(value){
     this.puntuation = this.puntuation +1;
     this.scene.objects.puntuation.update_puntuation();
+  }
+
+  spellProvider(value) {
+    console.log("spellProvider");
+    this.current_spell = value;
   }
 }

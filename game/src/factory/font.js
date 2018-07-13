@@ -9,10 +9,16 @@ class Character extends BaseObject{
   }
 
   get_image_from_character(){
-    var c = this.character.charCodeAt(0);
+    var code = this.character.charCodeAt(0);
 
-    if (c>=48 && c<=57)
-      return c - 48 + 52;
+    if (code>=48 && code<=57)
+      return code - 48 + 52;
+
+    if (this.character==':')
+      return 65;
+
+    if (this.character == '+')
+      return 83;
   }
 
   postCreation(){
@@ -42,7 +48,10 @@ class Font extends BaseObject{
     });
   }
 
-  addString(str, x, y, scale){;
+  addString(str, x, y, scale, forceCreation){
+    if (forceCreation == undefined)
+      forceCreation = false;
+
     if (scale == undefined)
       scale = 1;
 
@@ -50,6 +59,11 @@ class Font extends BaseObject{
     for (var i=0; i<str.length; i++){
       list.push(new Character(this.scene, this, x+i*scale*74, y, str[i], scale));
     }
+
+    if (forceCreation)
+      list.forEach(function(character){
+        character.postCreation();
+      });
 
     return list;
   }

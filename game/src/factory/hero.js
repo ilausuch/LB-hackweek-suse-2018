@@ -3,6 +3,9 @@ class Hero extends BaseObject {
   constructor(scene) {
     super(scene, 'hero');
     this.animation = undefined;
+    this.is_injured = false;
+    this.injured_tint_status = false;
+    this.dead = false;
   }
 
   preload() {
@@ -26,11 +29,31 @@ class Hero extends BaseObject {
 
   create() {
     console.log("hero:create");
-    this.prepareSounds();
     this.createAnimations();
     this.prepareObjects();
     this.prepareSounds();
     this.prepareControls();
+
+    var $this = this;
+
+    this.injured_interval = setInterval(function(){
+      if ($this.is_injured){
+        if ($this.injured_interval_counter == 0){
+          $this.set_tint(undefined);
+          $this.is_injured = false;
+          $this.injured_tint_status = false;
+        }
+        else{
+          $this.injured_tint_status = !$this.injured_tint_status;
+          if ($this.injured_tint_status)
+            $this.set_tint(0xFF0000);
+          else
+            $this.set_tint(undefined);
+
+          $this.injured_interval_counter--;
+        }
+      }
+    },100);
   };
 
   createAnimations() {
@@ -81,6 +104,8 @@ class Hero extends BaseObject {
           if (! this.tongue_attack.anims.isPlaying) {
             this.tongue_attack.setVisible(true);
             this.tongue_attack.play("hero_attack");
+            this.scene.sound.play('fx_attack');
+            this.tongue_attack_timestamp = Math.floor((new Date).getTime()/1000); 
           }
       }, this);
   }
@@ -97,12 +122,17 @@ class Hero extends BaseObject {
   update() {
     var $this = this;
     var last_velocityX = this.object.body.velocity.x;
+
     this.object.setVelocityX(0);
+
     if (this.cursors.up.isDown && this.object.body.velocity.y == 0)
     {
         this.object.setVelocityY(-500);
+        this.scene.sound.play('fx_jump');
     }
+
     if (last_velocityX == 0) this.object.anims.play();
+
     if (this.cursors.left.isDown)
     {
         this.object.setVelocityX(-300);
@@ -113,6 +143,7 @@ class Hero extends BaseObject {
         this.object.setVelocityX(300);
         this.object.flipX = false;
     }
+
     if (this.object.body.velocity.x == 0) this.object.anims.stop();
 
     var pos = this.getHeadPosition();
@@ -162,8 +193,51 @@ class Hero extends BaseObject {
   setup_attack_to_enemy(enemy, handler){
     var $this = this;
     this.scene.physics.add.overlap(enemy.get_screen_object(), this.tongue_attack, function(a, b){
-      if ($this.check_tongue_touch(b))
+      if ($this.check_tongue_touch(b)) {
+        $this.scene.sound.play('fx_enemy_killed');
         handler($this);
+      }
     });
+  }
+
+  injured(){
+    this.injured_interval_counter = 10
+    this.is_injured = true;
+  }
+
+  die(){
+    if (!this.dead){
+      var $this = this;
+      this.dead = true;
+      this.object.flipY = true;
+
+      this.scene.tweens.add({
+          targets: this.object,
+          y: 700,
+          ease: 'Back.easeIn',
+          duration: 1000,
+          onComplete: function(){
+
+          }
+      });
+
+      var x_move = this.object.body.x<400 ? 200 : -200;
+
+      this.scene.tweens.add({
+          targets: this.object,
+          x: this.object.body.x + x_move,
+          ease: 'linear',
+          duration: 1000,
+      });
+
+      scene.cameras.cameras[0].shake(400, 0.05, false);
+      this.scene.sound.play('fx_hero_dead');
+      this.scene.objects.scenario.music_loop.stop();
+    }
+  }
+
+  set_tint(value){
+    this.object.setTint(value);
+    this.tongue_attack.setTint(value);
   }
 }

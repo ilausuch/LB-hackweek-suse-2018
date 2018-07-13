@@ -9,6 +9,9 @@ class BugBase extends BaseObject{
     this.max_speed=30;
     this.chaise_speed=80;
     this.attack_distance = 60000;
+    this.acceleration =10;
+    this.chase_speed=1.4;
+    this.pain = 0.001;
 
     this.object = this.scene.physics.add.sprite(initial_position[0], initial_position[1], hive.config.name)
                   .setScale(0.5).play(hive.config.name+"_fly")
@@ -17,25 +20,36 @@ class BugBase extends BaseObject{
     this.object.setMaxVelocity(this.max_speed, this.max_speed);
     this.object.setBounce(1, 1);
 
-    this.acceleration =10;
-    this.chase_speed=1.4;
-
-    this.decrease_energy_on_bite = 0.001
-
-    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.bite, null, this);
-    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.tongue_attack, this.tongue, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.object, this.attackToHero, null, this);
+    this.scene.physics.add.overlap(this.object, this.scene.objects.hero.tongue_attack, this.attackedByHero, null, this);
   }
 
-  bite(a,b){
-    if (this.can_attack){
-      gameStatus.decrease_energy(this.decrease_energy_on_bite);
+  configure(config_name){
+    for (var key in this.scene.level.config.enemies[config_name]){
+      this[key] = this.scene.level.config.enemies[config_name][key];
     }
   }
 
-  tongue(a,b){
+  attackToHero(a,b){
+    if (this.can_attack){
+      gameStatus.decrease_energy(this.pain);
+      var bee_bite_loop = this.scene.objects.scenario.fx_bee_bite;
+      if (! bee_bite_loop.isPlaying) bee_bite_loop.resume();
+      else {
+        var $this = this;
+        setTimeout(function(){
+          bee_bite_loop.pause()
+        },500)
+      }
+    }
+  }
+
+  attackedByHero(a,b){
     if (b.visible && this.scene.objects.hero.check_tongue_touch(a)){
       this.status = "death";
       gameStatus.increase_puntuation(this.puntuation);
+      this.scene.sound.play("fx_bug_bonus");
+      new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
     }
   }
 
