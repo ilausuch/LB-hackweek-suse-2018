@@ -22,6 +22,13 @@ class GameStatus{
     if (this.energy <= 0){
       this.energy = 0;
       this.scene.objects.hero.die();
+      this.lives --;
+
+      if (this.lives == 0){
+        //TODO: GAME OVER
+      }else{
+        //TODO: Wait and restore the scenario
+      }
     }else{
       this.scene.objects.hero.injured();
     }
