@@ -70,6 +70,7 @@ class game extends Phaser.Scene {
 
     this.load.audio('music_loop', 'assets/audio/music/loop.mp3');
     this.load.audio('hurryup_loop', 'assets/audio/music/hurryup_loop.mp3');
+    this.load.audio('hurryup_alert', 'assets/audio/fx/hurryup_alert.wav');
     this.load.audio('fx_spell_default', 'assets/audio/fx/spell_default.wav');
     this.load.audio('fx_spell_sles', 'assets/audio/fx/spell_sles.wav');
     this.load.audio('fx_attack', 'assets/audio/fx/hero_attack_full.wav');
@@ -133,6 +134,7 @@ class game extends Phaser.Scene {
     var $this = this;
     this.music_loop = this.sound.add('music_loop', { loop: true});
     this.hurryup_loop = this.sound.add('hurryup_loop', { loop: true});
+    this.hurryup_alert = this.sound.add('hurryup_alert');
     this.fx_collision_loop = this.sound.add('fx_collision_loop', { loop: true});
     this.fx_bee_bite = this.sound.add('fx_bee_bite', { loop: true});
     this.sound.add('fx_spell_default');
@@ -187,12 +189,15 @@ class game extends Phaser.Scene {
   }
 
   hurry_up(){
+      var $this = this;
       this.hurryUp.show();
       this.music_loop.stop();
-      this.hurryup_loop.play();
-
-      this.hero.set_invulnerable(1);
-      this.hurryup_mario = new Mario(this, 350, 200);
+      this.hurryup_alert.play();
+      setTimeout(function(){
+        $this.hurryup_loop.play();
+        $this.hero.set_invulnerable(1);
+        $this.hurryup_mario = new Mario($this, 350, 200);
+      },1500);
   }
 
   level_complete(){
