@@ -1,12 +1,14 @@
 class Hero extends BaseObject {
 
-  constructor(scene) {
+  constructor(scene, posX=100, posY=400) {
     super(scene, 'hero');
     this.animation = undefined;
     this.is_injured = false;
     this.injured_tint_status = false;
     this.dead = false;
     this.create();
+    this.object.x = posX;
+    this.object.y = posY;
   }
 
   create() {
@@ -43,7 +45,7 @@ class Hero extends BaseObject {
     this.object.setBounce(0, 0);
     this.object.setCollideWorldBounds(true);
     this.object.setGravityY(1000);
-    this.object.y = this.scene.scenario.data.floor - this.object.height;
+    //this.object.y = this.scene.scenario.data.floor - this.object.height;
     this.object.play("hero");
     this.object.anims.stop(0, false);
     this.object.setMass(10000);
@@ -206,8 +208,8 @@ class Hero extends BaseObject {
   }
 
   restore(){
-    this.object.x = 0;
-    this.object.y = 500;
+    this.object.x = this.posX;
+    this.object.y = this.posY;
     this.object.flipX  = false;
     this.object.flipY = false;
     this.dead = false;

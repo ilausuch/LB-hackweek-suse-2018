@@ -2,6 +2,10 @@ var levelsConfiguration=[
   {
     totalTime : 10,
     scenario: 1,
+    hero: {
+      posX: 100,
+      posY: 520
+    },
     enemies:{
       bee:{
         amount: 0,
@@ -38,6 +42,10 @@ var levelsConfiguration=[
   {
     totalTime : 2*60,
     scenario: 2,
+    hero: {
+      posX: 100,
+      posY: 500
+    },
     enemies:{
       bee:{
         amount: 1 ,
@@ -83,14 +91,18 @@ var levelsConfiguration=[
   {
     totalTime : 2*60,
     scenario: 3,
+    hero: {
+      posX: 100,
+      posY: 400
+    },
     enemies:{
       bee:{
-        amount: 1,
+        amount: 10,
         puntuation: 5,
         pain: 0.001
       },
       bug1:{
-        amount: 0,
+        amount: 5,
         puntuation: 10,
         max_speed: 120,
         chaise_speed: 120,
@@ -99,7 +111,7 @@ var levelsConfiguration=[
         pain: 0.1,
       },
       bug2:{
-        amount:0,
+        amount:20,
         puntuation: 2,
         can_attack: false
       },
@@ -116,7 +128,7 @@ var levelsConfiguration=[
         jump_frequency: 0.03
       },
       pacman:{
-        enable:true,
+        enable:false,
         puntuation: 50,
         speed: 100,
         pain: 0.2,

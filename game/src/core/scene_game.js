@@ -230,8 +230,9 @@ class game extends Phaser.Scene {
     setTimeout(function(){
       $this.levelNumber.set_level(gameStatus.level+1);
     });
-
-    this.hero = new Hero(this);
+    var hero_posX = levelsConfiguration[gameStatus.level].hero.posX;
+    var hero_posY = levelsConfiguration[gameStatus.level].hero.posY;
+    this.hero = new Hero(this, hero_posX, hero_posY);
 
     if (this.check_enemy_enabled("mario"))
       this.mario = new Mario(this, 350, 200);
