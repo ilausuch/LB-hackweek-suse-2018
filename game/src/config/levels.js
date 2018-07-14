@@ -36,11 +36,20 @@ var levelsConfiguration=[
         pain: 0.2,
         energy: 1,
         persistent_attack: true
+      },
+      boss:{
+        enable:false,
+        puntuation: 50,
+        speed: 200,
+        pain: 0.3,
+        persistent_attack: true,
+        attack_frequency: 0.1,
+        movement_frequency: 0.1,
       }
     }
   },
   {
-    totalTime : 2*60,
+    totalTime : 10,
     scenario: 2,
     hero: {
       posX: 100,
@@ -53,7 +62,7 @@ var levelsConfiguration=[
         pain: 0.001
       },
       bug1:{
-        amount: 1,
+        amount: 0,
         puntuation: 10,
         max_speed: 120,
         chaise_speed: 120,
@@ -62,7 +71,7 @@ var levelsConfiguration=[
         pain: 0.1,
       },
       bug2:{
-        amount:10,
+        amount:0,
         puntuation: 2,
         can_attack: false
       },
@@ -85,6 +94,15 @@ var levelsConfiguration=[
         pain: 0.2,
         energy: 10,
         persistent_attack: true
+      },
+      boss:{
+        enable:false,
+        puntuation: 50,
+        speed: 200,
+        pain: 0.3,
+        persistent_attack: true,
+        attack_frequency: 0.1,
+        movement_frequency: 0.1,
       }
     }
   },
@@ -134,6 +152,15 @@ var levelsConfiguration=[
         pain: 0.2,
         energy: 10,
         persistent_attack: true
+      },
+      boss:{
+        enable:true,
+        puntuation: 50,
+        speed: 200,
+        pain: 0.3,
+        persistent_attack: true,
+        attack_frequency: 0.1,
+        movement_frequency: 0.1,
       }
     }
   }

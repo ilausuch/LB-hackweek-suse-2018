@@ -22,6 +22,7 @@ class game extends Phaser.Scene {
     this.bug2Hive = new Bug2Hive(this);
     this.marioFactory = new MarioFactory(this);
     this.pacmanFactory = new PacmanFactory(this);
+    this.bossFactory = new BossFactory(this);
 
     this.puntuation = new Puntuation(this, this.font);
     this.timer = new Timer(this, this.font);
@@ -80,6 +81,8 @@ class game extends Phaser.Scene {
     this.load.audio('fx_bee_bite', 'assets/audio/fx/bee_bite.wav');
     this.load.audio('fx_enemy_killed', 'assets/audio/fx/enemy_killed.wav');
     this.load.audio('fx_hero_dead', 'assets/audio/fx/hero_dead.wav');
+    this.load.audio('fx_boss_fire', 'assets/audio/fx/boss_fire.wav');
+    this.load.audio('fx_hero_boss_damage', 'assets/audio/fx/damage.wav');
 
     for (var i in this.objects)
       this.objects[i].preload();
@@ -144,6 +147,8 @@ class game extends Phaser.Scene {
     this.sound.add('fx_bug_bonus');
     this.sound.add('fx_enemy_killed');
     this.sound.add('fx_hero_dead');
+    this.sound.add('fx_boss_fire');
+    this.sound.add('fx_hero_boss_damage');
 
     // volumes
     this.music_loop.volume = 0.5;
@@ -239,6 +244,9 @@ class game extends Phaser.Scene {
 
     if (this.check_enemy_enabled("pacman"))
       this.pacman = new Pacman(this, 500, 530, 200);
+
+    if (this.check_enemy_enabled("boss"))
+      this.boss = new Boss(this, 400, 100);
 
     for (var i=0; i<this.check_enemy_amount("bee"); i++)
       this.beeHive.create_one_areas();

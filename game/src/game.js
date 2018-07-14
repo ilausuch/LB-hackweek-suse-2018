@@ -83,6 +83,9 @@ class game extends Phaser.Scene {
     if (this.level.config.enemies.pacman.enable)
       this.pacman = new Pacman(this, 500, 530, 200);
 
+    if (this.level.config.enemies.boss.enable)
+      this.boss = new Boss(this, 400, 100);
+
     this.puntuation = new Puntuation(this, this.font);
     this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
