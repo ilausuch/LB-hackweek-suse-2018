@@ -10,7 +10,7 @@ class game extends Phaser.Scene {
 
     this.font = new Font(this);
 
-    for (var i=1; i<=2; i++)
+    for (var i=1; i<=3; i++)
       this.scenarios.push(new Scenario(this, "scenario_"+i,
                                              "assets/img/scenarios/scenario_"+i+".png",
                                              "assets/img/scenarios/scenario_"+i+"_outer_layer.png",

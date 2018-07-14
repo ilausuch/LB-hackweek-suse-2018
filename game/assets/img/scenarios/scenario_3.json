@@ -1,5 +1,5 @@
 {
-  "id":"1",
+  "id":"3",
   "floor":560,
   "walls":[
     {
@@ -11,6 +11,11 @@
       "position":[780,0],
       "weight":24,
       "height":600
+    },
+    {
+      "position":[0,0],
+      "weight":800,
+      "height":2
     }
   ],
   "floors":[
@@ -43,7 +48,7 @@
       "length":91
     },
     {
-      "position":[363, 228],
+      "position":[363, 246],
       "length":125
     },
     {

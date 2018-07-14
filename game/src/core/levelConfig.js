@@ -2,8 +2,8 @@ class Level{
   constructor(scene, config){
     this.scene = scene;
     this.config = config;
-
-    this.timeCounter = config.totalTime;
+    console.log(this.config);
+    this.timeCounter = this.config.totalTime;
 
     this.enemy_alive = {}
   }

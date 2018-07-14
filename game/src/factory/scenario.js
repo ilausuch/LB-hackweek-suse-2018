@@ -39,7 +39,7 @@ class Scenario extends BaseObject{
     this.data.platforms.forEach(function(platform){
       $this.create_platform(platform);
     });
-    
+
   }
 
   manual_create2(){
