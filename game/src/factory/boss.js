@@ -57,11 +57,7 @@ class Boss extends Enemy {
     console.log("Boss", "attackToHero");
     if (type == "boss") {
       this.hero_dead = true;
-      this.object.play("boss_hero_dead");
       gameStatus.decrease_energy("boss_attack",1);
-      window.clearInterval(this.move_interval)
-      window.clearInterval(this.fire_interval)
-
     } else if (type == "logo") {
       if (this.can_hurt) {
         gameStatus.decrease_energy("boss_logo_attack", this.pain);
@@ -126,14 +122,24 @@ class Boss extends Enemy {
   }
 
   update() {
-    this.object.flipX = (this.object.body.x >= this.scene.objects.hero.object.body.x);
+    if (gameStatus.energy <= 0) this.hero_dead = true;
     if (! this.isAttacking && ! this.hero_dead) {
+      this.object.flipX = (this.object.body.x >= this.scene.objects.hero.object.body.x);
       var posX = this.object.body.x - this.scene.objects.hero.object.body.x;
       var posY = this.object.body.y - this.scene.objects.hero.object.body.y;
       var dist = posX*posX + posY*posY;
       if (dist >=0 && dist < 800*800/8) this.object.setFrame(2);
       else if (dist < 800*800/4) this.object.setFrame(1);
       else this.object.setFrame(0);
+    }
+    if (this.hero_dead) {
+      window.clearInterval(this.move_interval)
+      window.clearInterval(this.fire_interval)
+      if (! this.object.anims.isPlaying) {
+        this.object.play("boss_hero_dead");
+        console.log("PLAY HERO DEAD")
+      }
+
     }
   }
 }
