@@ -40,7 +40,11 @@ class GameStatus{
         this.lives --;
 
         if (this.lives == 0){
-          //TODO: GAME OVER
+          this.gameOver = true;
+          scene.game_over();
+          setTimeout(function(){
+            //TODO: Jump to enter name part
+          },2000);
         }else{
           setTimeout(function(){
             scene.hero.restore();
