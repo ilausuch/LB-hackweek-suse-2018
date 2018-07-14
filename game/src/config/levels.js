@@ -59,7 +59,7 @@ var levelsConfiguration=[
         can_attack: false
       },
       mario:{
-        enable:true,
+        enable:false,
         puntuation: 100,
         pain: 0.1,
         attack_pain: 0.4,

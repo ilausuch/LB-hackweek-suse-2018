@@ -26,6 +26,7 @@ class game extends Phaser.Scene {
     this.puntuation = new Puntuation(this, this.font);
     this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
+    this.levelNumber = new LevelNumber(this, this.font);
 
     this.levelComplete = new LevelComplete(this, this.font);
     this.hurryUp = new HurryUp(this, this.font);
@@ -218,6 +219,11 @@ class game extends Phaser.Scene {
     this.level = new Level(this, levelsConfiguration[gameStatus.level]);
     this.scenario = this.scenarios[this.level.config.scenario-1];
     this.scenario.manual_create();
+
+    var $this = this;
+    setTimeout(function(){
+      $this.levelNumber.set_level(gameStatus.level+1);
+    });
 
     this.hero = new Hero(this);
 
