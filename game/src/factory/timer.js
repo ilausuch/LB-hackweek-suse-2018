@@ -5,7 +5,7 @@ class Timer extends BaseObject{
   }
 
   create(){
-    this.characters = this.font.addString("00:00", 300, 20, 0.5);
+    this.characters = this.font.addString("00:00", 300, 20, 0.5, true);
   }
 
   update_time(){

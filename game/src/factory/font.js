@@ -31,8 +31,9 @@ class Character extends BaseObject{
   }
 
   postCreation(){
-    this.object = this.scene.add.image(this.x, this.y, 'font', this.get_image_from_character())
-                  .setScale(this.scale).setDepth(1000);
+    if (this.object==undefined)
+      this.object = this.scene.add.image(this.x, this.y, 'font', this.get_image_from_character())
+                    .setScale(this.scale).setDepth(1000);
   }
 
   setCharacter(character){
