@@ -18,9 +18,9 @@
       "height":330
     },
     {
-      "position":[365,0],
+      "position":[365,165],
       "weight":64,
-      "height":470
+      "height":310
     }
   ],
   "floors":[
@@ -57,16 +57,32 @@
       "length":387
     },
     {
-      "position":[430,126],
+      "position":[430,144],
       "length":123
+    },
+    {
+      "position":[364,114],
+      "length":15
+    },
+    {
+      "position":[380,113],
+      "length":15
+    },
+    {
+      "position":[408,146],
+      "length":15
+    },
+    {
+      "position":[395,134],
+      "length":15
     },
     {
       "position":[430,350],
       "length":125
     },
     {
-      "position":[666,153],
-      "length":92
+      "position":[687,132],
+      "length":68
     },
     {
       "position":[560,243],
