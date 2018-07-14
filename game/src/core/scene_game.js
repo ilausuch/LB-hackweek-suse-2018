@@ -201,7 +201,7 @@ class game extends Phaser.Scene {
       setTimeout(function(){
         $this.hurryup_loop.play();
         $this.hero.set_invulnerable(1);
-        $this.hurryup_mario = new Mario($this, 350, 200);
+        $this.hurryup_mario = new Mario($this, 350, 200, false);
       },1500);
   }
 
@@ -216,6 +216,8 @@ class game extends Phaser.Scene {
       this.hurryup_loop.stop();
       this.music_loop.play();
     }
+    if (this.hurryup_mario!=undefined)
+      this.hurryup_mario.die();
   }
 
   next_level(){

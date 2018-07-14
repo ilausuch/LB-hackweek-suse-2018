@@ -1,14 +1,15 @@
 class Hero extends BaseObject {
 
-  constructor(scene, posX=100, posY=400) {
+  constructor(scene, initial_posX=100, initial_posY=400) {
     super(scene, 'hero');
     this.animation = undefined;
     this.is_injured = false;
     this.injured_tint_status = false;
     this.dead = false;
+    this.initial_posX = initial_posX;
+    this.initial_posY = initial_posY;
+
     this.create();
-    this.object.x = posX;
-    this.object.y = posY;
   }
 
   create() {
@@ -36,11 +37,11 @@ class Hero extends BaseObject {
           $this.injured_interval_counter--;
         }
       }
-    },100);
+    },500);
   };
 
   prepareObjects() {
-    this.object = this.scene.physics.add.sprite(0, 0, 'hero').setScale(0.9);
+    this.object = this.scene.physics.add.sprite(this.initial_posX, this.initial_posY, 'hero').setScale(0.9);
     this.object.setVelocity(0, 200);
     this.object.setBounce(0, 0);
     this.object.setCollideWorldBounds(true);
@@ -159,7 +160,7 @@ class Hero extends BaseObject {
   }
 
   injured(){
-    this.injured_interval_counter = 10
+    this.injured_interval_counter = 2
     this.is_injured = true;
   }
 
@@ -205,11 +206,12 @@ class Hero extends BaseObject {
     this.tongue_attack.destroy();
     this.object = undefined;
     this.tongue_attack = undefined;
+    clearInterval(this.injured_interval);
   }
 
   restore(){
-    this.object.x = this.posX;
-    this.object.y = this.posY;
+    this.object.x = this.initial_posX;
+    this.object.y = this.initial_posY;
     this.object.flipX  = false;
     this.object.flipY = false;
     this.dead = false;

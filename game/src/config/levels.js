@@ -4,7 +4,7 @@ var levelsConfiguration=[
     scenario: 1,
     hero: {
       posX: 100,
-      posY: 520
+      posY: 500
     },
     enemies:{
       bee:{
@@ -34,7 +34,7 @@ var levelsConfiguration=[
         puntuation: 50,
         speed: 100,
         pain: 0.2,
-        energy: 1,
+        energy: 2,
         persistent_attack: true
       },
       boss:{

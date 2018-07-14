@@ -25,6 +25,7 @@ class LevelComplete extends BaseObject{
     var counter = $this.characters.length;
 
     this.characters.forEach(function(character){
+      character.postCreation();
       character.object.setVisible(true);
 
       character.object.setScale(0.1);

@@ -41,6 +41,7 @@ class Level{
     this.enemy_alive[enemy_id] = true;
   }
 
+
   enemy_death(enemy_id){
     if (this.enemy_alive[enemy_id]!=undefined){
       this.enemy_alive[enemy_id] = false;
