@@ -1,12 +1,16 @@
 class Mario extends Enemy {
 
-  constructor(scene, posX, posY) {
-    super(scene, 'mario');
+  constructor(scene, posX, posY, attackedByHero) {
+    super(scene, 'mario', false, attackedByHero);
     this.animation = undefined;
     this.posX = posX;
     this.posY = posY;
     this.collide_with_walls = true;
     this.isAttacking = false;
+    this.attackedByHero = attackedByHero;
+
+    if (!this.attackedByHero)
+      this.energy = 0; //now mario doesn't count on list of enemies to go to next level
 
     var $this = this;
     this.disableAttack = true;
@@ -71,10 +75,12 @@ class Mario extends Enemy {
       $this.attackToHero(b.owner);
     });
 
-    this.scene.objects.hero.setup_attack_to_enemy(this, function(hero){
-      $this.attackedByHero(hero);
-    });
+    if (this.attackedByHero)
+      this.scene.objects.hero.setup_attack_to_enemy(this, function(hero){
+        $this.attackedByHero(hero);
+      });
 
+    /*
     this.injured_interval = setInterval(function(){
       $this.injured_counter = ($this.injured_counter + 1) % $this.total_energy;
 
@@ -83,7 +89,8 @@ class Mario extends Enemy {
       else
         $this.object.setTint(undefined);
 
-    },40);
+    },100);
+    */
   }
 
   onCollideWalls() {
@@ -168,28 +175,30 @@ class Mario extends Enemy {
     }
   }
 
+
   attackedByHero(from){
-    if (from.tongue_attack_timestamp !== this.last_attacked_by_hero_timestamp){
-      this.last_attacked_by_hero_timestamp = from.tongue_attack_timestamp;
+    if (this.attackedByHero)
+      if (from.tongue_attack_timestamp !== this.last_attacked_by_hero_timestamp){
+        this.last_attacked_by_hero_timestamp = from.tongue_attack_timestamp;
 
-    this.energy = this.energy -1;
+      this.energy = this.energy -1;
 
-    if (this.energy <= 0){
-      this.explosion = this.scene.add.sprite(0, 0, 'smoke').setScale(0.8).play("smoke_play");
-      this.explosion.x = this.object.body.x + this.object.body.width/2;
-      this.explosion.y = this.object.body.y + this.object.body.height/2;
+      if (this.energy <= 0){
+        this.explosion = this.scene.add.sprite(0, 0, 'smoke').setScale(0.8).play("smoke_play");
+        this.explosion.x = this.object.body.x + this.object.body.width/2;
+        this.explosion.y = this.object.body.y + this.object.body.height/2;
 
-      var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
+        var plusPuntuation = new PlusPuntuation(this.scene, this.puntuation, this.object.body.x, this.object.body.y);
 
-      this.die();
-      this.scene.sound.play('fx_enemy_killed');
+        this.die();
+        this.scene.sound.play('fx_enemy_killed');
 
-      }else{
-        this.is_injured = true;
-        this.injured_interval_counter = 5;
-        this.onAttackedByHero(from);
+        }else{
+          this.is_injured = true;
+          this.injured_interval_counter = 5;
+          this.onAttackedByHero(from);
+        }
       }
-    }
   }
 }
 

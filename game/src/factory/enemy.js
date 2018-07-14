@@ -1,12 +1,14 @@
 class Enemy extends BaseObject{
-  constructor(scene, name, multiple){
+  constructor(scene, name, multiple, register_as_enemy = true){
     super(scene, name, multiple);
     this.is_enemy = true;
     this.energy = 1;
     this.puntuation = 1;
     this.injured_counter = 0;
+    this.tint_status=0;
 
-    this.scene.level.register_enemy(this.id);
+    if (register_as_enemy)
+      this.scene.level.register_enemy(this.id);
   }
 
   configure(config_name){
@@ -64,16 +66,19 @@ class Enemy extends BaseObject{
       $this.attackedByHero(hero);
     });
 
-
+    /*
     this.injured_interval = setInterval(function(){
       $this.injured_counter = ($this.injured_counter + 1) % $this.total_energy;
 
-      if ($this.injured_counter >= $this.energy)
-        $this.object.setTint(0xFF0000);
-      else
-        $this.object.setTint(undefined);
+      if ($this.injured_counter >= $this.energy){
+        if ($this.object.tint == undefined)
+          $this.object.setTint(0xFF0000);
+        else
+          $this.object.setTint(undefined);
+      }
 
-    },40);
+    },500);
+    */
   }
 
   onCollideFloor(){
@@ -108,6 +113,21 @@ class Enemy extends BaseObject{
         this.is_injured = true;
         this.injured_interval_counter = 5;
         this.onAttackedByHero(from);
+
+        if (this.injured_timeout != undefined)
+          clearInterval(this.injured_timeout);
+
+        var $this = this;
+
+        this.injured_timeout = setInterval(function(){
+          if (!$this.tint_status)
+            $this.object.setTint(0xFF0000);
+          else
+            $this.object.setTint(undefined);
+
+          $this.tint_status = !$this.tint_status;
+
+         }, 500 * this.energy / this.total_energy);
       }
     }
 
@@ -121,7 +141,8 @@ class Enemy extends BaseObject{
   }
 
   die(){
-    clearInterval(this.injured_interval);
+    if (this.injured_timeout != undefined)
+      clearInterval(this.injured_timeout);
     super.die();
   }
 }
