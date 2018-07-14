@@ -27,6 +27,7 @@ class game extends Phaser.Scene {
     this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
     this.levelNumber = new LevelNumber(this, this.font);
+    this.gameOver = new GameOver(this, this.font);
 
     this.levelComplete = new LevelComplete(this, this.font);
     this.hurryUp = new HurryUp(this, this.font);
@@ -256,6 +257,11 @@ class game extends Phaser.Scene {
   restore_hero(){
     this.hide_hurryup();
     this.level.restore_hurryup();
+  }
+
+  game_over(){
+    this.level_enemies_hero_die();
+    this.gameOver.show();
   }
 
 }

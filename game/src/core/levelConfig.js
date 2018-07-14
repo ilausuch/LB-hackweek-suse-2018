@@ -51,7 +51,8 @@ class Level{
 
       if (all_death){
         window.clearInterval(this.timer);
-        scene.level_complete();
+        if (!gameStatus.gameOver)
+          scene.level_complete();
       }
     }
   }
