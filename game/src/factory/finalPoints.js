@@ -78,7 +78,7 @@ class FinalPoints extends BaseObject{
         $.ajax({
           type: "POST",
           url: "/save.php",
-          data: {name: this.name, points:gameStatus.puntuation, level:gameStatus.level},
+          data: {name: this.name, points:gameStatus.puntuation, level:gameStatus.level + 1},
           success: function(){
             location.href = "/";
           }
