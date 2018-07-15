@@ -5,7 +5,7 @@ class GameStatus{
   }
 
   reset(){
-    this.level = 0;
+    this.level = 2;
     this.lives = 3;
     this.energy = 1;
     this.puntuation = 0;
@@ -21,13 +21,16 @@ class GameStatus{
   }
 
   decrease_energy(attacker_id, value){
+    if (scene.objects.hero.dead)
+      return false;
+
     if (scene.objects.hero.invulnerable_timeout > this.timestamp()){
       console.log("Invulnerable");
       return false;
     }
     else {
 
-      var timestamp = Math.floor((new Date).getTime()/1000);
+      var timestamp = this.timestamp();
       if (this.attacks[attacker_id] == timestamp)
         return false;
 

@@ -54,7 +54,7 @@ class Boss extends Enemy {
   }
 
   attackToHero(hero, type = 'boss'){
-    console.log("Boss", "attackToHero");
+    console.log("Boss", "attackToHero", type);
     if (type == "boss") {
       this.hero_dead = true;
       gameStatus.decrease_energy("boss_attack",1);

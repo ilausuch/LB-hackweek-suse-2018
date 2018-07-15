@@ -211,6 +211,8 @@ class Hero extends BaseObject {
 
   restore(){
     try{
+      console.log("Hero restore");
+      this.set_invulnerable(2);
       this.object.x = this.initial_posX;
       this.object.y = this.initial_posY;
       this.object.flipX  = false;
@@ -220,7 +222,6 @@ class Hero extends BaseObject {
       this.injured_tint_status = false;
       this.scene.restore_hero();
       gameStatus.restore_hero();
-      this.set_invulnerable(2);
     }catch(exception){}
   }
 
