@@ -57,6 +57,9 @@ class Hero extends BaseObject {
   }
 
   keydown_SPACE(){
+    if (this.object==undefined)
+      return;
+
     var pos = this.getHeadPosition();
     if (! this.tongue_attack.anims.isPlaying) {
       this.tongue_attack.setVisible(true);
@@ -202,8 +205,8 @@ class Hero extends BaseObject {
 
   destroy(){
     this.destroyed = true;
-    this.object.destroy();
-    this.tongue_attack.destroy();
+    if (this.object!=undefined) this.object.destroy();
+    if (this.tongue_attack!=undefined) this.tongue_attack.destroy();
     this.object = undefined;
     this.tongue_attack = undefined;
     clearInterval(this.injured_interval);

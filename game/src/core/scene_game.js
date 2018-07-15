@@ -219,6 +219,7 @@ class game extends Phaser.Scene {
   }
 
   level_complete(){
+    this.level_enemies_hero_die();
     this.levelComplete.show();
     this.hide_hurryup();
   }
@@ -319,6 +320,16 @@ class game extends Phaser.Scene {
       $this.over.setVisible(false);
       $this.finalPoints.manual_create();
     }, 2000)
+  }
+
+  final(){
+    var $this = this;
+    this.is_game_over = true;
+    this.level_enemies_hero_die();
+
+    this.background = this.add.sprite(800/2, 600/2, "gameover_backgroung").setScale(1).setDepth(2000);
+
+    $this.finalPoints.manual_create(true);
   }
 
 }

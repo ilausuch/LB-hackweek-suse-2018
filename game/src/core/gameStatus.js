@@ -25,7 +25,6 @@ class GameStatus{
       return false;
 
     if (scene.objects.hero.invulnerable_timeout > this.timestamp()){
-      console.log("Invulnerable");
       return false;
     }
     else {
@@ -80,7 +79,16 @@ class GameStatus{
 
   nextLevel(){
     gameStatus.level++;
-    this.clean();
-    scene.next_level();
+    if (gameStatus.level >= levelsConfiguration.length){
+      this.puntuation = this.puntuation + 1000;
+      setTimeout(function(){
+        scene.final();
+      },2000)
+    }
+    else{
+      this.clean();
+      scene.next_level();
+    }
+
   }
 }

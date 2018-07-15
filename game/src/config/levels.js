@@ -115,12 +115,12 @@ var levelsConfiguration=[
     },
     enemies:{
       bee:{
-        amount: 10,
+        amount: 1,
         puntuation: 5,
         pain: 0.001
       },
       bug1:{
-        amount: 5,
+        amount: 0,
         puntuation: 10,
         max_speed: 120,
         chaise_speed: 120,
@@ -129,7 +129,7 @@ var levelsConfiguration=[
         pain: 0.1,
       },
       bug2:{
-        amount:20,
+        amount:0,
         puntuation: 2,
         can_attack: false
       },
