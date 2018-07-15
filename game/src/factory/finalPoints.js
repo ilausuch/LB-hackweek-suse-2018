@@ -6,8 +6,14 @@ class FinalPoints extends BaseObject{
     this.saved = false;
   }
 
-  manual_create(){
-    this.characters = this.font.addString("Points 000", 240, 250, 0.5, true);
+  manual_create(final = false){
+    if (final){
+      this.characters0 = this.font.addString("Congratulations", 30, 150, 0.7, true);
+      this.characters0.forEach(function(character){
+        character.object.setDepth(2001);
+      })
+    }
+    this.characters = this.font.addString("Points 0000", 230, 250, 0.5, true);
     this.characters2 = this.font.addString("Enter your name", 250, 300, 0.3, true);
     this.charactersName = this.font.addString("-------", 350, 350, 0.3, true);
     this.characters3 = this.font.addString("Press enter to save", 210, 390, 0.3, true);
@@ -38,9 +44,14 @@ class FinalPoints extends BaseObject{
     var puntuation = 0;
 
     this.interval = setInterval(function(){
-      $this.characters[7].setCharacter("" + Math.floor(puntuation/100));
-      $this.characters[8].setCharacter("" + Math.floor((puntuation%100)/10));
-      $this.characters[9].setCharacter("" + Math.floor(puntuation%10));
+      var d4 = Math.floor(puntuation / 1000);
+      var d3 = (puntuation % 1000) / 100;
+      var d2 = (puntuation % 100) / 10;
+      var d1 = (puntuation % 10)
+      $this.characters[7].setCharacter("" + d4);
+      $this.characters[8].setCharacter("" + d3);
+      $this.characters[9].setCharacter("" + d2);
+      $this.characters[10].setCharacter("" + d1);
 
       if (puntuation == gameStatus.puntuation){
         clearInterval($this.interval);
@@ -49,7 +60,7 @@ class FinalPoints extends BaseObject{
 
       puntuation ++;
 
-    },10)
+    },5)
   }
 
   keyboard(event){

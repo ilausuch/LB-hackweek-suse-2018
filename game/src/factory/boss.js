@@ -2,6 +2,7 @@ class Boss extends Enemy {
 
   constructor(scene, posX, posY) {
     super(scene, 'boss');
+    this.is_enemy = true;
     this.posX = posX;
     this.posY = posY;
     this.collide_with_walls = true;
@@ -14,6 +15,9 @@ class Boss extends Enemy {
     console.log("Boss", "constructor");
     this.create();
     this.postCreation();
+
+    //Hack to ensure that if all enemies are death, boss is death too
+    this.scene.level.enemy_alive.boss = false;
   }
 
   create() {
@@ -54,7 +58,6 @@ class Boss extends Enemy {
   }
 
   attackToHero(hero, type = 'boss'){
-    console.log("Boss", "attackToHero");
     if (type == "boss") {
       this.hero_dead = true;
       gameStatus.decrease_energy("boss_attack",1);
@@ -68,7 +71,9 @@ class Boss extends Enemy {
   }
 
   move() {
-    console.log("Boss", "move");
+    if (this.scene.objects.hero.object==undefined)
+      return;
+
     var $this = this;
     this.isMoving = true;
     this.scene.tweens.add({
@@ -93,7 +98,9 @@ class Boss extends Enemy {
   }
 
   fire () {
-    console.log("Boss", "fire");
+    if (this.scene.objects.hero.object==undefined)
+      return;
+      
     var $this = this;
     if (! this.isMoving) {
       this.can_hurt = true;
@@ -122,6 +129,9 @@ class Boss extends Enemy {
   }
 
   update() {
+    if (this.scene.objects.hero.object==undefined)
+      return;
+
     if (gameStatus.energy <= 0) this.hero_dead = true;
     if (! this.isAttacking && ! this.hero_dead) {
       this.object.flipX = (this.object.body.x >= this.scene.objects.hero.object.body.x);
@@ -133,14 +143,17 @@ class Boss extends Enemy {
       else this.object.setFrame(0);
     }
     if (this.hero_dead) {
-      window.clearInterval(this.move_interval)
-      window.clearInterval(this.fire_interval)
       if (! this.object.anims.isPlaying) {
         this.object.play("boss_hero_dead");
         console.log("PLAY HERO DEAD")
       }
 
     }
+  }
+
+  die(){
+    window.clearInterval(this.move_interval)
+    window.clearInterval(this.fire_interval)
   }
 }
 

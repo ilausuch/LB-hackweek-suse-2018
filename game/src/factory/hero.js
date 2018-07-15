@@ -57,6 +57,9 @@ class Hero extends BaseObject {
   }
 
   keydown_SPACE(){
+    if (this.object==undefined)
+      return;
+
     var pos = this.getHeadPosition();
     if (! this.tongue_attack.anims.isPlaying) {
       this.tongue_attack.setVisible(true);
@@ -201,8 +204,8 @@ class Hero extends BaseObject {
 
   destroy(){
     this.destroyed = true;
-    this.object.destroy();
-    this.tongue_attack.destroy();
+    if (this.object!=undefined) this.object.destroy();
+    if (this.tongue_attack!=undefined) this.tongue_attack.destroy();
     this.object = undefined;
     this.tongue_attack = undefined;
     clearInterval(this.injured_interval);
@@ -210,6 +213,8 @@ class Hero extends BaseObject {
 
   restore(){
     try{
+      console.log("Hero restore");
+      this.set_invulnerable(3);
       this.object.x = this.initial_posX;
       this.object.y = this.initial_posY;
       this.object.flipX  = false;
@@ -219,7 +224,6 @@ class Hero extends BaseObject {
       this.injured_tint_status = false;
       this.scene.restore_hero();
       gameStatus.restore_hero();
-      this.set_invulnerable(2);
     }catch(exception){}
   }
 
