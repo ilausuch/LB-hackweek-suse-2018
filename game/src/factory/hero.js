@@ -82,8 +82,7 @@ class Hero extends BaseObject {
       var last_velocityX = this.object.body.velocity.x;
 
       this.object.setVelocityX(0);
-
-      if (this.scene.cursors.up.isDown && this.object.body.velocity.y == 0)
+      if (this.scene.cursors.up.isDown && this.object.body.velocity.y == 0 && this.object.body.touching.down)
       {
           this.object.setVelocityY(-500);
           this.scene.sound.play('fx_jump');
