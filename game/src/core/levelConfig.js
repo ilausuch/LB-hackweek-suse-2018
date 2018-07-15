@@ -31,7 +31,7 @@ class Level{
 
   restore_hurryup(){
     if (this.in_hurryup){
-      this.timeCounter = 60;
+      this.timeCounter = this.config.totalTime;
       this.start();
       this.in_hurryup = false;
     }
