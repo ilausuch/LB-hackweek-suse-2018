@@ -1,6 +1,9 @@
 class Bee extends BugBase{
   constructor(scene, hive, initial_position) {
     super(scene, hive, initial_position);
+
+    this.pain = 0.05;
+    this.puntuation = 5;
     this.configure("bee");
   }
 }

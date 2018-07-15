@@ -34,18 +34,15 @@ class BugBase extends BaseObject{
   }
 
   attackToHero(a,b){
-    if (this.can_attack){
-      if (gameStatus.decrease_energy(this.id, this.pain)){
-        var bee_bite_loop = this.scene.fx_bee_bite;
+    if (gameStatus.decrease_energy(this.id, this.pain)){
+      var bee_bite_loop = this.scene.fx_bee_bite;
 
-        if (!bee_bite_loop.isPlaying){
-          bee_bite_loop.play();
-          window.clearTimeout(bee_bite_loop.timeout);
-          bee_bite_loop.timeout = setTimeout(function(){
-            bee_bite_loop.pause()
-          },1000)
-        }
-
+      if (!bee_bite_loop.isPlaying){
+        bee_bite_loop.play();
+        window.clearTimeout(bee_bite_loop.timeout);
+        bee_bite_loop.timeout = setTimeout(function(){
+          bee_bite_loop.pause()
+        },1000)
       }
     }
   }
@@ -80,7 +77,7 @@ class BugBase extends BaseObject{
   }
 
   update(){
-    if (this.status == "alive"){  
+    if (this.status == "alive"){
       if (this.can_attack){
         var distance_to_hero = this.scene.objects.hero.distance_to_object(this);
 
