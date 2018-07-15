@@ -28,6 +28,9 @@ class Character extends BaseObject{
 
     if (this.character == ' ')
       return 95;
+
+      if (this.character == '-')
+        return 62;
   }
 
   postCreation(){

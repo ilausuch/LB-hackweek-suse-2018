@@ -15,6 +15,7 @@ class LevelComplete extends BaseObject{
 
   hide(){
     this.characters.forEach(function(character){
+      character.postCreation();
       character.object.setVisible(false);
     })
   }
