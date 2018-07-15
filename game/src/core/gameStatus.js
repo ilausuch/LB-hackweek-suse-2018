@@ -8,7 +8,7 @@ class GameStatus{
     this.level = 0;
     this.lives = 3;
     this.energy = 1;
-    this.puntuation = 0;
+    this.puntuation = 123;
     this.current_spell = undefined;
   }
 
@@ -42,9 +42,7 @@ class GameStatus{
         if (this.lives == 0){
           this.gameOver = true;
           scene.game_over();
-          setTimeout(function(){
-            //TODO: Jump to enter name part
-          },2000);
+
         }else{
           setTimeout(function(){
             scene.hero.restore();

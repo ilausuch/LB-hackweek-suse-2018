@@ -28,7 +28,7 @@ class game extends Phaser.Scene {
     this.timer = new Timer(this, this.font);
     this.lifeBar = new LifeBar(this);
     this.levelNumber = new LevelNumber(this, this.font);
-    this.gameOver = new GameOver(this, this.font);
+    this.finalPoints = new FinalPoints(this, this.font);
 
     this.levelComplete = new LevelComplete(this, this.font);
     this.hurryUp = new HurryUp(this, this.font);
@@ -69,6 +69,10 @@ class game extends Phaser.Scene {
       spacing: 0
     });
 
+    this.load.image("gameover_backgroung", "assets/img/gameover/background.png");
+    this.load.image("gameover_game", "assets/img/gameover/game.png");
+    this.load.image("gameover_over", "assets/img/gameover/over.png");
+
     this.load.audio('music_loop', 'assets/audio/music/loop.mp3');
     this.load.audio('hurryup_loop', 'assets/audio/music/hurryup_loop.mp3');
     this.load.audio('hurryup_alert', 'assets/audio/fx/hurryup_alert.wav');
@@ -92,10 +96,19 @@ class game extends Phaser.Scene {
   }
 
   create() {
+    var $this = this;
+
     this.cursors = this.input.keyboard.createCursorKeys();
+
     this.input.keyboard.on('keydown_SPACE', function(event) {
-      this.hero.keydown_SPACE();
+      if (!$this.is_game_over)
+        this.hero.keydown_SPACE();
     }, this);
+
+    this.input.keyboard.on("keydown", function(event){
+      if ($this.is_game_over)
+        $this.finalPoints.keyboard(event);
+    })
 
     this.anims.create({
       key: 'smoke_play',
@@ -276,8 +289,36 @@ class game extends Phaser.Scene {
   }
 
   game_over(){
+    var $this = this;
+    this.is_game_over = true;
     this.level_enemies_hero_die();
-    this.gameOver.show();
+
+    this.background = this.add.sprite(800/2, 600/2, "gameover_backgroung").setScale(1).setDepth(2000);
+    this.game = this.add.sprite(800/2, 600/2, "gameover_game").setScale(1.5).setDepth(2000);
+    this.over = this.add.sprite(800/2, 600/2, "gameover_over").setScale(1.5).setDepth(2000);
+
+    this.tweens.add({
+        targets: this.game,
+        scaleX: 1,
+        scaleY: 1,
+        ease: 'Bounce.easeOut',
+        duration: 1000,
+    });
+
+    this.tweens.add({
+        targets: this.over,
+        scaleX: 1,
+        scaleY: 1,
+        ease: 'Bounce.easeOut',
+        duration: 1000,
+        delay: 50
+    });
+
+    setTimeout(function(){
+      $this.game.setVisible(false);
+      $this.over.setVisible(false);
+      $this.finalPoints.manual_create();
+    }, 2000)
   }
 
 }
