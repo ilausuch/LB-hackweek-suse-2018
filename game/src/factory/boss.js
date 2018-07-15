@@ -2,6 +2,7 @@ class Boss extends Enemy {
 
   constructor(scene, posX, posY) {
     super(scene, 'boss');
+    this.is_enemy = true;
     this.posX = posX;
     this.posY = posY;
     this.collide_with_walls = true;
@@ -133,14 +134,17 @@ class Boss extends Enemy {
       else this.object.setFrame(0);
     }
     if (this.hero_dead) {
-      window.clearInterval(this.move_interval)
-      window.clearInterval(this.fire_interval)
       if (! this.object.anims.isPlaying) {
         this.object.play("boss_hero_dead");
         console.log("PLAY HERO DEAD")
       }
 
     }
+  }
+
+  die(){
+    window.clearInterval(this.move_interval)
+    window.clearInterval(this.fire_interval)
   }
 }
 

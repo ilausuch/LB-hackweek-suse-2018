@@ -212,7 +212,7 @@ class Hero extends BaseObject {
   restore(){
     try{
       console.log("Hero restore");
-      this.set_invulnerable(2);
+      this.set_invulnerable(3);
       this.object.x = this.initial_posX;
       this.object.y = this.initial_posY;
       this.object.flipX  = false;
