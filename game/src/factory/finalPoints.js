@@ -52,7 +52,7 @@ class FinalPoints extends BaseObject{
 
   keyboard(event){
     if (!this.saved){
-      if ((event.keyCode >= 65 && event.keyCode<=90) || event.key == " "){
+      if ((event.keyCode >= 65 && event.keyCode<=90) || (event.keyCode >= 48 && event.keyCode<=57) || event.key == " "){
         if (this.name.length < 7)
           this.name += event.key;
       }

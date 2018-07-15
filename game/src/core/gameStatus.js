@@ -8,7 +8,7 @@ class GameStatus{
     this.level = 0;
     this.lives = 3;
     this.energy = 1;
-    this.puntuation = 123;
+    this.puntuation = 0;
     this.current_spell = undefined;
   }
 
