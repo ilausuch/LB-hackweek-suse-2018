@@ -13,14 +13,14 @@
       "height":600
     },
     {
-      "position":[0,0],
+      "position":[0,-100],
       "weight":57,
-      "height":400
+      "height":500
     },
     {
-      "position":[740,0],
+      "position":[740,-100],
       "weight":60,
-      "height":400
+      "height":500
     }
   ],
   "floors":[

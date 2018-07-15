@@ -44,7 +44,7 @@ class Hero extends BaseObject {
     this.object = this.scene.physics.add.sprite(this.initial_posX, this.initial_posY, 'hero').setScale(0.9);
     this.object.setVelocity(0, 200);
     this.object.setBounce(0, 0);
-    this.object.setCollideWorldBounds(true);
+    this.object.setCollideWorldBounds(false);
     this.object.setGravityY(1000);
     //this.object.y = this.scene.scenario.data.floor - this.object.height;
     this.object.play("hero");

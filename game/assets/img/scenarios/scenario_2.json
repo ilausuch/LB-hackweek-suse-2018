@@ -3,9 +3,9 @@
   "floor":560,
   "walls":[
     {
-      "position":[0,0],
+      "position":[0,-100],
       "weight":56,
-      "height":600
+      "height":700
     },
     {
       "position":[758,0],
