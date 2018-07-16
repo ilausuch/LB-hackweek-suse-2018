@@ -93,7 +93,7 @@ class PacmanFactory extends BaseObject{
       frameWidth: 32,
       frameHeight: 32,
       margin: 0,
-      spacing: 1
+      spacing: 2
     });
   }
 

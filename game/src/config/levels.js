@@ -12,11 +12,6 @@ var levelsConfiguration=[
       },
       bug2:{
         amount:10
-      },
-      pacman:{
-        enable:true,
-        persistent_attack: true,
-        energy:5
       }
     }
   },
