@@ -25,6 +25,7 @@ class Level{
   }
 
   hurryUp(){
+    console.log("Hurry up!!");
     this.in_hurryup = true;
     scene.hurry_up();
   }

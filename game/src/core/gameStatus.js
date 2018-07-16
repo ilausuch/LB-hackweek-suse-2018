@@ -5,7 +5,7 @@ class GameStatus{
   }
 
   reset(){
-    this.level = 2;
+    this.level = 0;
     this.lives = 3;
     this.energy = 1;
     this.puntuation = 0;
@@ -86,6 +86,7 @@ class GameStatus{
       },2000)
     }
     else{
+      this.energy = 1;
       this.clean();
       scene.next_level();
     }

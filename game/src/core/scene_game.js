@@ -211,10 +211,12 @@ class game extends Phaser.Scene {
       this.hurryUp.show();
       this.music_loop.stop();
       this.hurryup_alert.play();
+
       setTimeout(function(){
         $this.hurryup_loop.play();
         $this.hero.set_invulnerable(1);
-        $this.hurryup_mario = new Mario($this, 350, 200, false);
+        console.log("Here is mario!");
+        $this.hurryup_mario = new Mario($this, 350, 50, false);
       },1500);
   }
 
