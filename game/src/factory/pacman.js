@@ -8,6 +8,12 @@ class Pacman extends Enemy {
     this.persistent_attack = false;
     this.turn_back_if_attacked = true;
 
+    this.puntuation = 50;
+    this.speed =  100;
+    this.pain = 0.2;
+    this.energy = 2;
+    this.persistent_attack = true;
+
     this.configure("pacman");
     this.create();
   }
