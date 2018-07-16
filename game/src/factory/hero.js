@@ -54,6 +54,7 @@ class Hero extends BaseObject {
     this.tongue_attack = this.scene.physics.add.sprite(0, 0, 'hero_attack').setScale(0.9);
     this.tongue_attack.play("hero_attack");
 
+    this.set_invulnerable(2);
   }
 
   keydown_SPACE(){
