@@ -88,11 +88,15 @@ class Hero extends BaseObject {
       this.object.setVelocityX(0);
       if (this.scene.cursors.up.isDown && this.object.body.velocity.y == 0 && this.object.body.touching.down)
       {
+          this.object.setFrame(4);
           this.object.setVelocityY(-500);
           this.scene.sound.play('fx_jump');
+          setTimeout(function(){
+            $this.object.setFrame(0);
+          },700)
       }
 
-      if (last_velocityX == 0) this.object.anims.play();
+      if (last_velocityX == 0 && this.object.body.touching.down) this.object.anims.play();
 
       if (this.scene.cursors.left.isDown)
       {
@@ -117,12 +121,12 @@ class Hero extends BaseObject {
   }
 
   getHeadPosition() {
-    var pos = [this.object.x, this.object.y];
+    var pos = [this.object.x, this.object.y+1];
     if (this.object.flipX) {
-        pos[0] -= 51.5;
+        pos[0] -= 49.5;
     }
     else {
-        pos[0] += 50.5;
+        pos[0] += 49.5;
     }
     return pos;
   }
@@ -250,8 +254,8 @@ class HeroFactory extends BaseObject {
 
     //sprites walk: 97x41
     this.scene.load.spritesheet("hero", 'assets/img/characters/hero/walk.png', {
-      frameWidth: 97,
-      frameHeight: 41,
+      frameWidth: 94,
+      frameHeight: 33,
       margin: 0,
       spacing: 0
     });
