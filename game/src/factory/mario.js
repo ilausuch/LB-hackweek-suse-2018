@@ -9,6 +9,16 @@ class Mario extends Enemy {
     this.isAttacking = false;
     this.attackedByHero = attackedByHero;
 
+    this.puntuation = 100;
+    this.pain = 0.1;
+    this.attack_pain = 0.4;
+    this.speed = 200;
+    this.attack_speed = 350;
+    this.can_attack = true;
+    this.energy = 10;
+    this.attack_frequency = 0.1;
+    this.jump_frequency = 0.03;
+
     if (!this.attackedByHero)
       this.energy = 0; //now mario doesn't count on list of enemies to go to next level
 
@@ -25,24 +35,20 @@ class Mario extends Enemy {
   }
 
   create() {
-    this.object = this.scene.physics.add.sprite(0, 0, 'mario');
+    this.object = this.scene.physics.add.sprite(this.posX, this.posY, 'mario');
     this.object.setVelocity(this.speed, 0);
     this.object.setBounce(0, 0);
     this.object.setCollideWorldBounds(true);
     this.object.setGravityY(1000);
-    this.object.x = this.posX;
-    this.object.y = this.posY;
     this.object.play("mario_run");
     this.object.anims.play();
     this.object.owner = this;
 
-    this.mario_attack = this.scene.physics.add.sprite(0, 0, 'mario_attack').setScale(1.5);
+    this.mario_attack = this.scene.physics.add.sprite(0, 1000, 'mario_attack').setScale(1.5);
     this.mario_attack.setVelocity(this.attack_speed, 0);
     this.mario_attack.setBounce(1, 0.6);
     this.mario_attack.setCollideWorldBounds(false);
     this.mario_attack.setGravityY(1000);
-    this.mario_attack.x = 0;
-    this.mario_attack.y = 1000;
     this.mario_attack.play("mario_attack");
     this.mario_attack.anims.play();
     this.mario_attack.owner = this;
@@ -129,6 +135,7 @@ class Mario extends Enemy {
         this.object.setVelocityY(-500);
       }
 
+
       // Avoid blocks
       if (this.object.body.velocity.x == 0){
         var rand = Math.random()-0.5;
@@ -143,7 +150,9 @@ class Mario extends Enemy {
           $this.isAttacking = false;
         },2000)
       }
-    }catch(e){}
+    }catch(e){
+      console.error(e);
+    }
   }
 
   attack() {
